@@ -1,9 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, Image, Alert } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, Image, Alert, fetch } from 'react-native'
 import { Camera } from 'expo-camera'
 
 import { StatusBar } from 'expo-status-bar'
+import Environment from "../config/environment"
+const {Translate} = require('@google-cloud/translate').v2
 
+const translate = new Translate({
+    keyFilename: "./token.json"
+});
+
+//For production, we need:
+// const TOKEN_ARG = 2;
+// const tokenPath = process.argv[TOKEN_ARG];
+// process.env.GOOGLE_APPLICATION_CREDENTIALS = tokenPath;
+//API KEY... example = export GOOGLE_APPLICATION_CREDENTIALS="/home/user/Downloads/service-account-file.json"???
 
 
 export default function App() {
@@ -17,6 +28,7 @@ const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
 const [flashMode, setFlashMode] = useState('off');
 
 // let camera: Camera
+//let photo;
 
 useEffect(() => {
     (async () => {
@@ -44,6 +56,7 @@ const _startCamera = async () => {
 const _takePicture = async () => {
     // if(!camera) return
     const photo = await camera.takePictureAsync()
+    //photo = await camera.takePictureAsync()
     console.log(photo)
     setPreviewVisible(true)
     setCapturedImage(photo)
@@ -306,3 +319,53 @@ return (
   </View>
 )
 }
+let uri = "file:///var/mobile/Containers/Data/Application/00AD83F6-4BCA-4587-947D-24FEA582018D/Library/Caches/ExponentExperienceData/%2540anonymous%252Fexpo-camera-app-5d3b33a9-13cb-4d3a-89e1-014b225491e6/Camera/378C5BFF-6E17-4FF4-AB5E-751144C741B8.jpg"
+
+let text;
+
+const submitToGoogle =  async () => {
+    let body = JSON.stringify({
+    requests: [
+        {
+            features: [
+                { type: 'DOCUMENT_TEXT_DETECTION', maxResults: 5 }
+            ],
+            image: {
+                content: uri //photo.uri
+            }
+        }
+    ]
+});
+let response = await fetch(
+    'https://vision.googleapis.com/v1/images:annotate?key=' +
+        Environment['GOOGLE_CLOUD_VISION_API_KEY'],
+    {
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: body
+    }
+);
+let responseJson = await response.json();
+// console.log(responseJson);
+text = JSON.parse(JSON.stringify(responseJson));
+//**text = JSON.parse(JSON.stringify(responseJson)).results[0].fullTextAnnotation.text;
+console.log(text)
+
+async function translateText() {
+    let [translations] = await translate.translate(text, 'es')
+    translations = Array.isArray(translations) ? translations : [translations];
+    console.log("Translations:");
+    translations.forEach((translation) => {
+      console.log(`${translation}`);
+    });
+    //**return translations
+  }
+translateText();
+// console.log(text.responses[0].fullTextAnnotation.text);
+}
+
+submitToGoogle() // returns translated text
+//Create a view to display this result

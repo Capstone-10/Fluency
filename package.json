@@ -8,13 +8,18 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@google-cloud/vision": "^2.3.5",
     "@react-native-community/masked-view": "^0.1.10",
+    "@react-native-firebase/analytics": "^12.1.0",
+    "@react-native-firebase/ml-natural-language": "^7.4.11",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.5",
     "expo": "~42.0.0",
     "expo-camera": "~11.2.1",
     "expo-status-bar": "~1.0.4",
     "feather-icons": "^4.28.0",
+    "firebase": "^8.7.0",
+    "firebase-functions": "^3.14.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
@@ -23,6 +28,7 @@
     "react-native-reanimated": "~2.2.0",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "~3.4.0",
+    "react-native-svg": "^12.1.1",
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {

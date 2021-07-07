@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, Image, Alert
 import { Camera } from 'expo-camera'
 
 import { StatusBar } from 'expo-status-bar'
-
+import * as firebase from "firebase";
 
 
 export default function App() {

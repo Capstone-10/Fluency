@@ -60,7 +60,7 @@ const _retakePicture = () => {
 const _handleFlashMode = () => {
     if (flashMode === 'on') {
         setFlashMode('off')
-    } else if(slashMode === 'off') {
+    } else if(flashMode === 'off') {
         setFlashMode('on')
     } else {
         setFlashMode('auto')
@@ -68,7 +68,7 @@ const _handleFlashMode = () => {
 }
 
 const _switchCamera = () => {
-    if(caneraType === 'back') {
+    if(cameraType === 'back') {
         setCameraType('front')
     } else {
         setCameraType('back')
@@ -141,7 +141,7 @@ return (
                       >
                           <Text
                               style={{
-                                  fonstSize: 20
+                                  fontSize: 20
                               }}
                           >
                               {cameraType === 'front' ? '🤳' : '📷'}

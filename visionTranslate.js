@@ -16,7 +16,7 @@ let text;
 const translatedText = () => {
   client
     .textDetection(
-      "https://static.parade.com/wp-content/uploads/2019/10/Life-Quotes-Dolly.jpg"
+      "https://firebasestorage.googleapis.com/v0/b/instagram-clone-61bfe.appspot.com/o/1exampleText.png?alt=media&token=4fd2e08b-0fe1-49c1-a00c-38757f634fb0"
     )
     .then((results) => {
       text = results[0].fullTextAnnotation.text;

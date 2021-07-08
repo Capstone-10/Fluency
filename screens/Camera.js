@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, ImageBackground } from "react-native";
+import * as ImagePicker from "expo-image-picker";
 import { Camera } from "expo-camera";
 import { fireStorage } from "../config/environment";
 
@@ -27,34 +28,99 @@ export default function App() {
 
   const _takePicture = async () => {
     if (!camera) return;
-    const photo = await camera.takePictureAsync();
+    let photo = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+    });
+    handleImagePicked(photo);
+
     console.log(photo);
-    setPreviewVisible(true);
-    setCapturedImage(photo);
-    setImage(photo.uri);
+    // setPreviewVisible(true);
+    // setCapturedImage(photo);
+    // setImage(photo.uri);
 
-    //upload image to firebase storage as photo is being taken
-    if (image) {
-      const storageRef = fireStorage.ref().child(new Date().toISOString());
-      const snapshot = storageRef.put(image);
+    // //upload image to firebase storage as photo is being taken
+    // if (photo) {
+    //   const storageRef = fireStorage.ref().child(new Date().toISOString());
+    //   const snapshot = storageRef.put(image);
 
-      snapshot.on("state_changed", () => {
-        setUploading(true),
-          (error) => {
-            setUploading(false);
-            console.log(error);
-            return;
-          },
-          async () => {
-            await storageRef.getDownloadURL().then((url) => {
-              setUploading(false);
-              console.log("download url-->", url);
-              return url;
-            });
-          };
-      });
+    //   snapshot.on("state_changed", () => {
+    //     setUploading(true),
+    //       (error) => {
+    //         setUploading(false);
+    //         console.log(error);
+    //         return;
+    //       },
+    //       async () => {
+    //         await storageRef.getDownloadURL().then((url) => {
+    //           setUploading(false);
+    //           console.log("download url-->", url);
+    //           return url;
+    //         });
+    //       };
+    //   });
+    // }
+  };
+
+  _pickImage = async () => {
+    let photo = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+    });
+
+    handleImagePicked(photo);
+  };
+
+  _pickImage = async () => {
+    let photo = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+    });
+
+    handleImagePicked(photo);
+  };
+
+  handleImagePicked = async (photo) => {
+    try {
+      // this.setState({ uploading: true });
+      setPreviewVisible(true);
+      setCapturedImage(photo);
+
+      if (!photo.cancelled) {
+        let uploadUrl = await uploadImageAsync(photo.uri);
+        setImage(uploadUrl);
+      }
+    } catch (e) {
+      console.log(e);
+      alert("Upload failed, sorry :(");
     }
   };
+
+  async function uploadImageAsync(uri) {
+    // Why are we using XMLHttpRequest? See:
+    // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function (e) {
+        console.log(e);
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", uri, true);
+      xhr.send(null);
+    });
+
+    const ref = fireStorage.ref().child(new Date().toISOString());
+    const snapshot = await ref.put(blob);
+
+    // We're done with the blob, close and release it
+    blob.close();
+
+    return await snapshot.ref.getDownloadURL();
+  }
 
   const _translateText = async () => {};
 

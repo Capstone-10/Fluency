@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, ImageBackground } from "react-native";
 import { Camera } from "expo-camera";
+import { fireStorage } from "../config/environment";
 
 export default function App() {
-  
   const [hasPermission, setHasPermission] = useState(null);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
+  const [image, setImage] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -29,6 +31,29 @@ export default function App() {
     console.log(photo);
     setPreviewVisible(true);
     setCapturedImage(photo);
+    setImage(photo.uri);
+
+    //upload image to firebase storage as photo is being taken
+    if (image) {
+      const storageRef = fireStorage.ref().child(new Date().toISOString());
+      const snapshot = storageRef.put(image);
+
+      snapshot.on("state_changed", () => {
+        setUploading(true),
+          (error) => {
+            setUploading(false);
+            console.log(error);
+            return;
+          },
+          async () => {
+            await storageRef.getDownloadURL().then((url) => {
+              setUploading(false);
+              console.log("download url-->", url);
+              return url;
+            });
+          };
+      });
+    }
   };
 
   const _translateText = async () => {};

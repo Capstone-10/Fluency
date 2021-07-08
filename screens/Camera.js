@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, ImageBackground } from "react-native";
 import { Camera } from "expo-camera";
+import Storage from "@react-native-firebase/storage";
+const reference = storage().ref("black-t-shirt-sm.png");
 
 export default function App() {
-  
   const [hasPermission, setHasPermission] = useState(null);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
+  const [file, setFile] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -29,9 +31,13 @@ export default function App() {
     console.log(photo);
     setPreviewVisible(true);
     setCapturedImage(photo);
+    setFile(photo.uri);
   };
+  console.log("file outside-->", file);
 
-  const _translateText = async () => {};
+  const _translateText = async () => {
+    //const uploadUri;
+  };
 
   return (
     <View

@@ -32,68 +32,8 @@ export default function App() {
       allowsEditing: true,
       aspect: [4, 3],
     });
-    handleImagePicked(photo);
-
-    console.log(photo);
-    // setPreviewVisible(true);
-    // setCapturedImage(photo);
-    // setImage(photo.uri);
-
-    // //upload image to firebase storage as photo is being taken
-    // if (photo) {
-    //   const storageRef = fireStorage.ref().child(new Date().toISOString());
-    //   const snapshot = storageRef.put(image);
-
-    //   snapshot.on("state_changed", () => {
-    //     setUploading(true),
-    //       (error) => {
-    //         setUploading(false);
-    //         console.log(error);
-    //         return;
-    //       },
-    //       async () => {
-    //         await storageRef.getDownloadURL().then((url) => {
-    //           setUploading(false);
-    //           console.log("download url-->", url);
-    //           return url;
-    //         });
-    //       };
-    //   });
-    // }
-  };
-
-  _pickImage = async () => {
-    let photo = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
-    });
-
-    handleImagePicked(photo);
-  };
-
-  _pickImage = async () => {
-    let photo = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
-    });
-
-    handleImagePicked(photo);
-  };
-
-  handleImagePicked = async (photo) => {
-    try {
-      // this.setState({ uploading: true });
-      setPreviewVisible(true);
-      setCapturedImage(photo);
-
-      if (!photo.cancelled) {
-        let uploadUrl = await uploadImageAsync(photo.uri);
-        setImage(uploadUrl);
-      }
-    } catch (e) {
-      console.log(e);
-      alert("Upload failed, sorry :(");
-    }
+    let uploadUrl = await uploadImageAsync(photo.uri);
+    setImage(uploadUrl);
   };
 
   async function uploadImageAsync(uri) {

@@ -31,31 +31,32 @@ export default function App() {
     console.log(photo);
     setPreviewVisible(true);
     setCapturedImage(photo);
-    setImage(photo);
-  };
-  //console.log("image-->", image);
+    setImage(photo.uri);
 
-  //uploadImage
-  const _translateText = async () => {
-    const storageRef = fireStorage.ref().child(new Date().toISOString());
-    const snapshot = storageRef.put(image);
+    //upload image to firebase storage as photo is being taken
+    if (image) {
+      const storageRef = fireStorage.ref().child(new Date().toISOString());
+      const snapshot = storageRef.put(image);
 
-    snapshot.on("state_changed", () => {
-      setUploading(true),
-        (error) => {
-          setUploading(false);
-          console.log(error);
-          return;
-        },
-        async () => {
-          await storageRef.getDownloadURL().then((url) => {
+      snapshot.on("state_changed", () => {
+        setUploading(true),
+          (error) => {
             setUploading(false);
-            console.log("download url-->", url);
-            return url;
-          });
-        };
-    });
+            console.log(error);
+            return;
+          },
+          async () => {
+            await storageRef.getDownloadURL().then((url) => {
+              setUploading(false);
+              console.log("download url-->", url);
+              return url;
+            });
+          };
+      });
+    }
   };
+
+  const _translateText = async () => {};
 
   return (
     <View

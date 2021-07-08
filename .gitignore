@@ -13,3 +13,5 @@ web-build/
 # macOS
 .DS_Store
 token.json
+.env.local
+/config/environment.js

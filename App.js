@@ -4,7 +4,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "./screens/HomeScreen";
 import Camera from "./screens/Camera";
 import VoiceAndTextTranslate from "./screens/VoiceAndTextTranslate";
-import * as firebase from "firebase";
 
 const Stack = createStackNavigator();
 

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, ImageBackground } from "react-native";
 import { Camera } from "expo-camera";
-import Storage from "@react-native-firebase/storage";
-const reference = storage().ref("black-t-shirt-sm.png");
+import { fireStorage } from "../config/environment";
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
-  const [file, setFile] = useState(null);
+  const [image, setImage] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -31,12 +31,30 @@ export default function App() {
     console.log(photo);
     setPreviewVisible(true);
     setCapturedImage(photo);
-    setFile(photo.uri);
+    setImage(photo.uri);
   };
-  console.log("file outside-->", file);
+  //console.log("image-->", image);
 
+  //uploadImage
   const _translateText = async () => {
-    //const uploadUri;
+    const storageRef = fireStorage.ref().child(new Date().toISOString());
+    const snapshot = storageRef.put(image);
+
+    snapshot.on("state_changed", () => {
+      setUploading(true),
+        (error) => {
+          setUploading(false);
+          console.log(error);
+          return;
+        },
+        async () => {
+          await storageRef.getDownloadURL().then((url) => {
+            setUploading(false);
+            console.log("download url-->", url);
+            return url;
+          });
+        };
+    });
   };
 
   return (

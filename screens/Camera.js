@@ -31,7 +31,7 @@ export default function App() {
     console.log(photo);
     setPreviewVisible(true);
     setCapturedImage(photo);
-    setImage(photo.uri);
+    setImage(photo);
   };
   //console.log("image-->", image);
 

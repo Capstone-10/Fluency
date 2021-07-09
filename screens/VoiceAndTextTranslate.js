@@ -1,46 +1,79 @@
-import React, { useState } from 'react';
-import { Text, SafeAreaView, StyleSheet, TextInput, Button } from "react-native";
-import * as firebase from 'firebase';
-// let translateNow;
-const translateNow =  async (text) => {
-    try {
-      const translatedText = await firebase.functions().httpsCallable('textToTranslate2')
-              return translatedText({input: text})
-    } catch (error) {
-      console.error(error)
-    }
-  }
-// requestForm.addEventListener('submit', (event) => {
-        //   event.preventDefault();
-        //   const translated = firebase.functions().httpsCallable('textToTranslate2');
-        //   translated({
-        //     input: requestForm.textInput.value
-        //   })
-        // }).then(() => {
-        //   requestForm.reset();
-        //   requestForm.querySelector('textInput').textContent = '';
-        // }).catch((error) => {
-        //   requestForm.querySelector('textInput').textContent = error.message
-        // })
+import React, { useState } from "react";
+import {
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  TextInput,
+  Button,
+  View,
+} from "react-native";
+
 export default function VoiceAndTextTranslate() {
-    const [text, onChangeText] = useState(null);
-    return (
-        <SafeAreaView>
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangeText}
-            value={text}
-            placeholder="Enter text to translate"
-          />
-          <Button  title="Send" onClick={() => setText(text)} onPress={() => {translateNow(text)}}/>
-          <Text>Waiting for your input above...</Text>
-        </SafeAreaView>
-      );
- };
-const styles = StyleSheet.create({
-    input: {
-        height: 40,
-        margin: 12,
-        borderWidth: 1
+  const [text, setText] = useState("");
+  const [tanslated, setTranslated] = useState("");
+
+  const translateNow = async (text) => {
+    //translate and then
+    let ourTranslation = "translated version";
+    setTranslated(ourTranslation);
+  };
+
+  const onChangeText = () => {
+    (text) => setText(text);
+    if (text === "") {
+      setTranslated("");
     }
-})
+  };
+
+  return (
+    <SafeAreaView style={{ marginTop: 20, marginBottom: 20 }}>
+      <View>
+        <Text style={styles.language}>Detected Language</Text>
+      </View>
+
+      <TextInput
+        style={styles.input}
+        onChangeText={onChangeText}
+        defaultValue={text}
+        placeholder="Type here to translate!"
+      />
+
+      <Button
+        title="Translate"
+        onPress={() => {
+          translateNow(text);
+        }}
+      />
+      <Text style={styles.output}>
+        {tanslated
+          .split(" ")
+          .map((word) => word && word)
+          .join(" ")}
+      </Text>
+    </SafeAreaView>
+  );
+}
+const styles = StyleSheet.create({
+  input: {
+    height: 300,
+    margin: 12,
+    borderWidth: 1,
+    fontSize: 20,
+    padding: 20,
+  },
+  output: {
+    height: 300,
+    margin: 12,
+    borderWidth: 1,
+    fontSize: 20,
+    padding: 20,
+  },
+  language: {
+    height: 50,
+    margin: 12,
+    borderWidth: 1,
+    fontSize: 20,
+    padding: 10,
+    textAlign: "center",
+  },
+});

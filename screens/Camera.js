@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity, ImageBackground } from "react-native";
+import { Text, View, TouchableOpacity, ImageBackground, Alert } from "react-native";
 import { Camera } from "expo-camera";
-import {
-  fireStorage,
-  db,
-  GOOGLE_CLOUD_VISION_API_KEY,
-} from "../config/environment";
+import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment"
 //import * as ImagePicker from "expo-image-picker";
+
+let photo;
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -15,7 +13,7 @@ export default function App() {
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
-  const [googleResponse, setgoogleResponse] = useState(null);
+  const [googleResponse, setGoogleResponse] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -31,91 +29,144 @@ export default function App() {
     return <Text>No access to camera</Text>;
   }
 
+  // const createTwoButtonAlert = () =>
+  // Alert.alert(
+  //   "Text Verification",
+  //   "Google vision detected text should go into this box. I'm making this text long on purpose to see how this would render.",
+  //   [
+  //     {
+  //       text: "Re-take",
+  //       onPress: () => setPreviewVisible(false),
+  //       style: "cancel",
+  //     },
+  //     {
+  //       text: "Translate",
+  //       onPress: () => {
+  //         {navigation.navigate("TranslatedText")}
+  //         {submitToGoogle}
+  //       },
+  //     },
+  //   ]
+  // );
+
+
+
+
+
   const _takePicture = async () => {
     if (!camera) return;
-    let photo = await camera.takePictureAsync();
-    // let photo = await ImagePicker.launchCameraAsync({
-    //   allowsEditing: true,
-    //   aspect: [4, 3],
-    // });
-    setPreviewVisible(true);
-    setCapturedImage(photo);
-    let uploadUrl = await uploadImageAsync(photo.uri);
-    if (uploadUrl) {
-      setImage(uploadUrl);
+    // const options = {
+    //   base64: true
+    // }
+    const options = {
+      base64: true
     }
+    
+    const photo = await camera.takePictureAsync(options);
+    console.log(photo)
+    setCapturedImage(photo);
+    
+    // photo = await camera.takePictureAsync(options);
+    // console.log(photo)
+    // // let photo = await ImagePicker.launchCameraAsync({
+    // //   allowsEditing: true,
+    // //   aspect: [4, 3],
+    // // });
+    setPreviewVisible(true);
+    // setCapturedImage(photo);
+    // createTwoButtonAlert();
+
+    
+    }
+
+    
+    const submitToGoogle = async () => {
+        try {
+        
+        // let photo = await ImagePicker.launchCameraAsync({
+        //   allowsEditing: true,
+        //   aspect: [4, 3],
+        // });
+        // setPreviewVisible(true);
+        // setCapturedImage(photo);
+          //setUploading(true);
+          //let imageTobeSent = image;
+          let body = JSON.stringify({
+            requests: [
+                {
+                    features: [
+                        { type: 'DOCUMENT_TEXT_DETECTION', maxResults: 5 }
+                    ],
+                    image: {
+                        source: {
+                          "imageUri": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/inspirational-quotes-william-james-1562000241.png"
+                        }
+                    }
+                }
+            ]
+        });
+        let response = await fetch(
+            'https://vision.googleapis.com/v1/images:annotate?key=' +
+            GOOGLE_CLOUD_VISION_API_KEY,
+            {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body: body
+            }
+        );
+        let responseJson = await response.json();
+        // console.log(responseJson);
+        let responseParsed = JSON.parse(JSON.stringify(responseJson));
+          console.log("Parsed response ", responseParsed.responses[0].fullTextAnnotation.text);
+          setGoogleResponse(responseParsed);
+          //setuploading(false);
+        } catch (error) {
+          console.log(error);
+        }
+      
+    // createTwoButtonAlert();
+    // let uploadUrl = await uploadImageAsync(photo.uri);
+    // if (uploadUrl) {
+    //   setImage(uploadUrl);
+    // }
     // console.log("photo.uri", photo.uri);
     // console.log("uploadUrl-->", uploadUrl);
   };
 
-  async function uploadImageAsync(uri) {
-    // Why are we using XMLHttpRequest? See:
-    // https://github.com/expo/expo/issues/2402#issuecomment-443726662
-    const blob = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
-        resolve(xhr.response);
-      };
-      xhr.onerror = function (e) {
-        console.log(e);
-        reject(new TypeError("Network request failed"));
-      };
-      xhr.responseType = "blob";
-      xhr.open("GET", uri, true);
-      xhr.send(null);
-    });
+  // async function uploadImageAsync(uri) {
+  //   // Why are we using XMLHttpRequest? See:
+  //   // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+  //   const blob = await new Promise((resolve, reject) => {
+  //     const xhr = new XMLHttpRequest();
+  //     xhr.onload = function () {
+  //       resolve(xhr.response);
+  //     };
+  //     xhr.onerror = function (e) {
+  //       console.log(e);
+  //       reject(new TypeError("Network request failed"));
+  //     };
+  //     xhr.responseType = "blob";
+  //     xhr.open("GET", uri, true);
+  //     xhr.send(null);
+  //   });
 
-    //const ref = fireStorage.ref().child(new Date().toISOString());
-    //const snapshot = await ref.put(blob);
+  //   //const ref = fireStorage.ref().child(new Date().toISOString());
+  //   //const snapshot = await ref.put(blob);
 
-    blob.close();
+  //   blob.close();
 
-    //const url = await snapshot.ref.getDownloadURL();
-    //await db.collection("snapshots").add({ url });
-    //return url;
-  }
+  //   //const url = await snapshot.ref.getDownloadURL();
+  //   //await db.collection("snapshots").add({ url });
+  //   //return url;
+  // }
 
-  if (image !== undefined) {
-    console.log("image-->", image);
-  }
+  // if (image !== undefined) {
+  //   console.log("image-->", image);
+  // }
 
-  const submitToGoogle = async () => {
-    try {
-      //setUploading(true);
-      //let imageTobeSent = image;
-      let body = JSON.stringify({
-        requests: [
-          {
-            features: [{ type: "DOCUMENT_TEXT_DETECTION", maxResults: 5 }],
-            image: {
-              source: {
-                imageUri:
-                  image,
-              },
-            },
-          },
-        ],
-      });
-      let response = await fetch(
-        "https://vision.googleapis.com/v1/images:annotate?key=" +
-          GOOGLE_CLOUD_VISION_API_KEY,
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          method: "POST",
-          body: body,
-        }
-      );
-      let responseJson = await response.json();
-      console.log(responseJson);
-      setgoogleResponse(responseJson);
-      //setuploading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <View
@@ -164,7 +215,7 @@ export default function App() {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={submitToGoogle()}
+                onPress={submitToGoogle}
                 style={{
                   width: 130,
                   height: 40,

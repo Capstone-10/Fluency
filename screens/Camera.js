@@ -55,7 +55,7 @@ export default function App() {
     setPreviewVisible(true);
     setCapturedImage(photo);
     setImage(photo.uri);
-
+    createTwoButtonAlert();
     //upload image to firebase storage as photo is being taken
     if (image) {
       const storageRef = fireStorage.ref().child(new Date().toISOString());
@@ -202,7 +202,7 @@ export default function App() {
                 }}
               >
                 <TouchableOpacity
-                  onPress={(_takePicture, createTwoButtonAlert)}
+                  onPress={_takePicture}
                   style={{
                     width: 70,
                     height: 70,

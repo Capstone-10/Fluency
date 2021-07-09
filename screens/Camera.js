@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, ImageBackground } from "react-native";
-import * as ImagePicker from "expo-image-picker";
 import { Camera } from "expo-camera";
 import { fireStorage, db } from "../config/environment";
+//import * as ImagePicker from "expo-image-picker";
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -10,7 +10,7 @@ export default function App() {
   const [capturedImage, setCapturedImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [image, setImage] = useState("");
-  const [uploading, setUploading] = useState(false);
+  //const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -28,10 +28,13 @@ export default function App() {
 
   const _takePicture = async () => {
     if (!camera) return;
-    let photo = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
-    });
+    let photo = await camera.takePictureAsync();
+    // let photo = await ImagePicker.launchCameraAsync({
+    //   allowsEditing: true,
+    //   aspect: [4, 3],
+    // });
+    setPreviewVisible(true);
+    setCapturedImage(photo);
     let uploadUrl = await uploadImageAsync(photo.uri);
     setImage(uploadUrl);
   };
@@ -55,7 +58,6 @@ export default function App() {
 
     const ref = fireStorage.ref().child(new Date().toISOString());
     const snapshot = await ref.put(blob);
-
     // We're done with the blob, close and release it
     blob.close();
     const url = await snapshot.ref.getDownloadURL();

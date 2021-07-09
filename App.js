@@ -1,20 +1,17 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import HomeScreen from "./screens/HomeScreen";
-import Camera from "./screens/Camera";
-import VoiceAndTextTranslate from "./screens/VoiceAndTextTranslate";
+import { DrawerNavigator } from "./Navigation/DrawerNavigator";
+// import { MainStackNavigator } from "./Navigation/StackNavigator";
+import BottomTabNavigator from "./Navigation/TabNavigator";
 
-const Stack = createStackNavigator();
-
-export default function App() {
+const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
-        <Stack.Screen name="Camera" component={Camera} />
-        <Stack.Screen name="Translate" component={VoiceAndTextTranslate} />
-      </Stack.Navigator>
+      <DrawerNavigator />
+      {/* <MainStackNavigator /> */}
+      {/* <BottomTabNavigator /> */}
     </NavigationContainer>
   );
-}
+};
+
+export default App;

@@ -9,7 +9,7 @@ import {
   Button,
 } from "react-native";
 
-import { Camera } from 'react-native-feather'
+import { Camera } from "react-native-feather";
 
 function HomeScreen({ navigation }) {
   const handleCameraPress = () => {
@@ -22,13 +22,11 @@ function HomeScreen({ navigation }) {
   const handleNavBarPress = () => {
     navigation.navigate("NavBar");
   };
-  
+
   return (
-    <ImageBackground
-      style={styles.background}
-    >
+    <ImageBackground style={styles.background}>
       <View style={styles.logoContainer}>
-        <Image onPress={handleCameraPress} style={styles.logo} />
+        <Image source={require("./KakaoTalkGif.gif")} style={styles.logo} />
         <Text style={{ fontSize: 20, fontWeight: "bold" }}>
           What can I translate for you today?
         </Text>
@@ -37,7 +35,9 @@ function HomeScreen({ navigation }) {
       <TouchableOpacity style={styles.CameraButton}>
         <Camera
           onPress={handleCameraPress}
-          stroke='black' width={40} height={40}
+          stroke="black"
+          width={40}
+          height={40}
         >
           Camera
         </Camera>
@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
+    backgroundColor: "white",
   },
   CameraButton: {
     width: "100%",
@@ -84,8 +85,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   logo: {
-    width: 100,
-    height: 100,
+    width: 150,
+    height: 150,
   },
   logoContainer: {
     position: "absolute",
@@ -116,5 +117,3 @@ const styles = StyleSheet.create({
 });
 
 export default HomeScreen;
-
-

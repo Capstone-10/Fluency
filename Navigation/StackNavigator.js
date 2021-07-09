@@ -4,6 +4,7 @@ import HomeScreen from "../screens/HomeScreen";
 import Translate from "../screens/VoiceAndTextTranslate";
 import Camera from "../screens/Camera";
 import Settings from "../screens/Settings";
+import TranslatedText from "../screens/TranslatedText";
 
 const Stack = createStackNavigator();
 
@@ -25,4 +26,16 @@ const SettingsStackNavigator = () => {
   );
 };
 
-export { MainStackNavigator, SettingsStackNavigator };
+const TranslatedTextStackNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="TranslatedText" component={TranslatedText} />
+    </Stack.Navigator>
+  );
+};
+
+export {
+  MainStackNavigator,
+  SettingsStackNavigator,
+  TranslatedTextStackNavigator,
+};

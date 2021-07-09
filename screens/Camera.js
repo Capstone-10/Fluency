@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity, ImageBackground } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  ImageBackground,
+  Alert,
+} from "react-native";
 import { Camera } from "expo-camera";
 import { fireStorage } from "../config/environment";
 
@@ -24,6 +30,23 @@ export default function App() {
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
+
+  const createTwoButtonAlert = () =>
+    Alert.alert(
+      "Text Verification",
+      "Google vision detected text should go into this box. I'm making this text long on purpose to see how this would render.",
+      [
+        {
+          text: "Re-take",
+          onPress: () => setPreviewVisible(false),
+          style: "cancel",
+        },
+        {
+          text: "Translate",
+          onPress: () => navigation.navigate("TranslatedText"),
+        },
+      ]
+    );
 
   const _takePicture = async () => {
     if (!camera) return;
@@ -179,7 +202,7 @@ export default function App() {
                 }}
               >
                 <TouchableOpacity
-                  onPress={_takePicture}
+                  onPress={(_takePicture, createTwoButtonAlert)}
                   style={{
                     width: 70,
                     height: 70,

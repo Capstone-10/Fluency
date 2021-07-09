@@ -4,7 +4,11 @@ import { Camera } from "expo-camera";
 import { fireStorage, db } from "../config/environment";
 //import * as ImagePicker from "expo-image-picker";
 
-export default function App() {
+export default function App({ navigation }) {
+  const handleTranslatePress = () => {
+    navigation.navigate("translate");
+  };
+
   const [hasPermission, setHasPermission] = useState(null);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
@@ -124,6 +128,7 @@ export default function App() {
                 }}
               >
                 <Text
+                  onPress={handleTranslatePress}
                   style={{
                     color: "#fff",
                     fontSize: 20,

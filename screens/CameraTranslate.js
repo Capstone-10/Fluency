@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 
-export default function VoiceAndTextTranslate() {
+export default function CameraTranslate() {
   const [text, setText] = useState("");
   const [tanslated, setTranslated] = useState("");
 

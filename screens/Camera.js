@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, ImageBackground } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Camera } from "expo-camera";
-import { fireStorage } from "../config/environment";
+import { fireStorage, db } from "../config/environment";
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -58,8 +58,9 @@ export default function App() {
 
     // We're done with the blob, close and release it
     blob.close();
-
-    return await snapshot.ref.getDownloadURL();
+    const url = await snapshot.ref.getDownloadURL();
+    await db.collection("snapshots").add({ url });
+    return url;
   }
 
   const _translateText = async () => {};

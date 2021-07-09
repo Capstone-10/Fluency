@@ -16,7 +16,7 @@ let text;
 const translatedText = () => {
   client
     .textDetection(
-      "https://firebasestorage.googleapis.com/v0/b/instagram-clone-61bfe.appspot.com/o/1exampleText.png?alt=media&token=4fd2e08b-0fe1-49c1-a00c-38757f634fb0"
+      "https://firebasestorage.googleapis.com/v0/b/fluency-a33e4.appspot.com/o/2021-07-09T00%3A12%3A40.303Z?alt=media&token=46cf8411-14e2-4c52-927b-3f2671480fe8"
     )
     .then((results) => {
       text = results[0].fullTextAnnotation.text;

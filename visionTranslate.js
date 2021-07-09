@@ -11,12 +11,11 @@ const translate = new Translate({
 
 let text;
 //node visionTranslate.js
-//exampleText.png
 
 const translatedText = () => {
   client
     .textDetection(
-      "https://static.parade.com/wp-content/uploads/2019/10/Life-Quotes-Dolly.jpg"
+      "https://firebasestorage.googleapis.com/v0/b/fluency-a33e4.appspot.com/o/2021-07-09T00%3A58%3A49.697Z?alt=media&token=58de9e7a-fb54-45d0-898a-91ace6a5ffe0"
     )
     .then((results) => {
       text = results[0].fullTextAnnotation.text;

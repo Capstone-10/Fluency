@@ -9,7 +9,14 @@ import {
 import { Camera } from "expo-camera";
 import { fireStorage } from "../config/environment";
 
-export default function App() {
+//Get rid of underscores for functions
+//refactor all the styles
+
+export default function App({ navigation }) {
+  const handleTranslatePress = () => {
+    navigation.navigate("TranslatedText");
+  };
+
   const [hasPermission, setHasPermission] = useState(null);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
@@ -43,7 +50,7 @@ export default function App() {
         },
         {
           text: "Translate",
-          onPress: () => navigation.navigate("TranslatedText"),
+          onPress: () => handleTranslatePress(),
         },
       ]
     );

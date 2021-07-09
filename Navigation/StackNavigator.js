@@ -14,6 +14,7 @@ const MainStackNavigator = () => {
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Camera" component={Camera} />
       <Stack.Screen name="Translate" component={Translate} />
+      <Stack.Screen name="TranslatedText" component={TranslatedText} />
     </Stack.Navigator>
   );
 };
@@ -26,16 +27,4 @@ const SettingsStackNavigator = () => {
   );
 };
 
-const TranslatedTextStackNavigator = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="TranslatedText" component={TranslatedText} />
-    </Stack.Navigator>
-  );
-};
-
-export {
-  MainStackNavigator,
-  SettingsStackNavigator,
-  TranslatedTextStackNavigator,
-};
+export { MainStackNavigator, SettingsStackNavigator };

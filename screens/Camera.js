@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, ImageBackground } from "react-native";
 import { Camera } from "expo-camera";
-import { fireStorage, db } from "../config/environment";
+import {
+  fireStorage,
+  db,
+  GOOGLE_CLOUD_VISION_API_KEY,
+} from "../config/environment";
 //import * as ImagePicker from "expo-image-picker";
 
 export default function App() {
@@ -9,8 +13,9 @@ export default function App() {
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
-  const [image, setImage] = useState("");
-  //const [uploading, setUploading] = useState(false);
+  const [image, setImage] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [googleResponse, setgoogleResponse] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -36,7 +41,11 @@ export default function App() {
     setPreviewVisible(true);
     setCapturedImage(photo);
     let uploadUrl = await uploadImageAsync(photo.uri);
-    setImage(uploadUrl);
+    if (uploadUrl) {
+      setImage(uploadUrl);
+    }
+    // console.log("photo.uri", photo.uri);
+    // console.log("uploadUrl-->", uploadUrl);
   };
 
   async function uploadImageAsync(uri) {
@@ -56,16 +65,57 @@ export default function App() {
       xhr.send(null);
     });
 
-    const ref = fireStorage.ref().child(new Date().toISOString());
-    const snapshot = await ref.put(blob);
-    // We're done with the blob, close and release it
+    //const ref = fireStorage.ref().child(new Date().toISOString());
+    //const snapshot = await ref.put(blob);
+
     blob.close();
-    const url = await snapshot.ref.getDownloadURL();
-    await db.collection("snapshots").add({ url });
-    return url;
+
+    //const url = await snapshot.ref.getDownloadURL();
+    //await db.collection("snapshots").add({ url });
+    //return url;
   }
 
-  const _translateText = async () => {};
+  if (image !== undefined) {
+    console.log("image-->", image);
+  }
+
+  const submitToGoogle = async () => {
+    try {
+      //setUploading(true);
+      //let imageTobeSent = image;
+      let body = JSON.stringify({
+        requests: [
+          {
+            features: [{ type: "DOCUMENT_TEXT_DETECTION", maxResults: 5 }],
+            image: {
+              source: {
+                imageUri:
+                  image,
+              },
+            },
+          },
+        ],
+      });
+      let response = await fetch(
+        "https://vision.googleapis.com/v1/images:annotate?key=" +
+          GOOGLE_CLOUD_VISION_API_KEY,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: body,
+        }
+      );
+      let responseJson = await response.json();
+      console.log(responseJson);
+      setgoogleResponse(responseJson);
+      //setuploading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <View
@@ -114,7 +164,7 @@ export default function App() {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={_translateText}
+                onPress={submitToGoogle()}
                 style={{
                   width: 130,
                   height: 40,

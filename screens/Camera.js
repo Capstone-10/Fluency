@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   Alert,
+  StyleSheet,
 } from "react-native";
 import { Camera } from "expo-camera";
 import { fireStorage } from "../config/environment";
@@ -114,46 +115,7 @@ export default function App({ navigation }) {
                 flexDirection: "row",
                 justifyContent: "space-between",
               }}
-            >
-              <TouchableOpacity
-                onPress={() => setPreviewVisible(false)}
-                style={{
-                  width: 130,
-                  height: 40,
-
-                  alignItems: "center",
-                  borderRadius: 4,
-                }}
-              >
-                <Text
-                  style={{
-                    color: "#fff",
-                    fontSize: 20,
-                  }}
-                >
-                  Re-take
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={_translateText}
-                style={{
-                  width: 130,
-                  height: 40,
-
-                  alignItems: "center",
-                  borderRadius: 4,
-                }}
-              >
-                <Text
-                  style={{
-                    color: "#fff",
-                    fontSize: 20,
-                  }}
-                >
-                  Translate
-                </Text>
-              </TouchableOpacity>
-            </View>
+            ></View>
           </View>
         </ImageBackground>
       ) : (
@@ -209,14 +171,8 @@ export default function App({ navigation }) {
                 }}
               >
                 <TouchableOpacity
+                  style={styles.takePictureButton}
                   onPress={_takePicture}
-                  style={{
-                    width: 70,
-                    height: 70,
-                    bottom: 0,
-                    borderRadius: 50,
-                    backgroundColor: "#fff",
-                  }}
                 />
               </View>
             </View>
@@ -226,3 +182,13 @@ export default function App({ navigation }) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  takePictureButton: {
+    width: 70,
+    height: 70,
+    bottom: 0,
+    borderRadius: 50,
+    backgroundColor: "#fff",
+  },
+});

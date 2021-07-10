@@ -1,46 +1,19 @@
-import React, { useState } from "react";
-import {
-  Text,
-  SafeAreaView,
-  StyleSheet,
-  TextInput,
-  Button,
-  View,
-} from "react-native";
+import React from "react";
+import { Text, SafeAreaView, StyleSheet, View } from "react-native";
 
-export default function CameraTranslation(output) {
-  const [text, setText] = useState("");
-  const [tanslated, setTranslated] = useState("");
-  //pass down from Camera.js the output
-  const detectedText = output.route.params;
-  const translateNow = async (text) => {
-    //translate and then
-    let ourTranslation = "translated version";
-    setTranslated(ourTranslation);
-  };
-
-  const onChangeText = () => {
-    (text) => setText(text);
-    if (text === "") {
-      setTranslated("");
-    }
-  };
-
+export default function CameraTranslation(prop) {
+  console.log("prop-->", prop.route.params);
+  let originalText = prop.route.params.detectedText;
+  let translatedVersion = prop.route.params.translatedText;
   return (
     <SafeAreaView style={{ marginTop: 20, marginBottom: 20 }}>
       <View>
         <Text style={styles.language}>Engish -> Spanish</Text>
       </View>
 
-      <Text style={styles.input}>{detectedText}</Text>
+      <Text style={styles.input}>{originalText}</Text>
 
-      {/* <Button
-        title="Translate"
-        onPress={() => {
-          translateNow(text);
-        }}
-      /> */}
-      <Text style={styles.output}>{}</Text>
+      <Text style={styles.output}>{translatedVersion}</Text>
     </SafeAreaView>
   );
 }

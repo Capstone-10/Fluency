@@ -13,20 +13,16 @@ import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
 var photo;
 
 export default function App({ navigation }) {
-  const handleTranslatePress = (output) => {
-    navigation.navigate("Camera Translation", output);
-  };
-
   //Get rid of underscores for functions
   //refactor all the styles
-
   const [hasPermission, setHasPermission] = useState(null);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
-  const [uploading, setUploading] = useState(false);
+  //const [uploading, setUploading] = useState(false);
   const [googleResponse, setGoogleResponse] = useState(null);
   const [detectedText, setDetectedText] = useState(null);
+  const [translatedText, setTranslatedText] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -42,7 +38,7 @@ export default function App({ navigation }) {
     return <Text>No access to camera</Text>;
   }
 
-  const createTwoButtonAlert = (detectedText) =>
+  const createTwoButtonAlert = (detectedText, translatedText) =>
     Alert.alert("Text Verification", `${detectedText}`, [
       {
         text: "Re-take",
@@ -51,7 +47,7 @@ export default function App({ navigation }) {
       },
       {
         text: "Translate",
-        onPress: () => handleTranslatePress(detectedText),
+        onPress: () => handleTranslatePress(detectedText, translatedText),
       },
     ]);
 
@@ -66,7 +62,6 @@ export default function App({ navigation }) {
     setCapturedImage(photo);
     setPreviewVisible(true);
     submitToGoogle();
-    createTwoButtonAlert(detectedText);
   };
 
   const submitToGoogle = async () => {
@@ -94,18 +89,27 @@ export default function App({ navigation }) {
         }
       );
       const responseJson = await response.json();
-      //console.log("is it defined?--->", responseJson);
       const responseParsed = JSON.parse(JSON.stringify(responseJson));
       const output = responseParsed.responses[0].fullTextAnnotation.text;
-      console.log("detected texts--> ", output);
+      createTwoButtonAlert(detectedText, translatedText);
+      translateNow(detectedText);
       setDetectedText(output);
-      console.log("this is detectedText --->", detectedText);
       setGoogleResponse(responseParsed);
       //setuploading(false);
-      // handleTranslatePress(output);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  //this is Google API Translation function!!!!
+  const translateNow = async (detectedText) => {
+    let text = "translated version";
+    setTranslatedText(text);
+  };
+
+  const handleTranslatePress = (detectedText, translatedText) => {
+    let prop = { detectedText, translatedText };
+    navigation.navigate("Camera Translation", prop);
   };
 
   return (

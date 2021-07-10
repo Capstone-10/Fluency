@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity, ImageBackground } from "react-native";
-import { Camera } from "expo-camera";
 import {
-  fireStorage,
-  db,
-  GOOGLE_CLOUD_VISION_API_KEY,
-} from "../config/environment";
+  Text,
+  View,
+  TouchableOpacity,
+  ImageBackground,
+  Alert,
+} from "react-native";
+import { Camera } from "expo-camera";
+import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
 //import * as ImagePicker from "expo-image-picker";
+
+var photo;
 
 export default function App({ navigation }) {
   const handleTranslatePress = () => {
@@ -19,7 +23,7 @@ export default function App({ navigation }) {
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
-  const [googleResponse, setgoogleResponse] = useState(null);
+  const [googleResponse, setGoogleResponse] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -35,67 +39,47 @@ export default function App({ navigation }) {
     return <Text>No access to camera</Text>;
   }
 
+  // const createTwoButtonAlert = () =>
+  // Alert.alert(
+  //   "Text Verification",
+  //   "Google vision detected text should go into this box. I'm making this text long on purpose to see how this would render.",
+  //   [
+  //     {
+  //       text: "Re-take",
+  //       onPress: () => setPreviewVisible(false),
+  //       style: "cancel",
+  //     },
+  //     {
+  //       text: "Translate",
+  //       onPress: () => {
+  //         {navigation.navigate("TranslatedText")}
+  //         {submitToGoogle}
+  //       },
+  //     },
+  //   ]
+  // );
+
   const _takePicture = async () => {
     if (!camera) return;
-    let photo = await camera.takePictureAsync();
-    // let photo = await ImagePicker.launchCameraAsync({
-    //   allowsEditing: true,
-    //   aspect: [4, 3],
-    // });
-    setPreviewVisible(true);
+    const options = {
+      base64: true,
+    };
+
+   photo = await camera.takePictureAsync(options);
+    console.log(photo.base64);
     setCapturedImage(photo);
-    let uploadUrl = await uploadImageAsync(photo.uri);
-    if (uploadUrl) {
-      setImage(uploadUrl);
-    }
-    // console.log("photo.uri", photo.uri);
-    // console.log("uploadUrl-->", uploadUrl);
+    setPreviewVisible(true);
+    // createTwoButtonAlert();
   };
-
-  async function uploadImageAsync(uri) {
-    // Why are we using XMLHttpRequest? See:
-    // https://github.com/expo/expo/issues/2402#issuecomment-443726662
-    const blob = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
-        resolve(xhr.response);
-      };
-      xhr.onerror = function (e) {
-        console.log(e);
-        reject(new TypeError("Network request failed"));
-      };
-      xhr.responseType = "blob";
-      xhr.open("GET", uri, true);
-      xhr.send(null);
-    });
-
-    //const ref = fireStorage.ref().child(new Date().toISOString());
-    //const snapshot = await ref.put(blob);
-
-    blob.close();
-
-    //const url = await snapshot.ref.getDownloadURL();
-    //await db.collection("snapshots").add({ url });
-    //return url;
-  }
-
-  if (image !== undefined) {
-    console.log("image-->", image);
-  }
 
   const submitToGoogle = async () => {
     try {
-      //setUploading(true);
-      //let imageTobeSent = image;
       let body = JSON.stringify({
         requests: [
           {
             features: [{ type: "DOCUMENT_TEXT_DETECTION", maxResults: 5 }],
             image: {
-              source: {
-                imageUri:
-                  image,
-              },
+              content: photo.base64,
             },
           },
         ],
@@ -112,9 +96,15 @@ export default function App({ navigation }) {
           body: body,
         }
       );
-      let responseJson = await response.json();
-      console.log(responseJson);
-      setgoogleResponse(responseJson);
+      const responseJson = await response.json();
+      // console.log(responseJson);
+      const responseParsed = JSON.parse(JSON.stringify(responseJson));
+      const output = responseParsed.responses[0].fullTextAnnotation.text
+      console.log(
+        "Parsed response ",
+        output
+      );
+      setGoogleResponse(responseParsed);
       //setuploading(false);
     } catch (error) {
       console.log(error);
@@ -168,7 +158,7 @@ export default function App({ navigation }) {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={submitToGoogle()}
+                onPress={submitToGoogle}
                 style={{
                   width: 130,
                   height: 40,

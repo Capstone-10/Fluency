@@ -7,14 +7,14 @@ import {
   Alert,
 } from "react-native";
 import { Camera } from "expo-camera";
-import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
+import { GOOGLE_CLOUD_VISION_API_KEY } from "../config/environment";
 //import * as ImagePicker from "expo-image-picker";
 
 var photo;
 
 export default function App({ navigation }) {
-  const handleTranslatePress = () => {
-    navigation.navigate("translate");
+  const handleTranslatePress = (output) => {
+    navigation.navigate("translate", output);
   };
 
   const [hasPermission, setHasPermission] = useState(null);
@@ -39,34 +39,14 @@ export default function App({ navigation }) {
     return <Text>No access to camera</Text>;
   }
 
-  // const createTwoButtonAlert = () =>
-  // Alert.alert(
-  //   "Text Verification",
-  //   "Google vision detected text should go into this box. I'm making this text long on purpose to see how this would render.",
-  //   [
-  //     {
-  //       text: "Re-take",
-  //       onPress: () => setPreviewVisible(false),
-  //       style: "cancel",
-  //     },
-  //     {
-  //       text: "Translate",
-  //       onPress: () => {
-  //         {navigation.navigate("TranslatedText")}
-  //         {submitToGoogle}
-  //       },
-  //     },
-  //   ]
-  // );
-
   const _takePicture = async () => {
     if (!camera) return;
     const options = {
       base64: true,
     };
 
-   photo = await camera.takePictureAsync(options);
-    console.log(photo.base64);
+    photo = await camera.takePictureAsync(options);
+    //console.log(photo.base64);
     setCapturedImage(photo);
     setPreviewVisible(true);
     // createTwoButtonAlert();
@@ -97,15 +77,13 @@ export default function App({ navigation }) {
         }
       );
       const responseJson = await response.json();
-      // console.log(responseJson);
+      //console.log("is it defined?--->", responseJson);
       const responseParsed = JSON.parse(JSON.stringify(responseJson));
-      const output = responseParsed.responses[0].fullTextAnnotation.text
-      console.log(
-        "Parsed response ",
-        output
-      );
+      const output = responseParsed.responses[0].fullTextAnnotation.text;
+      console.log("detected texts--> ", output);
       setGoogleResponse(responseParsed);
       //setuploading(false);
+      handleTranslatePress(output);
     } catch (error) {
       console.log(error);
     }
@@ -168,7 +146,7 @@ export default function App({ navigation }) {
                 }}
               >
                 <Text
-                  onPress={handleTranslatePress}
+                  //onPress={handleTranslatePress}
                   style={{
                     color: "#fff",
                     fontSize: 20,

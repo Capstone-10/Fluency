@@ -13,7 +13,7 @@ const MainStackNavigator = () => {
     <Stack.Navigator>
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Camera" component={Camera} />
-      <Stack.Screen name="translate" component={CameraTranslate} />
+      <Stack.Screen name="translate" component={CameraTranslate} output />
       <Stack.Screen name="Translate" component={Translate} />
     </Stack.Navigator>
   );

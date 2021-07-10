@@ -8,9 +8,11 @@ import {
   View,
 } from "react-native";
 
-export default function CameraTranslate() {
+export default function CameraTranslate(output) {
   const [text, setText] = useState("");
   const [tanslated, setTranslated] = useState("");
+  //pass down from Camera.js the output
+  const detextedText = output.route.params;
 
   const translateNow = async (text) => {
     //translate and then
@@ -31,12 +33,7 @@ export default function CameraTranslate() {
         <Text style={styles.language}>Detected Language</Text>
       </View>
 
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeText}
-        defaultValue={text}
-        placeholder="Type here to translate!"
-      />
+      <Text style={styles.input}>{detextedText}</Text>
 
       <Button
         title="Translate"

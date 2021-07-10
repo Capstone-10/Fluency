@@ -5,9 +5,10 @@ import {
   TouchableOpacity,
   ImageBackground,
   Alert,
+  StyleSheet
 } from "react-native";
 import { Camera } from "expo-camera";
-import LanguageChoice from "./LanguageChoice"
+import { Picker } from "@react-native-picker/picker"
 import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
 
 
@@ -24,6 +25,7 @@ export default function App({ navigation }) {
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [uploading, setUploading] = useState(false);
   const [googleResponse, setGoogleResponse] = useState(null);
+  const [selectedLanguage, setSelectedLanguage] = useState("English");
 
   useEffect(() => {
     (async () => {
@@ -191,19 +193,20 @@ export default function App({ navigation }) {
                 Flip{" "}
               </Text>
             </TouchableOpacity>
-              {/* <SafeAreaView style={{ marginTop: 20, marginBottom: 20 }}> */}
-                {/* <View>
-                  <Text style={{
-                    height: 50,
-                    margin: 12,
-                    borderWidth: 1,
-                    fontSize: 20,
-
-                    padding: 10,
-                    textAlign: "center"
-                  }}>
-                    Detected Language</Text>
-                </View> */}
+        <View style={styles.container}>
+            <Picker
+            selectedLanguage={selectedLanguage}
+            style={{ height: 100, width: 150 }}
+            onLanguageChange={(itemLanguage, itemIndex) => setSelectedLanguage(itemLanguage)}
+            >
+                <Picker.Item label="Spanish" value="Spanish" color="white"/>
+                <Picker.Item label="Korean" value="Korean" color="white"/>
+                <Picker.Item label="Russian" value="Russian" color="white"/>
+                <Picker.Item label="Afrikaans" value="Afrikaans" color="white"/>
+                <Picker.Item label="French" value="French" color="white"/>
+                <Picker.Item label="German" value="German" color="white"/>
+              </Picker>
+        </View>
             <View
               style={{
                 position: "absolute",
@@ -240,3 +243,12 @@ export default function App({ navigation }) {
     </View>
   );
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+      flex: 1,
+      paddingTop: 40,
+      alignItems: "center"
+  }
+});

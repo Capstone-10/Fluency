@@ -11,6 +11,8 @@ import { Camera } from "expo-camera";
 import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
 
 var photo;
+var output;
+var translatedText;
 
 export default function App({ navigation }) {
   //Get rid of underscores for functions
@@ -21,8 +23,8 @@ export default function App({ navigation }) {
   const [type, setType] = useState(Camera.Constants.Type.back);
   //const [uploading, setUploading] = useState(false);
   const [googleResponse, setGoogleResponse] = useState(null);
-  const [detectedText, setDetectedText] = useState(null);
-  const [translatedText, setTranslatedText] = useState(null);
+  //const [detectedText, setDetectedText] = useState(null);
+  //const [text, setText] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -38,8 +40,8 @@ export default function App({ navigation }) {
     return <Text>No access to camera</Text>;
   }
 
-  const createTwoButtonAlert = (detectedText, translatedText) =>
-    Alert.alert("Text Verification", `${detectedText}`, [
+  const createTwoButtonAlert = (output) =>
+    Alert.alert("Text Verification", output, [
       {
         text: "Re-take",
         onPress: () => setPreviewVisible(false),
@@ -47,7 +49,13 @@ export default function App({ navigation }) {
       },
       {
         text: "Translate",
-        onPress: () => handleTranslatePress(detectedText, translatedText),
+        onPress: () => {
+          {
+            translateNow(output);
+            handleTranslatePress(output, translatedText);
+          }
+          setPreviewVisible(false);
+        },
       },
     ]);
 
@@ -90,10 +98,10 @@ export default function App({ navigation }) {
       );
       const responseJson = await response.json();
       const responseParsed = JSON.parse(JSON.stringify(responseJson));
-      const output = responseParsed.responses[0].fullTextAnnotation.text;
-      createTwoButtonAlert(detectedText, translatedText);
-      translateNow(detectedText);
-      setDetectedText(output);
+      output = responseParsed.responses[0].fullTextAnnotation.text;
+      createTwoButtonAlert(output);
+
+      //setDetectedText(output);
       setGoogleResponse(responseParsed);
       //setuploading(false);
     } catch (error) {
@@ -102,13 +110,17 @@ export default function App({ navigation }) {
   };
 
   //this is Google API Translation function!!!!
-  const translateNow = async (detectedText) => {
-    let text = "translated version";
-    setTranslatedText(text);
+  const translateNow = async (output) => {
+    translatedText = "translated version";
+    //setText(translatedText);
+    return translatedText;
   };
 
-  const handleTranslatePress = (detectedText, translatedText) => {
-    let prop = { detectedText, translatedText };
+  console.log("translatedText-->", translatedText);
+
+  const handleTranslatePress = (output, translatedText) => {
+    translateNow(output);
+    let prop = { output, translatedText };
     navigation.navigate("Camera Translation", prop);
   };
 

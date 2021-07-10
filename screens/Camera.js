@@ -12,7 +12,11 @@ import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
 
 var photo;
 
-export default function App() {
+export default function App({ navigation }) {
+  const handleTranslatePress = () => {
+    navigation.navigate("translate");
+  };
+
   const [hasPermission, setHasPermission] = useState(null);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
@@ -164,6 +168,7 @@ export default function App() {
                 }}
               >
                 <Text
+                  onPress={handleTranslatePress}
                   style={{
                     color: "#fff",
                     fontSize: 20,

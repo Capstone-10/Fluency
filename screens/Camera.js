@@ -7,21 +7,20 @@ import {
   Alert,
 } from "react-native";
 import { Camera } from "expo-camera";
-import { GOOGLE_CLOUD_VISION_API_KEY } from "../config/environment";
+import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
 //import * as ImagePicker from "expo-image-picker";
 
 var photo;
 
 export default function App({ navigation }) {
   const handleTranslatePress = (output) => {
-    navigation.navigate("translate", output);
+    navigation.navigate("Camera Translation", output);
   };
 
   const [hasPermission, setHasPermission] = useState(null);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
-  const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [googleResponse, setGoogleResponse] = useState(null);
 
@@ -146,7 +145,6 @@ export default function App({ navigation }) {
                 }}
               >
                 <Text
-                  //onPress={handleTranslatePress}
                   style={{
                     color: "#fff",
                     fontSize: 20,

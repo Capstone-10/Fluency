@@ -8,22 +8,25 @@ import {
   StyleSheet,
 } from "react-native";
 import { Camera } from "expo-camera";
-import { fireStorage } from "../config/environment";
+import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
 
-//Get rid of underscores for functions
-//refactor all the styles
+var photo;
 
 export default function App({ navigation }) {
-  const handleTranslatePress = () => {
-    navigation.navigate("TranslatedText");
+  const handleTranslatePress = (output) => {
+    navigation.navigate("Camera Translation", output);
   };
+
+  //Get rid of underscores for functions
+  //refactor all the styles
 
   const [hasPermission, setHasPermission] = useState(null);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
-  const [image, setImage] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [googleResponse, setGoogleResponse] = useState(null);
+  const [detectedText, setDetectedText] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -39,55 +42,71 @@ export default function App({ navigation }) {
     return <Text>No access to camera</Text>;
   }
 
-  const createTwoButtonAlert = () =>
-    Alert.alert(
-      "Text Verification",
-      "Google vision detected text should go into this box. I'm making this text long on purpose to see how this would render.",
-      [
-        {
-          text: "Re-take",
-          onPress: () => setPreviewVisible(false),
-          style: "cancel",
-        },
-        {
-          text: "Translate",
-          onPress: () => handleTranslatePress(),
-        },
-      ]
-    );
+  const createTwoButtonAlert = (detectedText) =>
+    Alert.alert("Text Verification", `${detectedText}`, [
+      {
+        text: "Re-take",
+        onPress: () => setPreviewVisible(false),
+        style: "cancel",
+      },
+      {
+        text: "Translate",
+        onPress: () => handleTranslatePress(detectedText),
+      },
+    ]);
 
   const _takePicture = async () => {
     if (!camera) return;
-    const photo = await camera.takePictureAsync();
-    console.log(photo);
-    setPreviewVisible(true);
-    setCapturedImage(photo);
-    setImage(photo.uri);
-    createTwoButtonAlert();
-    //upload image to firebase storage as photo is being taken
-    if (image) {
-      const storageRef = fireStorage.ref().child(new Date().toISOString());
-      const snapshot = storageRef.put(image);
+    const options = {
+      base64: true,
+    };
 
-      snapshot.on("state_changed", () => {
-        setUploading(true),
-          (error) => {
-            setUploading(false);
-            console.log(error);
-            return;
-          },
-          async () => {
-            await storageRef.getDownloadURL().then((url) => {
-              setUploading(false);
-              console.log("download url-->", url);
-              return url;
-            });
-          };
-      });
-    }
+    photo = await camera.takePictureAsync(options);
+    //console.log(photo.base64);
+    setCapturedImage(photo);
+    setPreviewVisible(true);
+    submitToGoogle();
+    createTwoButtonAlert(detectedText);
   };
 
-  const _translateText = async () => {};
+  const submitToGoogle = async () => {
+    try {
+      let body = JSON.stringify({
+        requests: [
+          {
+            features: [{ type: "DOCUMENT_TEXT_DETECTION", maxResults: 5 }],
+            image: {
+              content: photo.base64,
+            },
+          },
+        ],
+      });
+      let response = await fetch(
+        "https://vision.googleapis.com/v1/images:annotate?key=" +
+          GOOGLE_CLOUD_VISION_API_KEY,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: body,
+        }
+      );
+      const responseJson = await response.json();
+      //console.log("is it defined?--->", responseJson);
+      const responseParsed = JSON.parse(JSON.stringify(responseJson));
+      const output = responseParsed.responses[0].fullTextAnnotation.text;
+      console.log("detected texts--> ", output);
+      setDetectedText(output);
+      console.log("this is detectedText --->", detectedText);
+      setGoogleResponse(responseParsed);
+      //setuploading(false);
+      // handleTranslatePress(output);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <View

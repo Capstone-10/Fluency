@@ -13,7 +13,6 @@ import { Camera } from "react-native-feather";
 
 function HomeScreen({ navigation }) {
   const handleCameraPress = () => {
-    console.log("Testing image press");
     navigation.navigate("Camera");
   };
   const handleTranslatePress = () => {

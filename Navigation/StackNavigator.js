@@ -5,7 +5,7 @@ import HomeScreen from "../screens/HomeScreen";
 import Translate from "../screens/VoiceAndTextTranslate";
 import Camera from "../screens/Camera";
 import Settings from "../screens/Settings";
-import TranslatedText from "../screens/TranslatedText";
+import CameraTranslation from "../screens/CameraTranslation";
 
 const Stack = createStackNavigator();
 
@@ -29,8 +29,12 @@ const MainStackNavigator = () => {
         }}
       />
       <Stack.Screen name="Camera" component={Camera} />
+      <Stack.Screen
+        name="Camera Translation"
+        component={CameraTranslation}
+        output
+      />
       <Stack.Screen name="Translate" component={Translate} />
-      <Stack.Screen name="TranslatedText" component={TranslatedText} />
     </Stack.Navigator>
   );
 };

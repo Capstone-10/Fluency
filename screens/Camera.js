@@ -26,8 +26,11 @@ export default function App({ navigation }) {
   const [capturedImage, setCapturedImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [uploading, setUploading] = useState(false);
-  // For some reason, googleResponse state change doesn't occur...const [googleResponse, setGoogleResponse] = useState(null);
-  // For some reason, this state refuses to change also...const [detectedText, setDetectedText] = useState(null);
+  // For some reason, googleResponse state change doesn't occur
+  //const [googleResponse, setGoogleResponse] = useState(null);
+
+  // For some reason, this state refuses to change also
+  // const [detectedText, setDetectedText] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -104,7 +107,7 @@ export default function App({ navigation }) {
       //console.log("is it defined?--->", responseJson);
       const responseParsed = JSON.parse(JSON.stringify(responseJson));
       output = responseParsed.responses[0].fullTextAnnotation.text;
-      //setDetectedText(output)
+      // setDetectedText(output)
       console.log("detected texts--> ", output);
       createTwoButtonAlert(output)
       console.log("this is detectedText --->", output);

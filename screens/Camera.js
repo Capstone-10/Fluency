@@ -193,10 +193,13 @@ export default function App({ navigation }) {
                 Flip{" "}
               </Text>
             </TouchableOpacity>
-        <View style={styles.container}>
+              {/* <Text style={styles.selectLanguageText}>
+                What language are you in the mood for today?
+              </Text> */}
+        <View style={styles.languagePicker}>
             <Picker
             selectedLanguage={selectedLanguage}
-            style={{ height: 100, width: 150 }}
+            style={{ height: 100, width: 200 }}
             onLanguageChange={(itemLanguage, itemIndex) => setSelectedLanguage(itemLanguage)}
             >
                 <Picker.Item label="Spanish" value="Spanish" color="white"/>
@@ -246,9 +249,15 @@ export default function App({ navigation }) {
 
 
 const styles = StyleSheet.create({
-  container: {
+  languagePicker: {
       flex: 1,
       paddingTop: 40,
       alignItems: "center"
-  }
+  },
+  // selectLanguageText: {
+  //   flex: 1,
+  //   color: "#fff",
+  //   fontSize: 20,
+  //   alignItems: "center"
+  // }
 });

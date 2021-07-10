@@ -5,10 +5,10 @@ import {
   TouchableOpacity,
   ImageBackground,
   Alert,
+  StyleSheet,
 } from "react-native";
 import { Camera } from "expo-camera";
 import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
-//import * as ImagePicker from "expo-image-picker";
 
 var photo;
 
@@ -17,12 +17,16 @@ export default function App({ navigation }) {
     navigation.navigate("Camera Translation", output);
   };
 
+  //Get rid of underscores for functions
+  //refactor all the styles
+
   const [hasPermission, setHasPermission] = useState(null);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [uploading, setUploading] = useState(false);
   const [googleResponse, setGoogleResponse] = useState(null);
+  const [detectedText, setDetectedText] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -38,6 +42,19 @@ export default function App({ navigation }) {
     return <Text>No access to camera</Text>;
   }
 
+  const createTwoButtonAlert = (detectedText) =>
+    Alert.alert("Text Verification", `${detectedText}`, [
+      {
+        text: "Re-take",
+        onPress: () => setPreviewVisible(false),
+        style: "cancel",
+      },
+      {
+        text: "Translate",
+        onPress: () => handleTranslatePress(detectedText),
+      },
+    ]);
+
   const _takePicture = async () => {
     if (!camera) return;
     const options = {
@@ -48,7 +65,8 @@ export default function App({ navigation }) {
     //console.log(photo.base64);
     setCapturedImage(photo);
     setPreviewVisible(true);
-    // createTwoButtonAlert();
+    submitToGoogle();
+    createTwoButtonAlert(detectedText);
   };
 
   const submitToGoogle = async () => {
@@ -80,9 +98,11 @@ export default function App({ navigation }) {
       const responseParsed = JSON.parse(JSON.stringify(responseJson));
       const output = responseParsed.responses[0].fullTextAnnotation.text;
       console.log("detected texts--> ", output);
+      setDetectedText(output);
+      console.log("this is detectedText --->", detectedText);
       setGoogleResponse(responseParsed);
       //setuploading(false);
-      handleTranslatePress(output);
+      // handleTranslatePress(output);
     } catch (error) {
       console.log(error);
     }
@@ -114,46 +134,7 @@ export default function App({ navigation }) {
                 flexDirection: "row",
                 justifyContent: "space-between",
               }}
-            >
-              <TouchableOpacity
-                onPress={() => setPreviewVisible(false)}
-                style={{
-                  width: 130,
-                  height: 40,
-
-                  alignItems: "center",
-                  borderRadius: 4,
-                }}
-              >
-                <Text
-                  style={{
-                    color: "#fff",
-                    fontSize: 20,
-                  }}
-                >
-                  Re-take
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={submitToGoogle}
-                style={{
-                  width: 130,
-                  height: 40,
-
-                  alignItems: "center",
-                  borderRadius: 4,
-                }}
-              >
-                <Text
-                  style={{
-                    color: "#fff",
-                    fontSize: 20,
-                  }}
-                >
-                  Translate
-                </Text>
-              </TouchableOpacity>
-            </View>
+            ></View>
           </View>
         </ImageBackground>
       ) : (
@@ -209,14 +190,8 @@ export default function App({ navigation }) {
                 }}
               >
                 <TouchableOpacity
+                  style={styles.takePictureButton}
                   onPress={_takePicture}
-                  style={{
-                    width: 70,
-                    height: 70,
-                    bottom: 0,
-                    borderRadius: 50,
-                    backgroundColor: "#fff",
-                  }}
                 />
               </View>
             </View>
@@ -226,3 +201,13 @@ export default function App({ navigation }) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  takePictureButton: {
+    width: 70,
+    height: 70,
+    bottom: 0,
+    borderRadius: 50,
+    backgroundColor: "#fff",
+  },
+});

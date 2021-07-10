@@ -10,11 +10,12 @@ import {
 import { Camera } from "expo-camera";
 import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
 
-var photo;
+var photo; //If I declare this with "let" cannot use it in "submitToGoogle" POST request below
+var output; //If I declare this with var in "submitToGoogle," the app breaks
 
 export default function App({ navigation }) {
   const handleTranslatePress = (output) => {
-    navigation.navigate("Camera Translation", output);
+    navigation.navigate("Camera Translation", output, "something");
   };
 
   //Get rid of underscores for functions
@@ -25,8 +26,8 @@ export default function App({ navigation }) {
   const [capturedImage, setCapturedImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [uploading, setUploading] = useState(false);
-  const [googleResponse, setGoogleResponse] = useState(null);
-  const [detectedText, setDetectedText] = useState(null);
+  // For some reason, googleResponse state change doesn't occur...const [googleResponse, setGoogleResponse] = useState(null);
+  // For some reason, this state refuses to change also...const [detectedText, setDetectedText] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -42,8 +43,8 @@ export default function App({ navigation }) {
     return <Text>No access to camera</Text>;
   }
 
-  const createTwoButtonAlert = (detectedText) =>
-    Alert.alert("Text Verification", `${detectedText}`, [
+  const createTwoButtonAlert = (output) =>
+    Alert.alert("Text Verification", output, [
       {
         text: "Re-take",
         onPress: () => setPreviewVisible(false),
@@ -51,7 +52,11 @@ export default function App({ navigation }) {
       },
       {
         text: "Translate",
-        onPress: () => handleTranslatePress(detectedText),
+        onPress: () => {
+          {handleTranslatePress(output)}
+          {testFunction()}
+          setPreviewVisible(false); //So, if you navigate back to camera, you can take another pic right away
+        },
       },
     ]);
 
@@ -66,7 +71,9 @@ export default function App({ navigation }) {
     setCapturedImage(photo);
     setPreviewVisible(true);
     submitToGoogle();
-    createTwoButtonAlert(detectedText);
+    
+    // setDetectedText(detectedText)
+    // createTwoButtonAlert(detection);
   };
 
   const submitToGoogle = async () => {
@@ -96,17 +103,22 @@ export default function App({ navigation }) {
       const responseJson = await response.json();
       //console.log("is it defined?--->", responseJson);
       const responseParsed = JSON.parse(JSON.stringify(responseJson));
-      const output = responseParsed.responses[0].fullTextAnnotation.text;
+      output = responseParsed.responses[0].fullTextAnnotation.text;
+      //setDetectedText(output)
       console.log("detected texts--> ", output);
-      setDetectedText(output);
-      console.log("this is detectedText --->", detectedText);
-      setGoogleResponse(responseParsed);
+      createTwoButtonAlert(output)
+      console.log("this is detectedText --->", output);
+      // setGoogleResponse(responseParsed);
       //setuploading(false);
       // handleTranslatePress(output);
     } catch (error) {
       console.log(error);
     }
   };
+
+  const testFunction = () => {
+    console.log(`I'm the value of output after testFunction fired ${output}`)
+  }
 
   return (
     <View

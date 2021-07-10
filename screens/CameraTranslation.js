@@ -8,10 +8,11 @@ import {
   View,
 } from "react-native";
 
-export default function CameraTranslate() {
+export default function CameraTranslation(output) {
   const [text, setText] = useState("");
   const [tanslated, setTranslated] = useState("");
-
+  //pass down from Camera.js the output
+  const detectedText = output.route.params;
   const translateNow = async (text) => {
     //translate and then
     let ourTranslation = "translated version";
@@ -28,28 +29,18 @@ export default function CameraTranslate() {
   return (
     <SafeAreaView style={{ marginTop: 20, marginBottom: 20 }}>
       <View>
-        <Text style={styles.language}>Detected Language</Text>
+        <Text style={styles.language}>Engish -> Spanish</Text>
       </View>
 
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeText}
-        defaultValue={text}
-        placeholder="Type here to translate!"
-      />
+      <Text style={styles.input}>{detectedText}</Text>
 
-      <Button
+      {/* <Button
         title="Translate"
         onPress={() => {
           translateNow(text);
         }}
-      />
-      <Text style={styles.output}>
-        {tanslated
-          .split(" ")
-          .map((word) => word && word)
-          .join(" ")}
-      </Text>
+      /> */}
+      <Text style={styles.output}>{}</Text>
     </SafeAreaView>
   );
 }

@@ -6,7 +6,15 @@ import {
   TextInput,
   Button,
   View,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
+
+const DismissKeyboard = ({ children }) => (
+  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    {children}
+  </TouchableWithoutFeedback>
+);
 
 export default function VoiceAndTextTranslate() {
   const [text, setText] = useState("");
@@ -26,31 +34,33 @@ export default function VoiceAndTextTranslate() {
   };
 
   return (
-    <SafeAreaView style={{ marginTop: 20, marginBottom: 20 }}>
-      <View>
-        <Text style={styles.language}>Detected Language</Text>
-      </View>
+    <DismissKeyboard>
+      <SafeAreaView style={{ marginTop: 20, marginBottom: 20 }}>
+        <View>
+          <Text style={styles.language}>Detected Language</Text>
+        </View>
 
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeText}
-        defaultValue={text}
-        placeholder="Type here to translate!"
-      />
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeText}
+          defaultValue={text}
+          placeholder="Type here to translate!"
+        />
 
-      <Button
-        title="Translate"
-        onPress={() => {
-          translateNow(text);
-        }}
-      />
-      <Text style={styles.output}>
-        {tanslated
-          .split(" ")
-          .map((word) => word && word)
-          .join(" ")}
-      </Text>
-    </SafeAreaView>
+        <Button
+          title="Translate"
+          onPress={() => {
+            translateNow(text);
+          }}
+        />
+        <Text style={styles.output}>
+          {tanslated
+            .split(" ")
+            .map((word) => word && word)
+            .join(" ")}
+        </Text>
+      </SafeAreaView>
+    </DismissKeyboard>
   );
 }
 const styles = StyleSheet.create({

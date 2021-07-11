@@ -125,7 +125,7 @@ export default function App({ navigation }) {
       const responseJson = await response.json();
       const responseParsed = await JSON.parse(JSON.stringify(responseJson));
       translatedText = await responseParsed.data.translations[0].translatedText;
-      console.log("in submitToGoogleTranslate ", translatedText);
+      //console.log("in submitToGoogleTranslate ", translatedText);
     } catch (error) {
       console.error(error);
     }

@@ -1,15 +1,14 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { DrawerNavigator } from "./Navigation/DrawerNavigator";
+import DrawerNavigator from "./Navigation/DrawerNavigator";
+import TabNavigator from "./Navigation/TabNavigator";
 // import { MainStackNavigator } from "./Navigation/StackNavigator";
-import BottomTabNavigator from "./Navigation/TabNavigator";
-
 const App = () => {
   return (
     <NavigationContainer>
+      {/* <TabNavigator /> */}
       <DrawerNavigator />
       {/* <MainStackNavigator /> */}
-      {/* <BottomTabNavigator /> */}
     </NavigationContainer>
   );
 };

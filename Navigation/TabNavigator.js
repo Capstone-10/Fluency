@@ -1,10 +1,27 @@
+// import React from "react";
+// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+// import { MainStackNavigator, SettingsStackNavigator } from "./StackNavigator";
+
+// const Tab = createBottomTabNavigator();
+// //TabNavigator
+// const TabNavigator = () => {
+//   return (
+//     <Tab.Navigator>
+//       <Tab.Screen name="Home" component={MainStackNavigator} />
+//       <Tab.Screen name="Settings" component={SettingsStackNavigator} />
+//     </Tab.Navigator>
+//   );
+// };
+
+// export default TabNavigator;
+
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MainStackNavigator, SettingsStackNavigator } from "./StackNavigator";
 
 const Tab = createBottomTabNavigator();
-
-const BottomTabNavigator = () => {
+//TabNavigator
+const TabNavigator = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen name="Home" component={MainStackNavigator} />
@@ -13,4 +30,4 @@ const BottomTabNavigator = () => {
   );
 };
 
-export default BottomTabNavigator;
+export default TabNavigator;

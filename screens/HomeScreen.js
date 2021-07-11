@@ -31,33 +31,43 @@ function HomeScreen({ navigation }) {
         </Text>
       </View>
 
-      <TouchableOpacity style={styles.CameraButton}>
-        <Camera
-          onPress={handleCameraPress}
-          stroke="black"
-          width={40}
-          height={40}
-        >
-          Camera
-        </Camera>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.TextButton}>
-        <Text
-          onPress={handleTranslatePress}
-          style={{ fontSize: 20, fontWeight: "bold" }}
-        >
-          Translate
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.VoiceButton}>
-        <Text
-          onPress={handleNavBarPress}
-          style={{ fontSize: 20, fontWeight: "bold" }}
-        >
-          Navbar placeholder
-        </Text>
-      </TouchableOpacity>
-      {/* <TouchableOpacity style={styles.DictionaryButton}>
+      <View style={styles.mainBox}>
+        <View style={styles.CameraButton}>
+          <Camera
+            onPress={handleCameraPress}
+            stroke="black"
+            width={75}
+            height={75}
+            marginLeft={28}
+            marginTop={27}
+          >
+            Camera
+          </Camera>
+        </View>
+
+        <View style={styles.TextButton}>
+          <Text
+            onPress={handleTranslatePress}
+            style={{
+              fontSize: 23,
+              fontWeight: "bold",
+              marginLeft: 15,
+              marginTop: 50,
+            }}
+          >
+            Translate
+          </Text>
+        </View>
+
+        {/* <TouchableOpacity style={styles.VoiceButton}>
+          <Text
+            onPress={handleNavBarPress}
+            style={{ fontSize: 20, fontWeight: "bold" }}
+          >
+            Navbar placeholder
+          </Text>
+        </TouchableOpacity> */}
+        {/* <TouchableOpacity style={styles.DictionaryButton}>
         <Text
           onPress={handleDictionaryPress}
           style={{ fontSize: 20, fontWeight: "bold" }}
@@ -65,54 +75,76 @@ function HomeScreen({ navigation }) {
           Dictionary
         </Text>
       </TouchableOpacity> */}
+      </View>
     </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   background: {
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
+    // flex: 1,
+    // justifyContent: "flex-end",
+    // alignItems: "center",
+    // backgroundColor: "white",
     backgroundColor: "white",
+    flex: 1,
+    alignItems: "center", // ignore this - we'll come back to it
+    justifyContent: "center", // ignore this - we'll come back to it
+    //flexDirection: "row",
+  },
+  mainBox: {
+    marginTop: 400,
+    // //padding: 20,
+    // backgroundColor: "white",
+    // flex: 1,
+    // alignItems: "center", // ignore this - we'll come back to it
+    // justifyContent: "center", // ignore this - we'll come back to it
+    flexDirection: "row",
   },
   CameraButton: {
-    width: "100%",
-    height: 75,
+    width: 130,
+    height: 130,
     backgroundColor: "#fc5c65",
-    alignItems: "center",
-    justifyContent: "center",
+    // alignItems: "center",
+    // justifyContent: "center",
+    marginRight: 25,
+    borderRadius: 10,
+  },
+  TextButton: {
+    width: 130,
+    height: 130,
+    backgroundColor: "#4ecdc4",
+    marginLeft: 25,
+    borderRadius: 10,
+    // alignItems: "center",
+    // justifyContent: "center",
   },
   logo: {
     width: 150,
     height: 150,
+    marginTop: 110,
+    marginBottom: 30,
   },
   logoContainer: {
     position: "absolute",
     top: 50,
     alignItems: "center",
   },
-  TextButton: {
-    width: "100%",
-    height: 75,
-    backgroundColor: "#4ecdc4",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  VoiceButton: {
-    width: "100%",
-    height: 75,
-    backgroundColor: "teal",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  DictionaryButton: {
-    width: "100%",
-    height: 75,
-    backgroundColor: "blue",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+
+  // VoiceButton: {
+  //   width: "100%",
+  //   height: 75,
+  //   backgroundColor: "teal",
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  // },
+  // DictionaryButton: {
+  //   width: "100%",
+  //   height: 75,
+  //   backgroundColor: "blue",
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  // },
 });
 
 export default HomeScreen;

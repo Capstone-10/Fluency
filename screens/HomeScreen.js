@@ -51,7 +51,7 @@ function HomeScreen({ navigation }) {
             style={{
               fontSize: 23,
               fontWeight: "bold",
-              marginLeft: 15,
+              marginLeft: 10,
               marginTop: 50,
             }}
           >

@@ -3,7 +3,7 @@ import { Text, SafeAreaView, StyleSheet, View } from "react-native";
 
 export default function CameraTranslation(prop) {
 
-  console.log("prop-->", prop.route.params);
+  // console.log("prop-->", prop.route.params);
   
   let originalText = prop.route.params.output;
   let translatedVersion = prop.route.params.translatedText;

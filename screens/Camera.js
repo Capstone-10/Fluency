@@ -23,7 +23,7 @@ export default function App({ navigation }) {
   const [type, setType] = useState(Camera.Constants.Type.back);
   //const [uploading, setUploading] = useState(false);
   const [googleResponse, setGoogleResponse] = useState(null);
-  //const [detectedText, setDetectedText] = useState(null);
+  //const [translatedText, setTranslatedText] = useState(null);
   //const [text, setText] = useState(null);
 
   useEffect(() => {
@@ -41,17 +41,17 @@ export default function App({ navigation }) {
   }
 
   const createTwoButtonAlert = (output) =>
-    Alert.alert("Text Verification", output, [
+    Alert.alert("Hey! Below, is this the text you want translated?", output, [
       {
-        text: "Re-take",
+        text: "No! Re-take",
         onPress: () => setPreviewVisible(false),
         style: "cancel",
       },
       {
-        text: "Translate",
-        onPress: () => {
+        text: "Yes, translate",
+        onPress: async () => {
           {
-            translateNow(output);
+            await submitToGoogleTranslate();
             handleTranslatePress(output, translatedText);
           }
           setPreviewVisible(false);
@@ -66,13 +66,12 @@ export default function App({ navigation }) {
     };
 
     photo = await camera.takePictureAsync(options);
-    //console.log(photo.base64);
     setCapturedImage(photo);
     setPreviewVisible(true);
-    submitToGoogle();
+    submitToGoogleVision();
   };
 
-  const submitToGoogle = async () => {
+  const submitToGoogleVision = async () => {
     try {
       let body = JSON.stringify({
         requests: [
@@ -100,26 +99,40 @@ export default function App({ navigation }) {
       const responseParsed = JSON.parse(JSON.stringify(responseJson));
       output = responseParsed.responses[0].fullTextAnnotation.text;
       createTwoButtonAlert(output);
-
-      //setDetectedText(output);
-      setGoogleResponse(responseParsed);
-      //setuploading(false);
     } catch (error) {
       console.log(error);
     }
   };
 
-  //this is Google API Translation function!!!!
-  const translateNow = async (output) => {
-    translatedText = "translated version";
-    //setText(translatedText);
-    return translatedText;
+  const submitToGoogleTranslate = async () => {
+    try {
+      let body = JSON.stringify({
+        target: "en",
+        q: output,
+      });
+      let response = await fetch(
+        "https://translation.googleapis.com/language/translate/v2?key=" +
+          GOOGLE_CLOUD_VISION_API_KEY,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: body,
+        }
+      );
+      const responseJson = await response.json();
+      const responseParsed = await JSON.parse(JSON.stringify(responseJson));
+      translatedText = await responseParsed.data.translations[0].translatedText;
+      console.log("in submitToGoogleTranslate ", translatedText);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  console.log("translatedText-->", translatedText);
-
   const handleTranslatePress = (output, translatedText) => {
-    translateNow(output);
+    submitToGoogleTranslate(output);
     let prop = { output, translatedText };
     navigation.navigate("Camera Translation", prop);
   };

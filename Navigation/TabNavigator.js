@@ -8,7 +8,7 @@ const TabNavigator = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen name="Home" component={MainStackNavigator} />
-      <Tab.Screen name="Settings" component={SettingsStackNavigator} />
+      <Tab.Screen name="☆" component={SettingsStackNavigator} />
     </Tab.Navigator>
   );
 };

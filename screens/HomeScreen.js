@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Button,
 } from "react-native";
-import { Camera } from "react-native-feather";
+import { Camera, Star } from "react-native-feather";
 
 function HomeScreen({ navigation }) {
   const handleCameraPress = () => {
@@ -26,20 +26,28 @@ function HomeScreen({ navigation }) {
       source={require("./homescreen.jpg")}
       style={styles.background}
     >
+      <Text
+        style={{
+          fontSize: 20,
+
+          textAlign: "center",
+        }}
+      >
+        welcome to
+      </Text>
+      <Text
+        style={{
+          fontSize: 40,
+          fontWeight: "bold",
+          // marginTop: 130,
+          textAlign: "center",
+        }}
+      >
+        Fluency
+      </Text>
       <View style={styles.logoContainer}>
         {/* <Image source={require("./KakaoTalkGif.gif")} style={styles.logo} /> */}
         <Image source={require("./homegif2.gif")} style={styles.logo} />
-
-        <Text
-          style={{
-            fontSize: 20,
-            fontWeight: "bold",
-            // marginTop: 130,
-            textAlign: "center",
-          }}
-        >
-          What can I translate for you today?
-        </Text>
       </View>
 
       <View style={styles.mainBox}>
@@ -78,7 +86,7 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     alignItems: "center",
-    marginBottom: 100,
+
     width: 300,
     height: 300,
     // position: "relative",
@@ -113,7 +121,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 200,
     height: 200,
-    marginTop: 0,
+    marginTop: 30,
     marginBottom: 0,
   },
 });

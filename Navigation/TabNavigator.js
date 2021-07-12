@@ -44,11 +44,11 @@ const TabNavigator = () => {
               }}
             >
               <Image
-                source={require("./homeButton.png")}
+                source={require("../assets/homeButton.png")}
                 style={{
                   width: 25,
                   height: 25,
-                  // tintColor: focused ? "pink" : "black",
+              
                 }}
               />
 
@@ -77,7 +77,7 @@ const TabNavigator = () => {
               }}
             >
               <Image
-                source={require("./star.png")}
+                source={require("../assets/star.png")}
                 style={{
                   width: 25,
                   height: 25,

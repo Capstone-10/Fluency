@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ImageBackground,
   StyleSheet,
@@ -6,7 +6,12 @@ import {
   Text,
   Image,
   ActivityIndicator,
+  TouchableOpacity,
 } from "react-native";
+
+import { MaterialIcons } from "@expo/vector-icons";
+import Tooltip from "react-native-walkthrough-tooltip";
+
 import { Camera } from "react-native-feather";
 
 //expo install @expo-google-fonts/cedarville-cursive
@@ -16,6 +21,8 @@ import {
 } from "@expo-google-fonts/cedarville-cursive";
 
 function HomeScreen({ navigation }) {
+  const [screenTooltip, setScreenTooltip] = useState(false);
+
   let [fontsLoaded, error] = useFonts({
     CedarvilleCursive_400Regular,
   });
@@ -36,9 +43,40 @@ function HomeScreen({ navigation }) {
 
   return (
     <ImageBackground
-      source={require("./homescreen.jpg")}
+      source={require("../assets/homescreen.jpg")}
       style={styles.background}
     >
+      <Tooltip
+        isVisible={screenTooltip}
+        content={
+          <View>
+            <Text style={styles.Tooltip}>
+              Click the Camera icon to take a picture of some text you'd like to
+              translate.
+            </Text>
+            <Text />
+            <Text style={styles.Tooltip}>
+              Click the Translate button to type or speak your desired
+              translation
+            </Text>
+          </View>
+        }
+        onClose={() => {
+          setScreenTooltip(false);
+        }}
+      ></Tooltip>
+
+      <View style={styles.HelpButton}>
+        <TouchableOpacity
+          onPress={() => {
+            setScreenTooltip(true);
+          }}
+          style={{ marginRight: 25, marginBottom: 25 }}
+        >
+          <MaterialIcons name="help" size={35} color="#032D38" />
+        </TouchableOpacity>
+      </View>
+
       <Text
         style={{
           marginTop: 15,
@@ -61,7 +99,7 @@ function HomeScreen({ navigation }) {
       </Text>
       <View style={styles.logoContainer}>
         {/* <Image source={require("./KakaoTalkGif.gif")} style={styles.logo} /> */}
-        <Image source={require("./homegif2.gif")} style={styles.logo} />
+        <Image source={require("../assets/homegif2.gif")} style={styles.logo} />
       </View>
       <View style={styles.mainBox}>
         <View style={styles.CameraButton}>
@@ -112,6 +150,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
+    marginBottom: 20,
   },
   CameraButton: {
     width: 130,
@@ -136,6 +175,13 @@ const styles = StyleSheet.create({
     height: 200,
     marginTop: 30,
     marginBottom: 0,
+  },
+  HelpButton: {
+    alignSelf: "flex-end",
+  },
+  Tooltip: {
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
 

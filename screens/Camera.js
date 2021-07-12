@@ -27,10 +27,8 @@ export default function App({ navigation }) {
   const [type, setType] = useState(Camera.Constants.Type.back);
   //const [uploading, setUploading] = useState(false);
   const [googleResponse, setGoogleResponse] = useState(null);
-  const [selectedLanguage, setSelectedLanguage] = useState('');
+  const [selectedLanguage, setSelectedLanguage] = useState(null);
 
-  //const [translatedText, setTranslatedText] = useState(null);
-  //const [text, setText] = useState(null);
 
 
   useEffect(() => {
@@ -112,22 +110,12 @@ export default function App({ navigation }) {
   };
 
 
-  // const target = 'The target language for language names, e.g. ru';
-
-  // async function listLanguagesWithTarget() {
-  //   // Lists available translation language with their names in a target language
-  //   const [languages] = await translate.getLanguages(target);
-  
-  //   // console.log('Languages:');
-  //   languages.forEach(language => console.log(language));
-  // }
-
- 
 
   const submitToGoogleTranslate = async () => {
+    console.log("Selected language", selectedLanguage)
     try {
       let body = JSON.stringify({
-        target: "en",
+        target: selectedLanguage,
         q: output,
       });
       let response = await fetch(
@@ -158,6 +146,7 @@ export default function App({ navigation }) {
   };
 
 
+  
   return (
     <View
       style={styles.mainView}
@@ -167,34 +156,6 @@ export default function App({ navigation }) {
           source={{ uri: capturedImage && capturedImage.uri }}
           style={styles.capturedImage}
         >
-          <View
-            style={styles.nestedView}
-          >
-            <View
-              style={styles.view}
-            >
-              <TouchableOpacity
-                onPress={() => setPreviewVisible(false)}
-                style={styles.previewVisible}
-              >
-                <Text
-                  style={styles.textRetake}
-                >
-                  Re-take
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={submitToGoogle}
-                style={styles.submitToGoogle}
-              >
-                <Text
-                  style={styles.textTranslate}
-                >
-                  Translate
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
         </ImageBackground>
       ) : (
         <Camera
@@ -222,22 +183,18 @@ export default function App({ navigation }) {
                 Flip{" "}
               </Text>
             </TouchableOpacity>
-              {/* <Text style={styles.selectLanguageText}>
-                What language are you in the mood for today?
-              </Text> */}
         <View style={styles.languagePicker}>
             <Picker
             selectedValue={selectedLanguage}
             style={{ height: 100, width: 200 }}
             onValueChange={itemValue => setSelectedLanguage(itemValue)}
             >
-                {Object.keys(Languages).map(key => (
-                 <Picker.Item key={key} label={Languages[key]} value={key} />
-                ))
-                }
-                {/* <Picker.Item label="Korean" value="korean" color="white"/>
-                <Picker.Item label="German" value="german" color="white"/> */}
-              </Picker>
+                {Object.keys(Languages).map((key) => {
+                 return (
+                 <Picker.Item key={key} label={Languages[key]} value={key} color="white"/>
+                 )
+                 })}
+            </Picker>
         </View>
             <View
               style={styles.generalView}

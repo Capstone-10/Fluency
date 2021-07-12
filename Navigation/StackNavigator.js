@@ -32,7 +32,7 @@ const MainStackNavigator = () => {
       <Stack.Screen
         name="Camera Translation"
         component={CameraTranslation}
-        output
+        prop
       />
       <Stack.Screen name="Translate" component={Translate} />
     </Stack.Navigator>

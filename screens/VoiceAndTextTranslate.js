@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
+import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -18,18 +19,45 @@ const DismissKeyboard = ({ children }) => (
 
 export default function VoiceAndTextTranslate() {
   const [text, setText] = useState("");
-  const [tanslated, setTranslated] = useState("");
+  const [translated, setTranslated] = useState("");
 
-  const translateNow = async (text) => {
-    //translate and then
-    let ourTranslation = "translated version";
-    setTranslated(ourTranslation);
-  };
-
-  const onChangeText = () => {
+  const onChangeText = (text) => {
     (text) => setText(text);
     if (text === "") {
       setTranslated("");
+    }
+    submitToGoogleTranslate(text);
+    // console.log("text in-->", text);
+  };
+
+  const handleSubmit = () => {};
+
+  const submitToGoogleTranslate = async (text) => {
+    try {
+      let body = JSON.stringify({
+        target: "en",
+        q: text,
+      });
+      let response = await fetch(
+        "https://translation.googleapis.com/language/translate/v2?key=" +
+          GOOGLE_CLOUD_VISION_API_KEY,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: body,
+        }
+      );
+      const responseJson = await response.json();
+      const responseParsed = await JSON.parse(JSON.stringify(responseJson));
+      //console.log("responseParsed-->", responseParsed);
+      let result = await responseParsed.data.translations[0].translatedText;
+      setTranslated(result);
+      //console.log("text in google->", text);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -47,18 +75,8 @@ export default function VoiceAndTextTranslate() {
           placeholder="Type here to translate!"
         />
 
-        <Button
-          title="Translate"
-          onPress={() => {
-            translateNow(text);
-          }}
-        />
-        <Text style={styles.output}>
-          {tanslated
-            .split(" ")
-            .map((word) => word && word)
-            .join(" ")}
-        </Text>
+        {/* <Button title="Translate" onPress={handleSubmit} /> */}
+        <Text style={styles.output}>{translated}</Text>
       </SafeAreaView>
     </DismissKeyboard>
   );

@@ -15,19 +15,23 @@ import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
 
 
 var photo;
+var output;
+var translatedText;
 
 export default function App({ navigation }) {
-  const handleTranslatePress = (output) => {
-    navigation.navigate("Camera Translation", output);
-  };
+
 
   const [hasPermission, setHasPermission] = useState(null);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
-  const [uploading, setUploading] = useState(false);
+  //const [uploading, setUploading] = useState(false);
   const [googleResponse, setGoogleResponse] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState('');
+
+  //const [translatedText, setTranslatedText] = useState(null);
+  //const [text, setText] = useState(null);
+
 
   useEffect(() => {
     (async () => {
@@ -43,20 +47,38 @@ export default function App({ navigation }) {
     return <Text>No access to camera</Text>;
   }
 
+
+  const createTwoButtonAlert = (output) =>
+    Alert.alert("Hey! Below, is this the text you want translated?", output, [
+      {
+        text: "No! Re-take",
+        onPress: () => setPreviewVisible(false),
+        style: "cancel",
+      },
+      {
+        text: "Yes, translate",
+        onPress: async () => {
+          {
+            await submitToGoogleTranslate();
+            handleTranslatePress(output, translatedText);
+          }
+          setPreviewVisible(false);
+        },
+      },
+    ]);
+
   const takePicture = async () => {
     if (!camera) return;
     const options = {
       base64: true,
     };
-
     photo = await camera.takePictureAsync(options);
-    //console.log(photo.base64);
     setCapturedImage(photo);
     setPreviewVisible(true);
-    // createTwoButtonAlert();
+    submitToGoogleVision();
   };
 
-  const submitToGoogle = async () => {
+  const submitToGoogleVision = async () => {
     try {
       let body = JSON.stringify({
         requests: [
@@ -81,17 +103,14 @@ export default function App({ navigation }) {
         }
       );
       const responseJson = await response.json();
-      //console.log("is it defined?--->", responseJson);
       const responseParsed = JSON.parse(JSON.stringify(responseJson));
-      const output = responseParsed.responses[0].fullTextAnnotation.text;
-      console.log("detected texts--> ", output);
-      setGoogleResponse(responseParsed);
-      //setuploading(false);
-      handleTranslatePress(output);
+      output = responseParsed.responses[0].fullTextAnnotation.text;
+      createTwoButtonAlert(output);
     } catch (error) {
       console.log(error);
     }
   };
+
 
   // const target = 'The target language for language names, e.g. ru';
 
@@ -104,6 +123,40 @@ export default function App({ navigation }) {
   // }
 
  
+
+  const submitToGoogleTranslate = async () => {
+    try {
+      let body = JSON.stringify({
+        target: "en",
+        q: output,
+      });
+      let response = await fetch(
+        "https://translation.googleapis.com/language/translate/v2?key=" +
+          GOOGLE_CLOUD_VISION_API_KEY,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: body,
+        }
+      );
+      const responseJson = await response.json();
+      const responseParsed = await JSON.parse(JSON.stringify(responseJson));
+      translatedText = await responseParsed.data.translations[0].translatedText;
+      //console.log("in submitToGoogleTranslate ", translatedText);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleTranslatePress = (output, translatedText) => {
+    submitToGoogleTranslate(output);
+    let prop = { output, translatedText };
+    navigation.navigate("Camera Translation", prop);
+  };
+
 
   return (
     <View

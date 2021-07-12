@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   CameraButton: {
     width: 130,
     height: 130,
-    backgroundColor: "#FFF4EB",
+    backgroundColor: "#DD8138",
     marginRight: 25,
     borderRadius: 10,
     alignItems: "center",
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   TextButton: {
     width: 130,
     height: 130,
-    backgroundColor: "#FFF4EB",
+    backgroundColor: "#439654",
     marginLeft: 25,
     borderRadius: 10,
     alignItems: "center",

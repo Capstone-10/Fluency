@@ -26,7 +26,7 @@ export default styles = StyleSheet.create({
       backgroundColor: "transparent",
       flexDirection: "row",
     },
-    submitToGoogle: {
+    submitToGoogleVision: {
       width: 130,
       height: 40,
   

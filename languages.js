@@ -1,4 +1,5 @@
-export default Languages = {
+// export default 
+Languages = {
  'af': 'Afrikaans',
  'sq': 'Albanian',
  'am': 'Amharic',
@@ -111,3 +112,32 @@ export default Languages = {
  'he': 'Hebrew',
  'zh': 'Chinese (Simplified)',
 }
+
+console.log(Object.keys(Languages).map(key => (
+    key
+    )))
+
+// // Imports the Google Cloud client library
+// const {Translate} = require('@google-cloud/translate').v2;
+
+// // Creates a client
+// const translate = new Translate(
+//     {
+//         keyFilename: "./token.json",
+//       }
+// );
+
+// /**
+//  * TODO(developer): Uncomment the following line before running the sample.
+//  */
+// const target = 'The target language for language names, e.g. ru';
+
+// async function listLanguagesWithTarget() {
+//   // Lists available translation language with their names in a target language
+//   const [languages] = await translate.getLanguages(target);
+
+//   console.log('Languages:');
+//   languages.forEach(language => console.log(language));
+// }
+
+// console.log(listLanguagesWithTarget(Languages));

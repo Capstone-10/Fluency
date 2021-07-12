@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { Camera } from "expo-camera";
 import { Picker } from "@react-native-picker/picker"
+import Languages from "../languages"
 import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
 
 
@@ -25,7 +26,7 @@ export default function App({ navigation }) {
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [uploading, setUploading] = useState(false);
   const [googleResponse, setGoogleResponse] = useState(null);
-  const [selectedLanguage, setSelectedLanguage] = useState("English");
+  const [selectedLanguage, setSelectedLanguage] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -90,6 +91,21 @@ export default function App({ navigation }) {
       console.log(error);
     }
   };
+
+  // const target = 'The target language for language names, e.g. ru';
+
+  // async function listLanguagesWithTarget() {
+  //   // Lists available translation language with their names in a target language
+  //   const [languages] = await translate.getLanguages(target);
+  
+  //   // console.log('Languages:');
+  //   languages.forEach(language => console.log(language));
+  // }
+
+  // render() {
+  //   let serviceItems = this.state.services.map( (s, i) => {
+  //       return <Picker.Item key={i} value={s} label={s} />
+  //   });
 
   return (
     <View
@@ -198,16 +214,16 @@ export default function App({ navigation }) {
               </Text> */}
         <View style={styles.languagePicker}>
             <Picker
-            selectedLanguage={selectedLanguage}
+            selectedValue={selectedLanguage}
             style={{ height: 100, width: 200 }}
-            onLanguageChange={(itemLanguage, itemIndex) => setSelectedLanguage(itemLanguage)}
+            onValueChange={itemValue => setSelectedLanguage(itemValue)}
             >
-                <Picker.Item label="Spanish" value="Spanish" color="white"/>
-                <Picker.Item label="Korean" value="Korean" color="white"/>
-                <Picker.Item label="Russian" value="Russian" color="white"/>
-                <Picker.Item label="Afrikaans" value="Afrikaans" color="white"/>
-                <Picker.Item label="French" value="French" color="white"/>
-                <Picker.Item label="German" value="German" color="white"/>
+                {Object.keys(Languages).map(key => (
+                 <Picker.Item key={key} label={Languages[key]} value={key} />
+                ))
+                }
+                {/* <Picker.Item label="Korean" value="korean" color="white"/>
+                <Picker.Item label="German" value="german" color="white"/> */}
               </Picker>
         </View>
             <View

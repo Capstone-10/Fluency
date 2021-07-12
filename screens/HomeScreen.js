@@ -5,11 +5,10 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity,
-  Button,
+  ActivityIndicator,
 } from "react-native";
 import { Camera } from "react-native-feather";
-import { AppLoading } from "expo";
+
 //expo install @expo-google-fonts/cedarville-cursive
 import {
   useFonts,
@@ -20,8 +19,9 @@ function HomeScreen({ navigation }) {
   let [fontsLoaded, error] = useFonts({
     CedarvilleCursive_400Regular,
   });
+
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <ActivityIndicator />;
   }
 
   const handleCameraPress = () => {
@@ -63,7 +63,6 @@ function HomeScreen({ navigation }) {
         {/* <Image source={require("./KakaoTalkGif.gif")} style={styles.logo} /> */}
         <Image source={require("./homegif2.gif")} style={styles.logo} />
       </View>
-
       <View style={styles.mainBox}>
         <View style={styles.CameraButton}>
           <Camera

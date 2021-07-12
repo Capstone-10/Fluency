@@ -10,6 +10,7 @@ import {
 import { Camera } from "expo-camera";
 import { Picker } from "@react-native-picker/picker"
 import Languages from "../languages"
+import styles from "./styles"
 import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
 
 
@@ -102,72 +103,39 @@ export default function App({ navigation }) {
   //   languages.forEach(language => console.log(language));
   // }
 
-  // render() {
-  //   let serviceItems = this.state.services.map( (s, i) => {
-  //       return <Picker.Item key={i} value={s} label={s} />
-  //   });
+ 
 
   return (
     <View
-      style={{
-        flex: 1,
-      }}
+      style={styles.mainView}
     >
       {previewVisible ? (
         <ImageBackground
           source={{ uri: capturedImage && capturedImage.uri }}
-          style={{
-            flex: 1,
-          }}
+          style={styles.capturedImage}
         >
           <View
-            style={{
-              flex: 1,
-              flexDirection: "column",
-              padding: 15,
-              justifyContent: "flex-end",
-            }}
+            style={styles.nestedView}
           >
             <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
+              style={styles.view}
             >
               <TouchableOpacity
                 onPress={() => setPreviewVisible(false)}
-                style={{
-                  width: 130,
-                  height: 40,
-
-                  alignItems: "center",
-                  borderRadius: 4,
-                }}
+                style={styles.previewVisible}
               >
                 <Text
-                  style={{
-                    color: "#fff",
-                    fontSize: 20,
-                  }}
+                  style={styles.textRetake}
                 >
                   Re-take
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={submitToGoogle}
-                style={{
-                  width: 130,
-                  height: 40,
-
-                  alignItems: "center",
-                  borderRadius: 4,
-                }}
+                style={styles.submitToGoogle}
               >
                 <Text
-                  style={{
-                    color: "#fff",
-                    fontSize: 20,
-                  }}
+                  style={styles.textTranslate}
                 >
                   Translate
                 </Text>
@@ -184,18 +152,10 @@ export default function App({ navigation }) {
           }}
         >
           <View
-            style={{
-              flex: 1,
-              backgroundColor: "transparent",
-              flexDirection: "row",
-            }}
+            style={styles.cameraView}
           >
             <TouchableOpacity
-              style={{
-                position: "absolute",
-                top: "5%",
-                left: "5%",
-              }}
+              style={styles.cameraType}
               onPress={() => {
                 setType(
                   type === Camera.Constants.Type.back
@@ -204,7 +164,7 @@ export default function App({ navigation }) {
                 );
               }}
             >
-              <Text style={{ fontSize: 20, marginBottom: 10, color: "white" }}>
+              <Text style={styles.textFlip}>
                 {" "}
                 Flip{" "}
               </Text>
@@ -227,32 +187,14 @@ export default function App({ navigation }) {
               </Picker>
         </View>
             <View
-              style={{
-                position: "absolute",
-                bottom: 0,
-                flexDirection: "row",
-                flex: 1,
-                width: "100%",
-                padding: 20,
-                justifyContent: "space-between",
-              }}
+              style={styles.generalView}
             >
               <View
-                style={{
-                  alignSelf: "center",
-                  flex: 1,
-                  alignItems: "center",
-                }}
+                style={styles.alignmentView}
               >
                 <TouchableOpacity
                   onPress={takePicture}
-                  style={{
-                    width: 70,
-                    height: 70,
-                    bottom: 0,
-                    borderRadius: 50,
-                    backgroundColor: "#fff",
-                  }}
+                  style={styles.takePicture}
                 />
               </View>
             </View>
@@ -262,18 +204,3 @@ export default function App({ navigation }) {
     </View>
   );
 }
-
-
-const styles = StyleSheet.create({
-  languagePicker: {
-      flex: 1,
-      paddingTop: 40,
-      alignItems: "center"
-  },
-  // selectLanguageText: {
-  //   flex: 1,
-  //   color: "#fff",
-  //   fontSize: 20,
-  //   alignItems: "center"
-  // }
-});

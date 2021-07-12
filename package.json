@@ -8,6 +8,8 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@expo-google-fonts/cedarville-cursive": "^0.2.0",
+    "@expo/vector-icons": "^12.0.5",
     "@google-cloud/translate": "^6.2.4",
     "@google-cloud/vision": "^2.3.5",
     "@react-native-firebase/app": "^12.1.0",
@@ -35,6 +37,7 @@
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^3.4.0",
     "react-native-svg": "^12.1.1",
+    "react-native-walkthrough-tooltip": "^1.2.0",
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {

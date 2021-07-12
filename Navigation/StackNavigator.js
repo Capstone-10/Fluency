@@ -9,14 +9,14 @@ import CameraTranslation from "../screens/CameraTranslation";
 
 const Stack = createStackNavigator();
 
-function LogoTitle() {
-  return (
-    <Image
-      style={{ width: 55, height: 30 }}
-      source={require("./RightPointer.gif")}
-    />
-  );
-}
+// function LogoTitle() {
+//   return (
+//     <Image
+//       style={{ width: 55, height: 30 }}
+//       source={require("./RightPointer.gif")}
+//     />
+//   );
+// }
 
 const MainStackNavigator = () => {
   return (
@@ -24,9 +24,9 @@ const MainStackNavigator = () => {
       <Stack.Screen
         name="Home"
         component={HomeScreen}
-        options={{
-          headerLeft: () => LogoTitle(),
-        }}
+        // options={{
+        //   headerLeft: () => LogoTitle(),
+        // }}
       />
       <Stack.Screen name="Camera" component={Camera} />
       <Stack.Screen

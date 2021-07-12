@@ -5,30 +5,28 @@ import {
   TouchableOpacity,
   ImageBackground,
   Alert,
-  StyleSheet
+  StyleSheet,
 } from "react-native";
 import { Camera } from "expo-camera";
-import { Picker } from "@react-native-picker/picker"
-import Languages from "../languages"
-import styles from "./styles"
+import { Picker } from "@react-native-picker/picker";
+import Languages from "../languages";
+import styles from "./styles";
 import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
-
 
 var photo;
 var output;
 var translatedText;
 
 export default function App({ navigation }) {
-
-
   const [hasPermission, setHasPermission] = useState(null);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   //const [uploading, setUploading] = useState(false);
   const [googleResponse, setGoogleResponse] = useState(null);
-  const [selectedLanguage, setSelectedLanguage] = useState(null);
 
+
+  const [selectedLanguage, setSelectedLanguage] = useState(null);
 
 
   useEffect(() => {
@@ -44,7 +42,6 @@ export default function App({ navigation }) {
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
-
 
   const createTwoButtonAlert = (output) =>
     Alert.alert("Hey! Below, is this the text you want translated?", output, [
@@ -110,7 +107,6 @@ export default function App({ navigation }) {
   };
 
 
-
   const submitToGoogleTranslate = async () => {
     console.log("Selected language", selectedLanguage)
     try {
@@ -145,12 +141,8 @@ export default function App({ navigation }) {
     navigation.navigate("Camera Translation", prop);
   };
 
-
-  
   return (
-    <View
-      style={styles.mainView}
-    >
+    <View style={styles.mainView}>
       {previewVisible ? (
         <ImageBackground
           source={{ uri: capturedImage && capturedImage.uri }}
@@ -165,9 +157,7 @@ export default function App({ navigation }) {
             camera = ref;
           }}
         >
-          <View
-            style={styles.cameraView}
-          >
+          <View style={styles.cameraView}>
             <TouchableOpacity
               style={styles.cameraType}
               onPress={() => {
@@ -178,12 +168,13 @@ export default function App({ navigation }) {
                 );
               }}
             >
-              <Text style={styles.textFlip}>
-                {" "}
-                Flip{" "}
-              </Text>
+              <Text style={styles.textFlip}> Flip </Text>
             </TouchableOpacity>
-        <View style={styles.languagePicker}>
+
+            {/* <Text style={styles.selectLanguageText}>
+                What language are you in the mood for today?
+              </Text> */}
+            <View style={styles.languagePicker}>
             <Picker
             selectedValue={selectedLanguage}
             style={{ height: 100, width: 200 }}

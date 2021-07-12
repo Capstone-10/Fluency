@@ -2,13 +2,14 @@ import React from "react";
 import { Text, SafeAreaView, StyleSheet, View } from "react-native";
 
 export default function CameraTranslation(prop) {
-
   // console.log("prop-->", prop.route.params);
-  
+
   let originalText = prop.route.params.output;
   let translatedVersion = prop.route.params.translatedText;
   return (
-    <SafeAreaView style={{ marginTop: 20, marginBottom: 20 }}>
+    <SafeAreaView
+      style={{ marginTop: 20, marginBottom: 20, backgroundColor: "#F5EFE8" }}
+    >
       <View>
         <Text style={styles.language}>Engish -> Spanish</Text>
       </View>
@@ -41,5 +42,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: 10,
     textAlign: "center",
+    backgroundColor: "#439654",
   },
 });

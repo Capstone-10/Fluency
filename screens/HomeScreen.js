@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   Button,
 } from "react-native";
-
 import { Camera } from "react-native-feather";
 
 function HomeScreen({ navigation }) {
@@ -23,10 +22,22 @@ function HomeScreen({ navigation }) {
   };
 
   return (
-    <ImageBackground style={styles.background}>
+    <ImageBackground
+      source={require("./homescreen.jpg")}
+      style={styles.background}
+    >
       <View style={styles.logoContainer}>
-        <Image source={require("./KakaoTalkGif.gif")} style={styles.logo} />
-        <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+        {/* <Image source={require("./KakaoTalkGif.gif")} style={styles.logo} /> */}
+        <Image source={require("./homegif2.gif")} style={styles.logo} />
+
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: "bold",
+            // marginTop: 130,
+            textAlign: "center",
+          }}
+        >
           What can I translate for you today?
         </Text>
       </View>
@@ -36,10 +47,8 @@ function HomeScreen({ navigation }) {
           <Camera
             onPress={handleCameraPress}
             stroke="black"
-            width={75}
-            height={75}
-            marginLeft={28}
-            marginTop={27}
+            width={60}
+            height={60}
           >
             Camera
           </Camera>
@@ -51,30 +60,11 @@ function HomeScreen({ navigation }) {
             style={{
               fontSize: 23,
               fontWeight: "bold",
-              marginLeft: 10,
-              marginTop: 50,
             }}
           >
             Translate
           </Text>
         </View>
-
-        {/* <TouchableOpacity style={styles.VoiceButton}>
-          <Text
-            onPress={handleNavBarPress}
-            style={{ fontSize: 20, fontWeight: "bold" }}
-          >
-            Navbar placeholder
-          </Text>
-        </TouchableOpacity> */}
-        {/* <TouchableOpacity style={styles.DictionaryButton}>
-        <Text
-          onPress={handleDictionaryPress}
-          style={{ fontSize: 20, fontWeight: "bold" }}
-        >
-          Dictionary
-        </Text>
-      </TouchableOpacity> */}
       </View>
     </ImageBackground>
   );
@@ -82,69 +72,50 @@ function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   background: {
-    // flex: 1,
-    // justifyContent: "flex-end",
-    // alignItems: "center",
-    // backgroundColor: "white",
-    backgroundColor: "white",
     flex: 1,
-    alignItems: "center", // ignore this - we'll come back to it
-    justifyContent: "center", // ignore this - we'll come back to it
-    //flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  logoContainer: {
+    alignItems: "center",
+    marginBottom: 100,
+    width: 300,
+    height: 300,
+    // position: "relative",
+    // opacity: 0.8,
+    // backgroundColor: "#FFF4EB",
+    // borderRadius: 10,
   },
   mainBox: {
-    marginTop: 400,
-    // //padding: 20,
-    // backgroundColor: "white",
-    // flex: 1,
-    // alignItems: "center", // ignore this - we'll come back to it
-    // justifyContent: "center", // ignore this - we'll come back to it
+    opacity: 0.8,
+    alignItems: "center",
+    justifyContent: "center",
     flexDirection: "row",
   },
   CameraButton: {
     width: 130,
     height: 130,
-    backgroundColor: "#fc5c65",
-    // alignItems: "center",
-    // justifyContent: "center",
+    backgroundColor: "#FFF4EB",
     marginRight: 25,
     borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
   },
   TextButton: {
     width: 130,
     height: 130,
-    backgroundColor: "#4ecdc4",
+    backgroundColor: "#FFF4EB",
     marginLeft: 25,
     borderRadius: 10,
-    // alignItems: "center",
-    // justifyContent: "center",
+    alignItems: "center",
+    justifyContent: "center",
   },
   logo: {
-    width: 150,
-    height: 150,
-    marginTop: 110,
-    marginBottom: 30,
+    width: 200,
+    height: 200,
+    marginTop: 0,
+    marginBottom: 0,
   },
-  logoContainer: {
-    position: "absolute",
-    top: 50,
-    alignItems: "center",
-  },
-
-  // VoiceButton: {
-  //   width: "100%",
-  //   height: 75,
-  //   backgroundColor: "teal",
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  // },
-  // DictionaryButton: {
-  //   width: "100%",
-  //   height: 75,
-  //   backgroundColor: "blue",
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  // },
 });
 
 export default HomeScreen;

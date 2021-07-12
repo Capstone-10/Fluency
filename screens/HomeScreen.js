@@ -8,9 +8,22 @@ import {
   TouchableOpacity,
   Button,
 } from "react-native";
-import { Camera, Star } from "react-native-feather";
+import { Camera } from "react-native-feather";
+import { AppLoading } from "expo";
+//expo install @expo-google-fonts/cedarville-cursive
+import {
+  useFonts,
+  CedarvilleCursive_400Regular,
+} from "@expo-google-fonts/cedarville-cursive";
 
 function HomeScreen({ navigation }) {
+  let [fontsLoaded, error] = useFonts({
+    CedarvilleCursive_400Regular,
+  });
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+
   const handleCameraPress = () => {
     navigation.navigate("Camera");
   };
@@ -28,8 +41,9 @@ function HomeScreen({ navigation }) {
     >
       <Text
         style={{
-          fontSize: 20,
-
+          marginTop: 15,
+          fontSize: 25,
+          fontFamily: "CedarvilleCursive_400Regular",
           textAlign: "center",
         }}
       >
@@ -37,10 +51,10 @@ function HomeScreen({ navigation }) {
       </Text>
       <Text
         style={{
-          fontSize: 40,
+          fontSize: 55,
           fontWeight: "bold",
-          // marginTop: 130,
           textAlign: "center",
+          fontFamily: "CedarvilleCursive_400Regular",
         }}
       >
         Fluency

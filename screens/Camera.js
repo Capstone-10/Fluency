@@ -5,26 +5,33 @@ import {
   TouchableOpacity,
   ImageBackground,
   Alert,
-  StyleSheet,
+  StyleSheet
 } from "react-native";
 import { Camera } from "expo-camera";
+import { Picker } from "@react-native-picker/picker"
+import Languages from "../languages"
+import styles from "./styles"
 import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
+
 
 var photo;
 var output;
 var translatedText;
 
 export default function App({ navigation }) {
-  //Get rid of underscores for functions
-  //refactor all the styles
+
+
   const [hasPermission, setHasPermission] = useState(null);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   //const [uploading, setUploading] = useState(false);
   const [googleResponse, setGoogleResponse] = useState(null);
+  const [selectedLanguage, setSelectedLanguage] = useState('');
+
   //const [translatedText, setTranslatedText] = useState(null);
   //const [text, setText] = useState(null);
+
 
   useEffect(() => {
     (async () => {
@@ -39,6 +46,7 @@ export default function App({ navigation }) {
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
+
 
   const createTwoButtonAlert = (output) =>
     Alert.alert("Hey! Below, is this the text you want translated?", output, [
@@ -59,12 +67,11 @@ export default function App({ navigation }) {
       },
     ]);
 
-  const _takePicture = async () => {
+  const takePicture = async () => {
     if (!camera) return;
     const options = {
       base64: true,
     };
-
     photo = await camera.takePictureAsync(options);
     setCapturedImage(photo);
     setPreviewVisible(true);
@@ -104,6 +111,19 @@ export default function App({ navigation }) {
     }
   };
 
+
+  // const target = 'The target language for language names, e.g. ru';
+
+  // async function listLanguagesWithTarget() {
+  //   // Lists available translation language with their names in a target language
+  //   const [languages] = await translate.getLanguages(target);
+  
+  //   // console.log('Languages:');
+  //   languages.forEach(language => console.log(language));
+  // }
+
+ 
+
   const submitToGoogleTranslate = async () => {
     try {
       let body = JSON.stringify({
@@ -137,56 +157,58 @@ export default function App({ navigation }) {
     navigation.navigate("Camera Translation", prop);
   };
 
+
   return (
     <View
-      style={{
-        flex: 1,
-      }}
+      style={styles.mainView}
     >
       {previewVisible ? (
         <ImageBackground
           source={{ uri: capturedImage && capturedImage.uri }}
-          style={{
-            flex: 1,
-          }}
+          style={styles.capturedImage}
         >
           <View
-            style={{
-              flex: 1,
-              flexDirection: "column",
-              padding: 15,
-              justifyContent: "flex-end",
-            }}
+            style={styles.nestedView}
           >
             <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            ></View>
+              style={styles.view}
+            >
+              <TouchableOpacity
+                onPress={() => setPreviewVisible(false)}
+                style={styles.previewVisible}
+              >
+                <Text
+                  style={styles.textRetake}
+                >
+                  Re-take
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={submitToGoogle}
+                style={styles.submitToGoogle}
+              >
+                <Text
+                  style={styles.textTranslate}
+                >
+                  Translate
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </ImageBackground>
       ) : (
         <Camera
           style={{ flex: 1 }}
           type={type}
-          ref={(r) => {
-            camera = r;
+          ref={(ref) => {
+            camera = ref;
           }}
         >
           <View
-            style={{
-              flex: 1,
-              backgroundColor: "transparent",
-              flexDirection: "row",
-            }}
+            style={styles.cameraView}
           >
             <TouchableOpacity
-              style={{
-                position: "absolute",
-                top: "5%",
-                left: "5%",
-              }}
+              style={styles.cameraType}
               onPress={() => {
                 setType(
                   type === Camera.Constants.Type.back
@@ -195,32 +217,37 @@ export default function App({ navigation }) {
                 );
               }}
             >
-              <Text style={{ fontSize: 20, marginBottom: 10, color: "white" }}>
+              <Text style={styles.textFlip}>
                 {" "}
                 Flip{" "}
               </Text>
             </TouchableOpacity>
+              {/* <Text style={styles.selectLanguageText}>
+                What language are you in the mood for today?
+              </Text> */}
+        <View style={styles.languagePicker}>
+            <Picker
+            selectedValue={selectedLanguage}
+            style={{ height: 100, width: 200 }}
+            onValueChange={itemValue => setSelectedLanguage(itemValue)}
+            >
+                {Object.keys(Languages).map(key => (
+                 <Picker.Item key={key} label={Languages[key]} value={key} />
+                ))
+                }
+                {/* <Picker.Item label="Korean" value="korean" color="white"/>
+                <Picker.Item label="German" value="german" color="white"/> */}
+              </Picker>
+        </View>
             <View
-              style={{
-                position: "absolute",
-                bottom: 0,
-                flexDirection: "row",
-                flex: 1,
-                width: "100%",
-                padding: 20,
-                justifyContent: "space-between",
-              }}
+              style={styles.generalView}
             >
               <View
-                style={{
-                  alignSelf: "center",
-                  flex: 1,
-                  alignItems: "center",
-                }}
+                style={styles.alignmentView}
               >
                 <TouchableOpacity
-                  style={styles.takePictureButton}
-                  onPress={_takePicture}
+                  onPress={takePicture}
+                  style={styles.takePicture}
                 />
               </View>
             </View>
@@ -230,13 +257,3 @@ export default function App({ navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  takePictureButton: {
-    width: 70,
-    height: 70,
-    bottom: 0,
-    borderRadius: 50,
-    backgroundColor: "#fff",
-  },
-});

@@ -1,45 +1,60 @@
 import React from "react";
-import { Text, SafeAreaView, StyleSheet, View } from "react-native";
+import {
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  View,
+  ImageBackground,
+} from "react-native";
 
 export default function CameraTranslation(prop) {
   let originalText = prop.route.params.output;
   let translatedVersion = prop.route.params.translatedText;
   return (
-    <SafeAreaView style={styles.mainView}>
+    <ImageBackground style={styles.background}>
       <View style={styles.topView}>
-        <Text sytle={styles.topView}>Engish Spanish</Text>
+        <Text style={{ fontSize: 30, top: 10 }}>Engish Spanish</Text>
       </View>
+
       <View style={styles.middleView}>
-        <Text sytle={{ fontSize: 20 }}>{originalText}</Text>
+        <Text style={{ fontSize: 20 }}>{originalText}</Text>
       </View>
+
       <View style={styles.bottomView}>
-        <Text>{translatedVersion}</Text>
+        <Text style={{ fontSize: 20 }}>{translatedVersion}</Text>
       </View>
-    </SafeAreaView>
+    </ImageBackground>
   );
 }
+
 const styles = StyleSheet.create({
-  mainView: {
+  background: {
     flex: 1,
+    height: "100%",
     backgroundColor: "#F5EFE8",
-    fontSize: 25,
     alignItems: "center",
     textAlign: "center",
   },
   topView: {
-    height: "10%",
+    backgroundColor: "#DD8138",
+    height: "8%",
     width: "85%",
     top: "5%",
-    borderWidth: 1,
     borderRadius: 10,
-    backgroundColor: "#439654",
     textAlign: "center",
     alignItems: "center",
-    fontSize: 20,
+    fontSize: 30,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 20,
+    elevation: 11,
   },
+
   middleView: {
-    position: "relative",
-    borderWidth: 1,
     height: "30%",
     width: "85%",
     top: "10%",
@@ -47,24 +62,33 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     opacity: 0.8,
     borderRadius: 10,
-    textAlign: "center",
     alignItems: "center",
-    fontSize: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 20,
+    elevation: 11,
   },
   bottomView: {
     top: "15%",
-    height: "40%",
+    height: "42%",
     width: "85%",
     paddingTop: "5%",
     backgroundColor: "white",
     opacity: 0.8,
     borderRadius: 10,
-    borderWidth: 1,
-    textAlign: "center",
+    borderColor: "white",
     alignItems: "center",
-    fontSize: 20,
-  },
-  language: {
-    fontSize: 30,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 20,
+    elevation: 11,
   },
 });

@@ -53,7 +53,6 @@ function HomeScreen({ navigation }) {
             onPress={() => {
               setScreenTooltip(true);
             }}
-            // style={{ marginRight: 25, marginBottom: 25 }}
           >
             <MaterialIcons name="help" size={35} color="#032D38" />
           </TouchableOpacity>
@@ -112,26 +111,27 @@ function HomeScreen({ navigation }) {
           </Text>
         </View>
       </View>
-
-      <Tooltip
-        isVisible={screenTooltip}
-        content={
-          <View>
-            <Text style={styles.Tooltip}>
-              Click the Camera icon to take a picture of some text you'd like to
-              translate.
-            </Text>
-            <Text />
-            <Text style={styles.Tooltip}>
-              Click the Translate button to type or speak your desired
-              translation
-            </Text>
-          </View>
-        }
-        onClose={() => {
-          setScreenTooltip(false);
-        }}
-      ></Tooltip>
+      <View style={styles.tooltipView}>
+        <Tooltip
+          isVisible={screenTooltip}
+          content={
+            <View>
+              <Text style={styles.Tooltip}>
+                Click the Camera icon to take a picture of some text you'd like
+                to translate.
+              </Text>
+              <Text />
+              <Text style={styles.Tooltip}>
+                Click the Translate button to type or speak your desired
+                translation
+              </Text>
+            </View>
+          }
+          onClose={() => {
+            setScreenTooltip(false);
+          }}
+        />
+      </View>
     </ImageBackground>
   );
 }
@@ -154,10 +154,6 @@ const styles = StyleSheet.create({
     //50
     height: "50%",
     top: 15,
-    //bottom: 10,
-    // marginTop: "10%",
-    //paddingBottom: "10%",
-    //paddingBottom: "10%",
   },
   mainBox: {
     //30
@@ -166,8 +162,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     height: "40%",
-    // paddingBottom: "10%",
-    //paddingTop: "20%",
   },
 
   CameraButton: {
@@ -191,7 +185,6 @@ const styles = StyleSheet.create({
   logo: {
     width: 200,
     height: 200,
-    //marginTop: 30,
   },
   logoContainer: {
     alignItems: "center",
@@ -207,9 +200,15 @@ const styles = StyleSheet.create({
     //marginTop: 10,
     //marginBottom: 40,
   },
+  tooptipView: {
+    borderColor: "pink",
+  },
   Tooltip: {
     fontSize: 16,
     fontWeight: "bold",
+  },
+  tooltipView: {
+    borderColor: "pink",
   },
 });
 

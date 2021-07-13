@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   SafeAreaView,
@@ -9,6 +9,8 @@ import {
   Keyboard,
   ImageBackground,
 } from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import Languages from "../languages";
 import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
 
 const DismissKeyboard = ({ children }) => (
@@ -20,9 +22,14 @@ const DismissKeyboard = ({ children }) => (
 export default function VoiceAndTextTranslate() {
   const [text, setText] = useState("");
   const [translated, setTranslated] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState("af");
 
-  const onChangeText = (text) => {
-    (text) => setText(text);
+  useEffect(() => {
+    submitToGoogleTranslate(text);
+  }, [selectedLanguage]);
+
+  const onChangeText = async (text) => {
+    setText(text);
     if (text === "") {
       setTranslated("");
     }
@@ -30,9 +37,13 @@ export default function VoiceAndTextTranslate() {
   };
 
   const submitToGoogleTranslate = async (text) => {
+    console.log(
+      "selected language in submitToGoogleTranslate-->",
+      selectedLanguage
+    );
     try {
       let body = JSON.stringify({
-        target: "en",
+        target: selectedLanguage,
         q: text,
       });
       let response = await fetch(
@@ -47,9 +58,14 @@ export default function VoiceAndTextTranslate() {
           body: body,
         }
       );
-      const responseJson = await response.json();
-      const responseParsed = await JSON.parse(JSON.stringify(responseJson));
-      let result = await responseParsed.data.translations[0].translatedText;
+      const initialText = await response.json();
+      const initialTextParsed = await JSON.parse(JSON.stringify(initialText));
+      //console.log("responseParsed-->", responseParsed);
+      let result =
+        await initialTextParsed.data.translations[0].translatedText.replace(
+          /&quot;|&#39;/g,
+          "'"
+        );
       setTranslated(result);
     } catch (error) {
       console.error(error);
@@ -60,36 +76,95 @@ export default function VoiceAndTextTranslate() {
     <DismissKeyboard>
       <ImageBackground style={styles.background}>
         <View style={styles.topView}>
-          <Text style={{ fontSize: 30, top: 10 }}>Detected Language</Text>
+          <Picker
+            style={styles.picker}
+            onValueChange={(itemValue) => {
+              setSelectedLanguage(itemValue);
+              console.log("Item value in onValueChange??", itemValue);
+              console.log(
+                "Selected language in onValueChange?",
+                selectedLanguage
+              );
+              submitToGoogleTranslate(text);
+            }}
+            selectedValue={selectedLanguage}
+          >
+            {Object.keys(Languages).map((key) => {
+              return (
+                <Picker.Item
+                  key={key}
+                  label={Languages[key]}
+                  value={key}
+                  color="white"
+                />
+              );
+            })}
+          </Picker>
         </View>
+
         <TextInput
           style={styles.middleView}
+          multiline
           onChangeText={onChangeText}
           defaultValue={text}
           placeholder="Type here to translate!"
         />
         <View style={styles.bottomView}>
-          <Text style={{ fontSize: 20 }}>{translated}</Text>
+          <Text multiline style={styles.bottomText}>
+            {translated}
+          </Text>
         </View>
       </ImageBackground>
     </DismissKeyboard>
   );
 }
+
 const styles = StyleSheet.create({
   background: {
     flex: 1,
+    height: "100%",
     backgroundColor: "#F5EFE8",
     alignItems: "center",
   },
   topView: {
-    height: "8%",
+    //5
+    height: "7%",
     width: "85%",
-    top: "5%",
+    top: "4%",
+    opacity: 0.8,
     borderRadius: 10,
     backgroundColor: "#439654",
-    textAlign: "center",
     alignItems: "center",
-    fontSize: 30,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 20,
+    elevation: 11,
+  },
+  picker: {
+    position: "relative",
+    bottom: 82,
+    maxHeight: 100,
+    width: 200,
+    //opacity: 1,
+  },
+
+  middleView: {
+    //40
+    top: "10%",
+    height: "30%",
+    width: "85%",
+    paddingTop: "5%",
+    padding: "5%",
+    backgroundColor: "white",
+    opacity: 0.8,
+    borderRadius: 10,
+    //alignItems: "center",
+    //textAlign: "center",
+    fontSize: 15,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -100,18 +175,18 @@ const styles = StyleSheet.create({
     elevation: 11,
   },
 
-  middleView: {
-    height: "30%",
+  bottomView: {
+    //45
+    top: "14%",
+    height: "45%",
     width: "85%",
-    top: "10%",
-    paddingTop: "5%",
+    padding: "5%",
     backgroundColor: "white",
     opacity: 0.8,
     borderRadius: 10,
-    alignItems: "center",
+    borderColor: "white",
+    //alignItems: "center",
     shadowColor: "#000",
-    textAlign: "center",
-    fontSize: 20,
     shadowOffset: {
       width: 0,
       height: 5,
@@ -120,23 +195,7 @@ const styles = StyleSheet.create({
     shadowRadius: 20,
     elevation: 11,
   },
-  bottomView: {
-    top: "15%",
-    height: "42%",
-    width: "85%",
-    paddingTop: "5%",
-    backgroundColor: "white",
-    opacity: 0.8,
-    borderRadius: 10,
-    borderColor: "white",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 20,
-    elevation: 11,
+  bottomText: {
+    fontSize: 15,
   },
 });

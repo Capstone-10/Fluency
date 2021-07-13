@@ -129,7 +129,7 @@ export default function VoiceAndTextTranslate() {
         </View>
         <View>
           <PlayCircle
-            style={styles.MicButton}
+            style={styles.SpeakerButton}
             onPress={speechToText}
             width={50}
             height={50}
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   bottomText: {
     fontSize: 15,
   },
-  MicButton: {
+  SpeakerButton: {
     color: "#439654",
     top: "230%",
   },

@@ -5,11 +5,10 @@ import {
   View,
   Text,
   Image,
-  ActivityIndicator,
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
-
+import { ActivityIndicator } from "react-native-paper";
 import { MaterialIcons } from "@expo/vector-icons";
 import Tooltip from "react-native-walkthrough-tooltip";
 

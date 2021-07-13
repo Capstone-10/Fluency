@@ -8,10 +8,13 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ImageBackground,
+  Button,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import Languages from "../languages";
+import { Mic, Volume2, PlayCircle } from "react-native-feather";
 import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
+import * as Speech from "expo-speech";
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -27,6 +30,16 @@ export default function VoiceAndTextTranslate() {
   useEffect(() => {
     submitToGoogleTranslate(text);
   }, [selectedLanguage]);
+
+  const speechToText = async () => {
+    console.log(translated);
+    console.log(selectedLanguage);
+    Speech.speak(translated, {
+      language: selectedLanguage,
+      pitch: 1,
+      rate: 1,
+    });
+  };
 
   const onChangeText = async (text) => {
     setText(text);
@@ -114,6 +127,14 @@ export default function VoiceAndTextTranslate() {
             {translated}
           </Text>
         </View>
+        <View>
+          <PlayCircle
+            style={styles.MicButton}
+            onPress={speechToText}
+            width={50}
+            height={50}
+          />
+        </View>
       </ImageBackground>
     </DismissKeyboard>
   );
@@ -178,7 +199,7 @@ const styles = StyleSheet.create({
   bottomView: {
     //45
     top: "14%",
-    height: "45%",
+    height: "38%",
     width: "85%",
     padding: "5%",
     backgroundColor: "white",
@@ -197,5 +218,9 @@ const styles = StyleSheet.create({
   },
   bottomText: {
     fontSize: 15,
+  },
+  MicButton: {
+    color: "#439654",
+    top: "230%",
   },
 });

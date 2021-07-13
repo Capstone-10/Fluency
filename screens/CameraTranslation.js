@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Text, StyleSheet, View, ImageBackground } from "react-native";
+import { Mic, Volume2, PlayCircle } from "react-native-feather";
+import * as Speech from "expo-speech";
+
 //import styles from "./styles";
 import Languages from "../languages";
 
@@ -19,6 +22,17 @@ export default function CameraTranslation(prop) {
   //   "detected target carried to cameraTranslation screen-->",
   //   selectedLang
   // );
+
+  const speechToText = async () => {
+    console.log(translatedVersion);
+    console.log(selectedLang);
+    Speech.speak(translatedVersion, {
+      language: selectedLang,
+      pitch: 1,
+      rate: 1,
+    });
+  };
+
   return (
     <ImageBackground style={styles.cameraTranslation_background}>
       <View style={styles.cameraTranslation_topView}>
@@ -42,6 +56,14 @@ export default function CameraTranslation(prop) {
         <Text style={styles.bottomText}>
           {translatedVersion.replace(/&quot;|&#39;/g, "'")}
         </Text>
+      </View>
+      <View>
+        <PlayCircle
+          style={styles.SpeakerButton}
+          onPress={speechToText}
+          width={50}
+          height={50}
+        />
       </View>
     </ImageBackground>
   );
@@ -129,7 +151,7 @@ const styles = StyleSheet.create({
   bottomView: {
     //45
     top: "8%",
-    height: "39%",
+    height: "32%",
     width: "85%",
     padding: "5%",
     backgroundColor: "white",
@@ -148,4 +170,8 @@ const styles = StyleSheet.create({
     elevation: 11,
   },
   bottomText: { fontSize: 15 },
+  SpeakerButton: {
+    color: "#DD8138",
+    top: "150%",
+  },
 });

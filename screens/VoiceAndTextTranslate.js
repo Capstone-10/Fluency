@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   SafeAreaView,
@@ -9,7 +9,11 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import Languages from "../languages";
 import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
+
+
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -20,8 +24,13 @@ const DismissKeyboard = ({ children }) => (
 export default function VoiceAndTextTranslate() {
   const [text, setText] = useState("");
   const [translated, setTranslated] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState("af");
 
-  const onChangeText = (text) => {
+  useEffect(() => {
+    submitToGoogleTranslate(text)
+  }, [selectedLanguage])
+
+  const onChangeText = async (text) => {
     (text) => setText(text);
     if (text === "") {
       setTranslated("");
@@ -33,9 +42,10 @@ export default function VoiceAndTextTranslate() {
   const handleSubmit = () => {};
 
   const submitToGoogleTranslate = async (text) => {
+    console.log("selected language in submitToGoogleTranslate-->", selectedLanguage)
     try {
       let body = JSON.stringify({
-        target: "en",
+        target: selectedLanguage,
         q: text,
       });
       let response = await fetch(
@@ -50,10 +60,10 @@ export default function VoiceAndTextTranslate() {
           body: body,
         }
       );
-      const responseJson = await response.json();
-      const responseParsed = await JSON.parse(JSON.stringify(responseJson));
+      const initialText = await response.json();
+      const initialTextParsed = await JSON.parse(JSON.stringify(initialText));
       //console.log("responseParsed-->", responseParsed);
-      let result = await responseParsed.data.translations[0].translatedText;
+      let result = await initialTextParsed.data.translations[0].translatedText.replace(/&quot;|&#39;/g,"'");
       setTranslated(result);
       //console.log("text in google->", text);
     } catch (error) {
@@ -64,11 +74,32 @@ export default function VoiceAndTextTranslate() {
   return (
     <DismissKeyboard>
       <SafeAreaView style={{ marginTop: 20, marginBottom: 20 }}>
-        <View>
+        {/* <View>
           <Text style={styles.language}>Detected Language</Text>
+        </View> */}
+        <View style={styles.languagePicker}>
+            <Picker
+            
+            style={{ height: 100, width: 200 }}
+            onValueChange={itemValue => {
+              setSelectedLanguage(itemValue)
+              console.log("Item value in onValueChange??", itemValue)
+              console.log("Selected language in onValueChange?", selectedLanguage)
+              submitToGoogleTranslate(text)
+            }}
+            selectedValue={selectedLanguage}
+            
+            >
+                {Object.keys(Languages).map((key) => {
+                 return (
+                 <Picker.Item key={key} label={Languages[key]} value={key} color="black"/>
+                 )
+                 })}
+            </Picker>
         </View>
 
         <TextInput
+        multiline
           style={styles.input}
           onChangeText={onChangeText}
           defaultValue={text}
@@ -76,7 +107,7 @@ export default function VoiceAndTextTranslate() {
         />
 
         {/* <Button title="Translate" onPress={handleSubmit} /> */}
-        <Text style={styles.output}>{translated}</Text>
+        <Text multiline style={styles.output}>{translated}</Text>
       </SafeAreaView>
     </DismissKeyboard>
   );
@@ -104,4 +135,11 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlign: "center",
   },
+  languagePicker: {
+    marginTop: -130,
+    padding: 40,
+    alignItems: "center",
+    paddingBottom: 80
+  }
 });
+

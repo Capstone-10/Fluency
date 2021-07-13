@@ -16,17 +16,15 @@ import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
 var photo;
 var output;
 var translatedText;
+var detectedSourceLang;
 
 export default function App({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
-  //const [uploading, setUploading] = useState(false);
-  const [googleResponse, setGoogleResponse] = useState(null);
-
-
-  const [selectedLanguage, setSelectedLanguage] = useState(null);
+  // const [detectedSourceLang, setDetectedSourceLang] = useState(null);
+  const [selectedLanguage, setSelectedLanguage] = useState("af");
 
 
   useEffect(() => {
@@ -97,9 +95,11 @@ export default function App({ navigation }) {
           body: body,
         }
       );
-      const responseJson = await response.json();
-      const responseParsed = JSON.parse(JSON.stringify(responseJson));
-      output = responseParsed.responses[0].fullTextAnnotation.text;
+      const capturedText = await response.json();
+      const capturedTextParsed = JSON.parse(JSON.stringify(capturedText));
+      output = capturedTextParsed.responses[0].fullTextAnnotation.text.replace(/&quot;|&#39;/g,"'")
+      detectedSourceLang = capturedTextParsed.responses[0].textAnnotations[0].locale
+      console.log("detected source language: ", detectedSourceLang)
       createTwoButtonAlert(output);
     } catch (error) {
       console.log(error);
@@ -126,10 +126,13 @@ export default function App({ navigation }) {
           body: body,
         }
       );
-      const responseJson = await response.json();
-      const responseParsed = await JSON.parse(JSON.stringify(responseJson));
-      translatedText = await responseParsed.data.translations[0].translatedText;
-      //console.log("in submitToGoogleTranslate ", translatedText);
+      const text = await response.json();
+      // console.log("JSON before parsing -->", text)
+      const textParsed = await JSON.parse(JSON.stringify(text));
+      // console.log("parsed response -->", responseParsed)
+      // translatedText = await responseParsed.data.translations[0].translatedText;
+      translatedText = textParsed.data.translations[0].translatedText
+      // replace(/&quot;|&#39;/g,"'")
     } catch (error) {
       console.error(error);
     }
@@ -137,7 +140,9 @@ export default function App({ navigation }) {
 
   const handleTranslatePress = (output, translatedText) => {
     submitToGoogleTranslate(output);
-    let prop = { output, translatedText };
+    // console.log("detected source!!!-->", detectedSourceLang)
+    // console.log("selected lang in handleTranslatePress!!!-->", selectedLanguage)
+    let prop = { output, translatedText, detectedSourceLang, selectedLanguage };
     navigation.navigate("Camera Translation", prop);
   };
 
@@ -205,3 +210,5 @@ export default function App({ navigation }) {
     </View>
   );
 }
+
+

@@ -7,6 +7,7 @@ import {
   Image,
   ActivityIndicator,
   TouchableOpacity,
+  SafeAreaView,
 } from "react-native";
 
 import { MaterialIcons } from "@expo/vector-icons";
@@ -46,61 +47,46 @@ function HomeScreen({ navigation }) {
       source={require("../assets/homescreen.jpg")}
       style={styles.background}
     >
-      <Tooltip
-        isVisible={screenTooltip}
-        content={
-          <View>
-            <Text style={styles.Tooltip}>
-              Click the Camera icon to take a picture of some text you'd like to
-              translate.
-            </Text>
-            <Text />
-            <Text style={styles.Tooltip}>
-              Click the Translate button to type or speak your desired
-              translation
-            </Text>
-          </View>
-        }
-        onClose={() => {
-          setScreenTooltip(false);
-        }}
-      ></Tooltip>
-
-      <View style={styles.HelpButton}>
-        <TouchableOpacity
-          onPress={() => {
-            setScreenTooltip(true);
+      <View style={styles.topView}>
+        <View style={styles.HelpButton}>
+          <TouchableOpacity
+            onPress={() => {
+              setScreenTooltip(true);
+            }}
+          >
+            <MaterialIcons name="help" size={35} color="#032D38" />
+          </TouchableOpacity>
+        </View>
+      </View>
+      <View style={styles.middleView}>
+        <Text
+          style={{
+            //marginTop: 15,
+            fontSize: 25,
+            fontFamily: "CedarvilleCursive_400Regular",
+            textAlign: "center",
           }}
-          style={{ marginRight: 25, marginBottom: 25 }}
         >
-          <MaterialIcons name="help" size={35} color="#032D38" />
-        </TouchableOpacity>
+          welcome to
+        </Text>
+        <Text
+          style={{
+            fontSize: 55,
+            fontWeight: "bold",
+            textAlign: "center",
+            fontFamily: "CedarvilleCursive_400Regular",
+          }}
+        >
+          Fluency
+        </Text>
+        <View style={styles.logoContainer}>
+          <Image
+            source={require("../assets/homegif2.gif")}
+            style={styles.logo}
+          />
+        </View>
       </View>
 
-      <Text
-        style={{
-          marginTop: 15,
-          fontSize: 25,
-          fontFamily: "CedarvilleCursive_400Regular",
-          textAlign: "center",
-        }}
-      >
-        welcome to
-      </Text>
-      <Text
-        style={{
-          fontSize: 55,
-          fontWeight: "bold",
-          textAlign: "center",
-          fontFamily: "CedarvilleCursive_400Regular",
-        }}
-      >
-        Fluency
-      </Text>
-      <View style={styles.logoContainer}>
-        {/* <Image source={require("./KakaoTalkGif.gif")} style={styles.logo} /> */}
-        <Image source={require("../assets/homegif2.gif")} style={styles.logo} />
-      </View>
       <View style={styles.mainBox}>
         <View style={styles.CameraButton}>
           <Camera
@@ -125,6 +111,27 @@ function HomeScreen({ navigation }) {
           </Text>
         </View>
       </View>
+      <View style={styles.tooltipView}>
+        <Tooltip
+          isVisible={screenTooltip}
+          content={
+            <View>
+              <Text style={styles.Tooltip}>
+                Click the Camera icon to take a picture of some text you'd like
+                to translate.
+              </Text>
+              <Text />
+              <Text style={styles.Tooltip}>
+                Click the Translate button to type or speak your desired
+                translation
+              </Text>
+            </View>
+          }
+          onClose={() => {
+            setScreenTooltip(false);
+          }}
+        />
+      </View>
     </ImageBackground>
   );
 }
@@ -135,28 +142,33 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  logoContainer: {
-    alignItems: "center",
 
-    width: 300,
-    height: 300,
-    // position: "relative",
-    // opacity: 0.8,
-    // backgroundColor: "#FFF4EB",
-    // borderRadius: 10,
+  topView: {
+    //10
+    height: "10%",
+    paddingTop: "5%",
+    paddingRight: "5%",
+    alignSelf: "flex-end",
+  },
+  middleView: {
+    //50
+    height: "50%",
+    top: 15,
   },
   mainBox: {
+    //30
     opacity: 0.8,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
-    marginBottom: 20,
+    height: "40%",
   },
+
   CameraButton: {
     width: 130,
     height: 130,
     backgroundColor: "#DD8138",
-    marginRight: 25,
+    marginRight: 20,
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
@@ -165,7 +177,7 @@ const styles = StyleSheet.create({
     width: 130,
     height: 130,
     backgroundColor: "#439654",
-    marginLeft: 25,
+    marginLeft: 20,
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
@@ -173,15 +185,30 @@ const styles = StyleSheet.create({
   logo: {
     width: 200,
     height: 200,
-    marginTop: 30,
-    marginBottom: 0,
+  },
+  logoContainer: {
+    alignItems: "center",
+    width: 300,
+    height: 300,
+    // position: "relative",
+    // opacity: 0.8,
+    // backgroundColor: "#FFF4EB",
+    // borderRadius: 10,
   },
   HelpButton: {
     alignSelf: "flex-end",
+    //marginTop: 10,
+    //marginBottom: 40,
+  },
+  tooptipView: {
+    borderColor: "pink",
   },
   Tooltip: {
     fontSize: 16,
     fontWeight: "bold",
+  },
+  tooltipView: {
+    borderColor: "pink",
   },
 });
 

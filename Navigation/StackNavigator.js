@@ -6,6 +6,7 @@ import Translate from "../screens/VoiceAndTextTranslate";
 import Camera from "../screens/Camera";
 import Settings from "../screens/Settings";
 import CameraTranslation from "../screens/CameraTranslation";
+import History from "../screens/History";
 
 const Stack = createStackNavigator();
 
@@ -42,7 +43,7 @@ const MainStackNavigator = () => {
 const SettingsStackNavigator = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Settings" component={Settings} />
+      <Stack.Screen name="History" component={History} />
     </Stack.Navigator>
   );
 };

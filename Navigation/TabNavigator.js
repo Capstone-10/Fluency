@@ -10,6 +10,8 @@ import {
   Alert,
   StyleSheet,
 } from "react-native";
+import { Home, Star } from "react-native-feather";
+import History from "../screens/History";
 
 const Tab = createBottomTabNavigator();
 
@@ -18,48 +20,33 @@ const TabNavigator = () => {
     <Tab.Navigator
       tabBarOptions={{
         showLabel: false,
-        // style: {
-        //   position: "absolute",
-        //   bottom: 15,
-        //   marginLeft: 10,
-        //   marginRight: 10,
-        //   left: 20,
-        //   right: 20,
-        //   elevation: 0,
-        //   borderRadius: 15,
-        //   height: 80,
-        // },
+        style: {
+          // position: "absolute",
+          // bottom: 15,
+          // marginLeft: 10,
+          // marginRight: 10,
+          // left: 20,
+          // right: 20,
+          // elevation: 0,
+          // borderRadius: 15,
+          // height: "8%",
+          display: "flex",
+          //flexDirection: "row",
+          //backgroundColor: "yellow",
+          //textAlign: "center",
+          alignItems: "center",
+          //alignContent: "center",
+        },
       }}
     >
       <Tab.Screen
         name="Home"
         component={MainStackNavigator}
         options={{
-          tabBarIcon: ({ focused }) => (
-            <View
-              style={{
-                alignItems: "center",
-                justifyContent: "center",
-                top: 15,
-              }}
-            >
-              <Image
-                source={require("../assets/homeButton.png")}
-                style={{
-                  width: 25,
-                  height: 25,
-              
-                }}
-              />
-
-              <Text
-                style={{
-                  color: "black",
-                  fontSize: 12,
-                }}
-              >
-                HOME
-              </Text>
+          tabBarIcon: () => (
+            <View style={styles.tabView}>
+              <Home style={styles.homeStarImage} />
+              <Text style={styles.homeStarText}>HOME</Text>
             </View>
           ),
         }}
@@ -68,30 +55,10 @@ const TabNavigator = () => {
         name="☆"
         component={SettingsStackNavigator}
         options={{
-          tabBarIcon: ({ focused }) => (
-            <View
-              style={{
-                alignItems: "center",
-                justifyContent: "center",
-                top: 15,
-              }}
-            >
-              <Image
-                source={require("../assets/star.png")}
-                style={{
-                  width: 25,
-                  height: 25,
-                }}
-              />
-
-              <Text
-                style={{
-                  color: "black",
-                  fontSize: 12,
-                }}
-              >
-                History
-              </Text>
+          tabBarIcon: () => (
+            <View style={styles.tabView}>
+              <Star style={styles.homeStarImage} />
+              <Text style={styles.homeStarText}>History</Text>
             </View>
           ),
         }}
@@ -99,5 +66,28 @@ const TabNavigator = () => {
     </Tab.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  tabView: {
+    textAlign: "center",
+    alignItems: "center",
+    alignContent: "center",
+    // display: "flex",
+    // flex: 1,
+    minHeight: "8%",
+    //backgroundColor: "pink",
+  },
+  homeStarImage: {
+    //width: 25,
+    // height: 25,
+    color: "black",
+    top: "38%",
+  },
+  homeStarText: {
+    color: "black",
+    fontSize: 12,
+    top: "38%",
+  },
+});
 
 export default TabNavigator;

@@ -1,97 +1,151 @@
 import React, { useEffect, useState } from "react";
-import { Text, SafeAreaView, StyleSheet, View, Dimensions } from "react-native";
+import { Text, StyleSheet, View, ImageBackground } from "react-native";
+//import styles from "./styles";
 import Languages from "../languages";
 
-// const { height } = Dimensions.get('window');
-
-
 export default function CameraTranslation(prop) {
-
-  // const [defaultLang, setDefaultLang] = useState("af")
-
-// useEffect(() => {
-//     setDefaultLang(prop.route.params.selectedLanguage)
-//   }, [defaultLang])
-  // const [screenHeight, setScreenHeight] = useState(0)
-
-  // onContentSizeChange = (contentWidth, contentHeight) => {
-  //   setScreenHeight(contentHeight)
-  // }
-
-  
   let originalText = prop.route.params.output;
   let translatedVersion = prop.route.params.translatedText;
-  let detected = prop.route.params.detectedSourceLang
-  
-  console.log("detected source carried to cameraTranslation screen-->", detected)
-  let selectedLang = prop.route.params.selectedLanguage
-  
+  let detected = prop.route.params.detectedSourceLang;
+  // console.log(
+  //   "detected source carried to cameraTranslation screen-->",
+  //   detected
+  // );
+  let selectedLang = prop.route.params.selectedLanguage;
   // if(selectedLang === "null") {
   //   selectedLang = "af"
   // }
-  
-  console.log("detected target carried to cameraTranslation screen-->", selectedLang)
+  // console.log(
+  //   "detected target carried to cameraTranslation screen-->",
+  //   selectedLang
+  // );
   return (
-    <SafeAreaView
-      style={{ marginTop: 20, marginBottom: 20, backgroundColor: "#F5EFE8" }}
-    >
-      {/* <View style={styles.languagePicker}>
-            <Picker
-            selectedValue={selectedLang}
-            style={{ height: 100, width: 200 }}
-            onValueChange={itemValue => setSelectedLanguage(itemValue)}
-            >
-                {Object.keys(Languages).map((key) => {
-                 return (
-                 <Picker.Item key={key} label={Languages[key]} value={key} color="white"/>
-                 )
-                 })}
-            </Picker>
-        </View> */}
-      
-      <View>
-        {/* <Text style={styles.language}>English -> Spanish</Text> */}
+    <ImageBackground style={styles.cameraTranslation_background}>
+      <View style={styles.cameraTranslation_topView}>
+        <Text style={styles.topViewText}>{Languages[detected]}</Text>
       </View>
-      
-      <Text style={styles.headers}>{`${Languages[detected]}`}</Text>
-      <Text style={styles.input}>{originalText.replace(/&quot;|&#39;/g,"'")}</Text>
-      
-      <Text style={styles.headers}>{`${Languages[selectedLang]}`}</Text>
-      <Text style={styles.output}>{translatedVersion.replace(/&quot;|&#39;/g,"'")}</Text>
-    </SafeAreaView>
+
+      <View style={styles.middleView}>
+        <Text multiline style={styles.middleText}>
+          {originalText.replace(/&quot;|&#39;/g, "'")}
+        </Text>
+      </View>
+
+      <View style={styles.topView2}>
+        <Text
+          multiline
+          style={styles.topViewText}
+        >{`${Languages[selectedLang]}`}</Text>
+      </View>
+
+      <View style={styles.bottomView}>
+        <Text style={styles.bottomText}>
+          {translatedVersion.replace(/&quot;|&#39;/g, "'")}
+        </Text>
+      </View>
+    </ImageBackground>
   );
 }
+
 const styles = StyleSheet.create({
-  input: {
-    height: 200,
-    margin: 12,
-    borderWidth: 1,
-    fontSize: 20,
-    padding: 20,
-  },
-  output: {
-    height: 350,
-    margin: 12,
-    borderWidth: 1,
-    fontSize: 20,
-    padding: 20,
-  },
-  language: {
-    height: 50,
-    margin: 12,
-    borderWidth: 1,
-    fontSize: 20,
-    padding: 10,
+  cameraTranslation_background: {
+    flex: 1,
+    height: "100%",
+    backgroundColor: "#F5EFE8",
+    alignItems: "center",
     textAlign: "center",
-    backgroundColor: "#439654",
   },
-  headers: {
-    marginLeft: 12,
-    fontSize: 25,
-    fontWeight: "bold"
-  }, 
-  languagePicker: {
-    marginLeft: 50,
-    height: 30
-  }
+  cameraTranslation_topView: {
+    height: "7%",
+    width: "85%",
+    top: "4%",
+    opacity: 0.8,
+    borderRadius: 10,
+    backgroundColor: "#DD8138",
+    textAlign: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 20,
+    elevation: 11,
+  },
+
+  topViewText: {
+    fontSize: 20,
+    top: "25%",
+    color: "white",
+  },
+
+  middleView: {
+    //40
+    top: "4%",
+    height: "35%",
+    width: "85%",
+    paddingTop: "5%",
+    padding: "5%",
+    backgroundColor: "white",
+    opacity: 0.8,
+    borderRadius: 10,
+    alignItems: "center",
+    textAlign: "center",
+    fontSize: 15,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 20,
+    elevation: 11,
+  },
+  middleText: {
+    fontSize: 15,
+  },
+
+  topView2: {
+    //5
+    height: "7%",
+    width: "85%",
+    top: "8%",
+    opacity: 0.8,
+    borderRadius: 10,
+    backgroundColor: "#DD8138",
+    textAlign: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 20,
+    elevation: 11,
+  },
+
+  bottomView: {
+    //45
+    top: "8%",
+    height: "39%",
+    width: "85%",
+    padding: "5%",
+    backgroundColor: "white",
+    opacity: 0.8,
+    borderRadius: 10,
+    borderColor: "white",
+    alignItems: "center",
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 20,
+    elevation: 11,
+  },
+  bottomText: { fontSize: 15 },
 });

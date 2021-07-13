@@ -4,16 +4,14 @@ import {
   SafeAreaView,
   StyleSheet,
   TextInput,
-  Button,
   View,
   TouchableWithoutFeedback,
   Keyboard,
+  ImageBackground,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import Languages from "../languages";
 import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
-
-
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -27,22 +25,22 @@ export default function VoiceAndTextTranslate() {
   const [selectedLanguage, setSelectedLanguage] = useState("af");
 
   useEffect(() => {
-    submitToGoogleTranslate(text)
-  }, [selectedLanguage])
+    submitToGoogleTranslate(text);
+  }, [selectedLanguage]);
 
   const onChangeText = async (text) => {
-    (text) => setText(text);
+    setText(text);
     if (text === "") {
       setTranslated("");
     }
     submitToGoogleTranslate(text);
-    // console.log("text in-->", text);
   };
 
-  const handleSubmit = () => {};
-
   const submitToGoogleTranslate = async (text) => {
-    console.log("selected language in submitToGoogleTranslate-->", selectedLanguage)
+    console.log(
+      "selected language in submitToGoogleTranslate-->",
+      selectedLanguage
+    );
     try {
       let body = JSON.stringify({
         target: selectedLanguage,
@@ -63,9 +61,12 @@ export default function VoiceAndTextTranslate() {
       const initialText = await response.json();
       const initialTextParsed = await JSON.parse(JSON.stringify(initialText));
       //console.log("responseParsed-->", responseParsed);
-      let result = await initialTextParsed.data.translations[0].translatedText.replace(/&quot;|&#39;/g,"'");
+      let result =
+        await initialTextParsed.data.translations[0].translatedText.replace(
+          /&quot;|&#39;/g,
+          "'"
+        );
       setTranslated(result);
-      //console.log("text in google->", text);
     } catch (error) {
       console.error(error);
     }
@@ -73,73 +74,128 @@ export default function VoiceAndTextTranslate() {
 
   return (
     <DismissKeyboard>
-      <SafeAreaView style={{ marginTop: 20, marginBottom: 20 }}>
-        {/* <View>
-          <Text style={styles.language}>Detected Language</Text>
-        </View> */}
-        <View style={styles.languagePicker}>
-            <Picker
-            
-            style={{ height: 100, width: 200 }}
-            onValueChange={itemValue => {
-              setSelectedLanguage(itemValue)
-              console.log("Item value in onValueChange??", itemValue)
-              console.log("Selected language in onValueChange?", selectedLanguage)
-              submitToGoogleTranslate(text)
+      <ImageBackground style={styles.background}>
+        <View style={styles.topView}>
+          <Picker
+            style={styles.picker}
+            onValueChange={(itemValue) => {
+              setSelectedLanguage(itemValue);
+              console.log("Item value in onValueChange??", itemValue);
+              console.log(
+                "Selected language in onValueChange?",
+                selectedLanguage
+              );
+              submitToGoogleTranslate(text);
             }}
             selectedValue={selectedLanguage}
-            
-            >
-                {Object.keys(Languages).map((key) => {
-                 return (
-                 <Picker.Item key={key} label={Languages[key]} value={key} color="black"/>
-                 )
-                 })}
-            </Picker>
+          >
+            {Object.keys(Languages).map((key) => {
+              return (
+                <Picker.Item
+                  key={key}
+                  label={Languages[key]}
+                  value={key}
+                  color="white"
+                />
+              );
+            })}
+          </Picker>
         </View>
 
         <TextInput
-        multiline
-          style={styles.input}
+          style={styles.middleView}
+          multiline
           onChangeText={onChangeText}
           defaultValue={text}
           placeholder="Type here to translate!"
         />
-
-        {/* <Button title="Translate" onPress={handleSubmit} /> */}
-        <Text multiline style={styles.output}>{translated}</Text>
-      </SafeAreaView>
+        <View style={styles.bottomView}>
+          <Text multiline style={styles.bottomText}>
+            {translated}
+          </Text>
+        </View>
+      </ImageBackground>
     </DismissKeyboard>
   );
 }
-const styles = StyleSheet.create({
-  input: {
-    height: 200,
-    margin: 12,
-    borderWidth: 1,
-    fontSize: 20,
-    padding: 20,
-  },
-  output: {
-    height: 350,
-    margin: 12,
-    borderWidth: 1,
-    fontSize: 20,
-    padding: 20,
-  },
-  language: {
-    height: 50,
-    margin: 12,
-    borderWidth: 1,
-    fontSize: 20,
-    padding: 10,
-    textAlign: "center",
-  },
-  languagePicker: {
-    marginTop: -130,
-    padding: 40,
-    alignItems: "center",
-    paddingBottom: 80
-  }
-});
 
+const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    height: "100%",
+    backgroundColor: "#F5EFE8",
+    alignItems: "center",
+  },
+  topView: {
+    //5
+    height: "7%",
+    width: "85%",
+    top: "4%",
+    opacity: 0.8,
+    borderRadius: 10,
+    backgroundColor: "#439654",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 20,
+    elevation: 11,
+  },
+  picker: {
+    position: "relative",
+    bottom: 82,
+    maxHeight: 100,
+    width: 200,
+    //opacity: 1,
+  },
+
+  middleView: {
+    //40
+    top: "10%",
+    height: "30%",
+    width: "85%",
+    paddingTop: "5%",
+    padding: "5%",
+    backgroundColor: "white",
+    opacity: 0.8,
+    borderRadius: 10,
+    //alignItems: "center",
+    //textAlign: "center",
+    fontSize: 15,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 20,
+    elevation: 11,
+  },
+
+  bottomView: {
+    //45
+    top: "14%",
+    height: "45%",
+    width: "85%",
+    padding: "5%",
+    backgroundColor: "white",
+    opacity: 0.8,
+    borderRadius: 10,
+    borderColor: "white",
+    //alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 20,
+    elevation: 11,
+  },
+  bottomText: {
+    fontSize: 15,
+  },
+});

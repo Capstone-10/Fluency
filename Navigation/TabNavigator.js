@@ -10,6 +10,8 @@ import {
   Alert,
   StyleSheet,
 } from "react-native";
+import { Home, Star } from "react-native-feather";
+import History from "../screens/History";
 
 const Tab = createBottomTabNavigator();
 
@@ -47,15 +49,22 @@ const TabNavigator = () => {
                 height: "8%",
               }}
             >
-              <Image
+              {/* <Image
                 source={require("../assets/homeButton.png")}
                 style={{
                   width: 25,
                   height: 25,
                   top: 15,
                 }}
-              />
-
+              /> */}
+              <Home
+                style={{
+                  width: 25,
+                  height: 25,
+                  top: 15,
+                  color: "black",
+                }}
+              ></Home>
               <Text
                 style={{
                   color: "black",
@@ -82,15 +91,22 @@ const TabNavigator = () => {
                 height: "8%",
               }}
             >
-              <Image
+              {/* <Image
                 source={require("../assets/star.png")}
                 style={{
                   width: 25,
                   height: 25,
                   top: 15,
                 }}
-              />
-
+              /> */}
+              <Star
+                style={{
+                  width: 25,
+                  height: 25,
+                  top: 15,
+                  color: "black",
+                }}
+              ></Star>
               <Text
                 style={{
                   color: "black",

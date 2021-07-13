@@ -1,47 +1,71 @@
-import React from "react";
-import { Text, SafeAreaView, StyleSheet, View } from "react-native";
+// import React from "react";
+// import { Text, SafeAreaView, StyleSheet, View } from "react-native";
 
-export default function CameraTranslation(prop) {
-  // console.log("prop-->", prop.route.params);
+// export default function CameraTranslation(prop) {
+//   let originalText = prop.route.params.output;
+//   let translatedVersion = prop.route.params.translatedText;
+//   return (
+//     <SafeAreaView style={styles.mainView}>
+//       <View style={styles.topView}>
+//         <Text sytle={styles.topView}>Engish -> Spanish</Text>
+//       </View>
+//       <View style={styles.middleView}>
+//         <Text sytle={{ fontSize: 20 }}>{originalText}</Text>
+//       </View>
+//       <View style={styles.bottomView}>
+//         <Text>{translatedVersion}</Text>
+//       </View>
+//     </SafeAreaView>
+//   );
+// }
+// const styles = StyleSheet.create({
+//   mainView: {
+//     flex: 1,
+//     backgroundColor: "#F5EFE8",
+//     fontSize: 25,
+//     alignItems: "center",
+//     textAlign: "center",
+//   },
+//   topView: {
+//     height: "10%",
+//     width: "85%",
+//     top: "5%",
+//     borderWidth: 1,
+//     borderRadius: 10,
+//     backgroundColor: "#439654",
+//     textAlign: "center",
+//     alignItems: "center",
+//     fontSize: 20,
+//   },
+//   middleView: {
+//     position: "relative",
+//     borderWidth: 1,
+//     height: "30%",
+//     width: "85%",
+//     top: "10%",
+//     paddingTop: "5%",
+//     backgroundColor: "white",
+//     opacity: 0.8,
+//     borderRadius: 10,
+//     textAlign: "center",
+//     alignItems: "center",
 
-  let originalText = prop.route.params.output;
-  let translatedVersion = prop.route.params.translatedText;
-  return (
-    <SafeAreaView
-      style={{ marginTop: 20, marginBottom: 20, backgroundColor: "#F5EFE8" }}
-    >
-      <View>
-        <Text style={styles.language}>Engish -> Spanish</Text>
-      </View>
-
-      <Text style={styles.input}>{originalText}</Text>
-
-      <Text style={styles.output}>{translatedVersion}</Text>
-    </SafeAreaView>
-  );
-}
-const styles = StyleSheet.create({
-  input: {
-    height: 200,
-    margin: 12,
-    borderWidth: 1,
-    fontSize: 20,
-    padding: 20,
-  },
-  output: {
-    height: 350,
-    margin: 12,
-    borderWidth: 1,
-    fontSize: 20,
-    padding: 20,
-  },
-  language: {
-    height: 50,
-    margin: 12,
-    borderWidth: 1,
-    fontSize: 20,
-    padding: 10,
-    textAlign: "center",
-    backgroundColor: "#439654",
-  },
-});
+//     fontSize: 20,
+//   },
+//   bottomView: {
+//     top: "15%",
+//     height: "40%",
+//     width: "85%",
+//     paddingTop: "5%",
+//     backgroundColor: "white",
+//     opacity: 0.8,
+//     borderRadius: 10,
+//     borderWidth: 1,
+//     textAlign: "center",
+//     alignItems: "center",
+//     fontSize: 20,
+//   },
+//   language: {
+//     fontSize: 30,
+//   },
+// });

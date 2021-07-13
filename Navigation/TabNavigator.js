@@ -18,29 +18,33 @@ const TabNavigator = () => {
     <Tab.Navigator
       tabBarOptions={{
         showLabel: false,
-        // style: {
-        //   position: "absolute",
-        //   bottom: 15,
-        //   marginLeft: 10,
-        //   marginRight: 10,
-        //   left: 20,
-        //   right: 20,
-        //   elevation: 0,
-        //   borderRadius: 15,
-        //   height: 80,
-        // },
+        style: {
+          // position: "absolute",
+          // bottom: 15,
+          // marginLeft: 10,
+          // marginRight: 10,
+          // left: 20,
+          // right: 20,
+          // elevation: 0,
+          // borderRadius: 15,
+
+          height: "8%",
+          alignItems: "center",
+          justifyContent: "center",
+        },
       }}
     >
       <Tab.Screen
         name="Home"
         component={MainStackNavigator}
         options={{
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: () => (
             <View
               style={{
                 alignItems: "center",
                 justifyContent: "center",
-                top: 15,
+                flex: 1,
+                height: "8%",
               }}
             >
               <Image
@@ -48,7 +52,7 @@ const TabNavigator = () => {
                 style={{
                   width: 25,
                   height: 25,
-              
+                  top: 15,
                 }}
               />
 
@@ -56,6 +60,7 @@ const TabNavigator = () => {
                 style={{
                   color: "black",
                   fontSize: 12,
+                  top: 15,
                 }}
               >
                 HOME
@@ -68,12 +73,13 @@ const TabNavigator = () => {
         name="☆"
         component={SettingsStackNavigator}
         options={{
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: () => (
             <View
               style={{
                 alignItems: "center",
                 justifyContent: "center",
-                top: 15,
+                flex: 1,
+                height: "8%",
               }}
             >
               <Image
@@ -81,6 +87,7 @@ const TabNavigator = () => {
                 style={{
                   width: 25,
                   height: 25,
+                  top: 15,
                 }}
               />
 
@@ -88,6 +95,7 @@ const TabNavigator = () => {
                 style={{
                   color: "black",
                   fontSize: 12,
+                  top: 15,
                 }}
               >
                 History

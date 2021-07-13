@@ -1,29 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {
-  Text,
-  SafeAreaView,
-  StyleSheet,
-  View,
-  Dimensions,
-  ImageBackground,
-} from "react-native";
-
+import { Text, StyleSheet, View, ImageBackground } from "react-native";
+//import styles from "./styles";
 import Languages from "../languages";
 
-// const { height } = Dimensions.get('window');
-
 export default function CameraTranslation(prop) {
-  // const [defaultLang, setDefaultLang] = useState("af")
-
-  // useEffect(() => {
-  //     setDefaultLang(prop.route.params.selectedLanguage)
-  //   }, [defaultLang])
-  // const [screenHeight, setScreenHeight] = useState(0)
-
-  // onContentSizeChange = (contentWidth, contentHeight) => {
-  //   setScreenHeight(contentHeight)
-  // }
-
   let originalText = prop.route.params.output;
   let translatedVersion = prop.route.params.translatedText;
   let detected = prop.route.params.detectedSourceLang;
@@ -40,8 +20,8 @@ export default function CameraTranslation(prop) {
   //   selectedLang
   // );
   return (
-    <ImageBackground style={styles.background}>
-      <View style={styles.topView}>
+    <ImageBackground style={styles.cameraTranslation_background}>
+      <View style={styles.cameraTranslation_topView}>
         <Text style={styles.topViewText}>{Languages[detected]}</Text>
       </View>
 
@@ -68,21 +48,19 @@ export default function CameraTranslation(prop) {
 }
 
 const styles = StyleSheet.create({
-  background: {
+  cameraTranslation_background: {
     flex: 1,
     height: "100%",
     backgroundColor: "#F5EFE8",
     alignItems: "center",
     textAlign: "center",
   },
-  topView: {
-    //5
+  cameraTranslation_topView: {
     height: "7%",
     width: "85%",
     top: "4%",
     opacity: 0.8,
     borderRadius: 10,
-
     backgroundColor: "#DD8138",
     textAlign: "center",
     alignItems: "center",

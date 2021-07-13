@@ -26,7 +26,6 @@ export default function App({ navigation }) {
   // const [detectedSourceLang, setDetectedSourceLang] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState("af");
 
-
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
@@ -97,18 +96,21 @@ export default function App({ navigation }) {
       );
       const capturedText = await response.json();
       const capturedTextParsed = JSON.parse(JSON.stringify(capturedText));
-      output = capturedTextParsed.responses[0].fullTextAnnotation.text.replace(/&quot;|&#39;/g,"'")
-      detectedSourceLang = capturedTextParsed.responses[0].textAnnotations[0].locale
-      console.log("detected source language: ", detectedSourceLang)
+      output = capturedTextParsed.responses[0].fullTextAnnotation.text.replace(
+        /&quot;|&#39;/g,
+        "'"
+      );
+      detectedSourceLang =
+        capturedTextParsed.responses[0].textAnnotations[0].locale;
+      console.log("detected source language: ", detectedSourceLang);
       createTwoButtonAlert(output);
     } catch (error) {
       console.log(error);
     }
   };
 
-
   const submitToGoogleTranslate = async () => {
-    console.log("Selected language", selectedLanguage)
+    console.log("Selected language", selectedLanguage);
     try {
       let body = JSON.stringify({
         target: selectedLanguage,
@@ -131,7 +133,7 @@ export default function App({ navigation }) {
       const textParsed = await JSON.parse(JSON.stringify(text));
       // console.log("parsed response -->", responseParsed)
       // translatedText = await responseParsed.data.translations[0].translatedText;
-      translatedText = textParsed.data.translations[0].translatedText
+      translatedText = textParsed.data.translations[0].translatedText;
       // replace(/&quot;|&#39;/g,"'")
     } catch (error) {
       console.error(error);
@@ -152,8 +154,7 @@ export default function App({ navigation }) {
         <ImageBackground
           source={{ uri: capturedImage && capturedImage.uri }}
           style={styles.capturedImage}
-        >
-        </ImageBackground>
+        ></ImageBackground>
       ) : (
         <Camera
           style={{ flex: 1 }}
@@ -176,28 +177,28 @@ export default function App({ navigation }) {
               <Text style={styles.textFlip}> Flip </Text>
             </TouchableOpacity>
 
-            {/* <Text style={styles.selectLanguageText}>
-                What language are you in the mood for today?
-              </Text> */}
             <View style={styles.languagePicker}>
-            <Picker
-            selectedValue={selectedLanguage}
-            style={{ height: 100, width: 200 }}
-            onValueChange={itemValue => setSelectedLanguage(itemValue)}
-            >
-                {Object.keys(Languages).map((key) => {
-                 return (
-                 <Picker.Item key={key} label={Languages[key]} value={key} color="white"/>
-                 )
-                 })}
-            </Picker>
-        </View>
-            <View
-              style={styles.generalView}
-            >
-              <View
-                style={styles.alignmentView}
+              <Text style={styles.chooseLanguage}>Choose Language</Text>
+              <View style={styles.pickerHolder}></View>
+              <Picker
+                selectedValue={selectedLanguage}
+                style={styles.camerajsPicker}
+                onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
               >
+                {Object.keys(Languages).map((key) => {
+                  return (
+                    <Picker.Item
+                      key={key}
+                      label={Languages[key]}
+                      value={key}
+                      color="white"
+                    />
+                  );
+                })}
+              </Picker>
+            </View>
+            <View style={styles.generalView}>
+              <View style={styles.alignmentView}>
                 <TouchableOpacity
                   onPress={takePicture}
                   style={styles.takePicture}
@@ -210,5 +211,3 @@ export default function App({ navigation }) {
     </View>
   );
 }
-
-

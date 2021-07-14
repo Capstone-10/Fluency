@@ -23,7 +23,6 @@ export default function App({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
-  const [type, setType] = useState(Camera.Constants.Type.back);
   const [selectedLanguage, setSelectedLanguage] = useState("af");
   const [loading, setLoading] = useState(false)
 
@@ -51,9 +50,9 @@ export default function App({ navigation }) {
   }
 
   const createTwoButtonAlert = (output) =>
-    Alert.alert("Hey! Below, is this the text you want translated?", output, [
+    Alert.alert("Did I capture this text correctly?", output, [
       {
-        text: "No! Re-take",
+        text: "Re-take",
         onPress: () => {
           setPreviewVisible(false)
           setLoading(false)
@@ -61,7 +60,7 @@ export default function App({ navigation }) {
         style: "cancel",
       },
       {
-        text: "Yes, translate",
+        text: "Translate",
         onPress: async () => {
           {
             await submitToGoogleTranslate();
@@ -167,7 +166,6 @@ export default function App({ navigation }) {
       ) : (
         <Camera
           style={{ flex: 1 }}
-          type={type}
           ref={(ref) => {
             camera = ref;
           }}
@@ -182,25 +180,12 @@ export default function App({ navigation }) {
           animation="slide"
           overlayColor="white"
         />
-            <TouchableOpacity
-              style={styles.cameraType}
-              onPress={() => {
-                setType(
-                  type === Camera.Constants.Type.back
-                    ? Camera.Constants.Type.front
-                    : Camera.Constants.Type.back
-                );
-              }}
-            >
-              <Text style={styles.textFlip}> Flip </Text>
-            </TouchableOpacity>
-
             <View style={styles.languagePicker}>
               <Text style={styles.chooseLanguage}>Choose Language</Text>
               <View style={styles.pickerHolder}></View>
               <Picker
                 selectedValue={selectedLanguage}
-                style={styles.camerajsPicker}
+                style={styles.cameraPicker}
                 onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
               >
                 {Object.keys(Languages).map((key) => {

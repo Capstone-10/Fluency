@@ -14,6 +14,7 @@ import styles from "./styles";
 import Spinner from "react-native-loading-spinner-overlay";
 import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
 import { ActivityIndicator, Colors } from "react-native-paper";
+
 var photo;
 var output;
 var translatedText;
@@ -209,19 +210,6 @@ export default function App({ navigation }) {
               animation="slide"
               overlayColor="white"
             />
-            <TouchableOpacity
-              style={styles.cameraType}
-              onPress={() => {
-                setType(
-                  type === Camera.Constants.Type.back
-                    ? Camera.Constants.Type.front
-                    : Camera.Constants.Type.back
-                );
-              }}
-            >
-              <Text style={styles.textFlip}> Flip </Text>
-            </TouchableOpacity>
-
             <View style={styles.languagePicker}>
               <Text style={styles.chooseLanguage}>Choose Language</Text>
               <View style={styles.pickerHolder}>

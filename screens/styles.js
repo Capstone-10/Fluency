@@ -7,27 +7,21 @@ export default styles = StyleSheet.create({
   capturedImage: {
     flex: 1,
   },
-
-  cameraView: {
-    flex: 1,
-    backgroundColor: "transparent",
-    flexDirection: "row"
-  },
   submitToGoogleVision: {
     width: 130,
     height: 40,
     alignItems: "center",
-    borderRadius: 4
+    borderRadius: 4,
   },
   previewVisible: {
     width: 130,
     height: 40,
     alignItems: "center",
-    borderRadius: 4
+    borderRadius: 4,
   },
   textTranslate: {
     color: "#fff",
-    fontSize: 20
+    fontSize: 20,
   },
   generalView: {
     position: "absolute",
@@ -36,36 +30,41 @@ export default styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     padding: 20,
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   alignmentView: {
     alignSelf: "center",
     flex: 1,
-    alignItems: "center"
+    alignItems: "center",
   },
   takePicture: {
     width: 70,
     height: 70,
     bottom: 0,
     borderRadius: 50,
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
   },
   selectLanguageText: {
     flex: 1,
     color: "#fff",
     fontSize: 20,
-    alignItems: "center"
+    alignItems: "center",
   },
   languagePicker: {
     height: "100%",
     flex: 1,
-    alignItems: "center"
+    alignItems: "center",
   },
   chooseLanguage: {
     color: "white",
     fontSize: 23,
-    top: "5%"
-    //fontWeight: "bold",
+    top: "5%",
+  },
+
+  cameraView: {
+    flex: 1,
+    backgroundColor: "transparent",
+    flexDirection: "column",
   },
   pickerHolder: {
     height: 42,
@@ -73,11 +72,10 @@ export default styles = StyleSheet.create({
     backgroundColor: "#439654",
     opacity: 0.7,
     borderRadius: 10,
-    top: "23%"
+    marginTop: "23%",
+    flexDirection: "column",
   },
   cameraPicker: {
-    height: 50,
-    width: 200,
-    top: "6%"
-  }
+    bottom: "200%",
+  },
 });

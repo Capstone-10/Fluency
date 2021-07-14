@@ -116,20 +116,30 @@ function HomeScreen({ navigation }) {
           content={
             <View>
               <Text style={styles.Tooltip}>
-                Welcome to <Text style={{
-            fontSize: 20,
-            fontWeight: "bold",
-            textAlign: "center",
-            fontFamily: "CedarvilleCursive_400Regular",
-          }}> Fluency </Text>, the place for all of your translation needs!
-              </Text>
-            
-              <Text style={styles.Tooltip}>
-                You can click the camera icon to capture text from any image to translate.
+                Welcome to{" "}
+                <Text
+                  style={{
+                    fontSize: 20,
+                    fontWeight: "bold",
+                    textAlign: "center",
+                    fontFamily: "CedarvilleCursive_400Regular",
+                  }}
+                >
+                  {" "}
+                  Fluency{" "}
+                </Text>
+                , the place for all of your translation needs!
               </Text>
 
               <Text style={styles.Tooltip}>
-                You can also click the "Translate" button to type your desired text for translation. After your text is translated, you can also have it read to you.
+                You can click the camera icon to capture text from any image to
+                translate.
+              </Text>
+
+              <Text style={styles.Tooltip}>
+                You can also click the "Translate" button to type your desired
+                text for translation. After your text is translated, you can
+                also have it read to you.
               </Text>
 
               <Text style={styles.Tooltip}>
@@ -137,7 +147,8 @@ function HomeScreen({ navigation }) {
               </Text>
 
               <Text style={styles.Tooltip}>
-                Start by clicking either the camera icon or the "Translate" button! 
+                Start by clicking either the camera icon or the "Translate"
+                button!
               </Text>
             </View>
           }
@@ -221,7 +232,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     lineHeight: 30,
-    paddingBottom: 15,
+    paddingBottom: 12,
+    //padding: "3%",
     fontFamily: "Georgia",
   },
   tooltipView: {

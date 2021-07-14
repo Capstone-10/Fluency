@@ -21,21 +21,16 @@ const TabNavigator = () => {
       tabBarOptions={{
         showLabel: false,
         style: {
-          // position: "absolute",
+          position: "relative",
           // bottom: 15,
           // marginLeft: 10,
           // marginRight: 10,
-          // left: 20,
-          // right: 20,
           // elevation: 0,
-          // borderRadius: 15,
-          // height: "8%",
-          display: "flex",
-          //flexDirection: "row",
-          //backgroundColor: "yellow",
           //textAlign: "center",
-          alignItems: "center",
-          //alignContent: "center",
+          // borderRadius: 15,
+          height: "8%",
+          // display: "flex",
+          // flexDirection: "row",
         },
       }}
     >
@@ -46,7 +41,7 @@ const TabNavigator = () => {
           tabBarIcon: () => (
             <View style={styles.tabView}>
               <Home style={styles.homeStarImage} />
-              <Text style={styles.homeStarText}>HOME</Text>
+              {/* <Text style={styles.homeStarText}>HOME</Text> */}
             </View>
           ),
         }}
@@ -68,15 +63,14 @@ const TabNavigator = () => {
 };
 
 const styles = StyleSheet.create({
-  tabView: {
-    textAlign: "center",
-    alignItems: "center",
-    alignContent: "center",
-    // display: "flex",
-    // flex: 1,
-    minHeight: "8%",
-    //backgroundColor: "pink",
-  },
+  // tabView: {
+  //   textAlign: "center",
+  //   alignItems: "center",
+  //   alignContent: "center",
+  //   // display: "flex",
+  //   // flex: 1,
+  //   minHeight: "8%",
+  // },
   homeStarImage: {
     //width: 25,
     // height: 25,
@@ -86,7 +80,7 @@ const styles = StyleSheet.create({
   homeStarText: {
     color: "black",
     fontSize: 12,
-    top: "38%",
+    top: "37%",
   },
 });
 

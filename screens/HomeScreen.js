@@ -116,13 +116,28 @@ function HomeScreen({ navigation }) {
           content={
             <View>
               <Text style={styles.Tooltip}>
-                Click the Camera icon to take a picture of some text you'd like
-                to translate.
+                Welcome to <Text style={{
+            fontSize: 20,
+            fontWeight: "bold",
+            textAlign: "center",
+            fontFamily: "CedarvilleCursive_400Regular",
+          }}> Fluency </Text>, the place for all of your translation needs!
               </Text>
-              <Text />
+            
               <Text style={styles.Tooltip}>
-                Click the Translate button to type or speak your desired
-                translation
+                You can click the camera icon to capture text from any image to translate.
+              </Text>
+
+              <Text style={styles.Tooltip}>
+                You can also click the "Translate" button to type your desired text for translation. After your text is translated, you can also have it read to you.
+              </Text>
+
+              <Text style={styles.Tooltip}>
+                You can translate up to 100 lines of text at once!
+              </Text>
+
+              <Text style={styles.Tooltip}>
+                Start by clicking either the camera icon or the "Translate" button! 
               </Text>
             </View>
           }
@@ -205,6 +220,9 @@ const styles = StyleSheet.create({
   Tooltip: {
     fontSize: 16,
     fontWeight: "bold",
+    lineHeight: 30,
+    paddingBottom: 15,
+    fontFamily: "Georgia",
   },
   tooltipView: {
     borderColor: "pink",

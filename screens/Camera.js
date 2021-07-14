@@ -11,9 +11,9 @@ import { Camera } from "expo-camera";
 import { Picker } from "@react-native-picker/picker";
 import Languages from "../languages";
 import styles from "./styles";
-import Spinner from "react-native-loading-spinner-overlay"
+import Spinner from "react-native-loading-spinner-overlay";
 import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
-
+import { ActivityIndicator, Colors } from "react-native-paper";
 var photo;
 var output;
 var translatedText;
@@ -25,7 +25,7 @@ export default function App({ navigation }) {
   const [capturedImage, setCapturedImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [selectedLanguage, setSelectedLanguage] = useState("af");
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -39,9 +39,34 @@ export default function App({ navigation }) {
       setLoading(true);
       setTimeout(() => {
         setLoading(false);
-      }, 15000)
-    }
-  }, [loading])
+      }, 15000);
+    };
+  }, [loading]);
+
+  // if (loading) {
+  //   return (
+  //     <View
+  //       style={{
+  //         flex: 1,
+  //         justifyContent: "center",
+  //         alignContent: "center",
+  //         alignItems: "center",
+  //         backgroundColor: "transparent",
+  //         opacity: 0.6,
+  //       }}
+  //     >
+  //       <Text style={{ fontSize: 30 }}>One sec...</Text>
+  //       <ActivityIndicator
+  //         size={"large"}
+  //         color={Colors.black}
+  //         style={{
+  //           alignContent: "center",
+  //           justifyContent: "center",
+  //         }}
+  //       />
+  //     </View>
+  //   );
+  // }
 
   if (hasPermission === null) {
     return <View />;
@@ -55,8 +80,8 @@ export default function App({ navigation }) {
       {
         text: "No! Re-take",
         onPress: () => {
-          setPreviewVisible(false)
-          setLoading(false)
+          setPreviewVisible(false);
+          setLoading(false);
         },
         style: "cancel",
       },
@@ -68,7 +93,7 @@ export default function App({ navigation }) {
             handleTranslatePress(output, translatedText);
           }
           setPreviewVisible(false);
-          setLoading(false)
+          setLoading(false);
         },
       },
     ]);
@@ -145,7 +170,10 @@ export default function App({ navigation }) {
       const text = await response.json();
       // console.log("JSON before parsing -->", text)
       const textParsed = await JSON.parse(JSON.stringify(text));
-      translatedText = textParsed.data.translations[0].translatedText.replace(/&quot;|&#39;/g, "'");
+      translatedText = textParsed.data.translations[0].translatedText.replace(
+        /&quot;|&#39;/g,
+        "'"
+      );
     } catch (error) {
       console.error(error);
     }
@@ -153,6 +181,7 @@ export default function App({ navigation }) {
 
   const handleTranslatePress = (output, translatedText) => {
     submitToGoogleTranslate(output);
+    setLoading(false);
     let prop = { output, translatedText, detectedSourceLang, selectedLanguage };
     navigation.navigate("Camera Translation", prop);
   };
@@ -173,15 +202,15 @@ export default function App({ navigation }) {
           }}
         >
           <View style={styles.cameraView}>
-          <Spinner
-          //visibility of Overlay Loading Spinner
-          visible={loading}
-          //Text with the Spinner
-          textContent={'SUBMITTED! One sec...'}
-          color="#439654"
-          animation="slide"
-          overlayColor="white"
-        />
+            <Spinner
+              //visibility of Overlay Loading Spinner
+              visible={loading}
+              //Text with the Spinner
+              textContent={"Thank you! One Sec..."}
+              color="#439654"
+              animation="slide"
+              overlayColor="white"
+            />
             <TouchableOpacity
               style={styles.cameraType}
               onPress={() => {
@@ -218,12 +247,14 @@ export default function App({ navigation }) {
             <View style={styles.generalView}>
               <View style={styles.alignmentView}>
                 <TouchableOpacity
-                  onPress={ () => {
-                    {takePicture()}
-                    {setLoading(true)}
-                  }
-                    
-                  }
+                  onPress={() => {
+                    {
+                      takePicture();
+                    }
+                    {
+                      setLoading(true);
+                    }
+                  }}
                   style={styles.takePicture}
                 />
               </View>

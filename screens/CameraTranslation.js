@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Text, StyleSheet, View, ImageBackground, TextInput } from "react-native";
-import { Mic, Volume2, PlayCircle } from "react-native-feather";
+import {
+  Text,
+  StyleSheet,
+  View,
+  ImageBackground,
+  TextInput,
+} from "react-native";
+import { PlayCircle, StopCircle } from "react-native-feather";
 import * as Speech from "expo-speech";
 
 //import styles from "./styles";
 import Languages from "../languages";
 
-
-
 export default function CameraTranslation(prop) {
-  
   // const [input, setInput] = useState("")
   // const [height, setHeight] = useState(0)
 
@@ -29,7 +32,7 @@ export default function CameraTranslation(prop) {
   //   selectedLang
   // );
 
-  const speechToText = async () => {
+  const playSpeech = async () => {
     console.log(translatedVersion);
     console.log(selectedLang);
     Speech.speak(translatedVersion, {
@@ -39,6 +42,20 @@ export default function CameraTranslation(prop) {
     });
   };
 
+  // const playSpeech = async () => {
+  //   Speech.speak(translated, {
+  //     language: selectedLanguage,
+  //     pitch: 1,
+  //     rate: 1,
+  //   });
+  // };
+  const pauseSpeech = () => {
+    Speech.pause();
+  };
+  const stopSpeech = () => {
+    Speech.stop();
+  };
+
   return (
     <ImageBackground style={styles.cameraTranslation_background}>
       <View style={styles.cameraTranslation_topView}>
@@ -46,15 +63,16 @@ export default function CameraTranslation(prop) {
       </View>
 
       <View style={styles.middleView}>
-        <TextInput 
-        multiline 
-        numberOfLines={100}
-        editable={false}
-        // onChange={(event) => {
-        //   setInput(event.nativeEvent.input)
-        //   setHeight(event.nativeEvent.contentSize.height)
-        // }}
-        style={styles.middleText}>
+        <TextInput
+          multiline
+          numberOfLines={100}
+          editable={false}
+          // onChange={(event) => {
+          //   setInput(event.nativeEvent.input)
+          //   setHeight(event.nativeEvent.contentSize.height)
+          // }}
+          style={styles.middleText}
+        >
           {originalText}
         </TextInput>
       </View>
@@ -70,18 +88,25 @@ export default function CameraTranslation(prop) {
       </View>
 
       <View style={styles.bottomView}>
-        <TextInput 
-        multiline
-        numberOfLines={100}
-        editable={false}
-        style={styles.bottomText}>
+        <TextInput
+          multiline
+          numberOfLines={100}
+          editable={false}
+          style={styles.bottomText}
+        >
           {translatedVersion}
         </TextInput>
       </View>
-      <View>
+      <View style={styles.audio}>
         <PlayCircle
           style={styles.SpeakerButton}
-          onPress={speechToText}
+          onPress={playSpeech}
+          width={50}
+          height={50}
+        />
+        <StopCircle
+          style={styles.SpeakerButton}
+          onPress={stopSpeech}
           width={50}
           height={50}
         />
@@ -96,15 +121,15 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: "#F5EFE8",
     alignItems: "center",
-    textAlign: "center",
+    //textAlign: "center",
   },
   cameraTranslation_topView: {
+    marginTop: "7%",
     height: "7%",
     width: "85%",
-    top: "4%",
+    backgroundColor: "#DD8138",
     opacity: 0.8,
     borderRadius: 10,
-    backgroundColor: "#DD8138",
     textAlign: "center",
     alignItems: "center",
     shadowColor: "#000",
@@ -124,18 +149,15 @@ const styles = StyleSheet.create({
   },
 
   middleView: {
-    //40
-    top: "4%",
-    height: "35%",
+    marginBottom: "6%",
+    height: "25%",
     width: "85%",
+    backgroundColor: "white",
     paddingTop: "5%",
     padding: "5%",
-    backgroundColor: "white",
     opacity: 0.8,
     borderRadius: 10,
-    alignItems: "center",
-    // textAlign: "center",
-    fontSize: 15,
+    //alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -148,16 +170,12 @@ const styles = StyleSheet.create({
   middleText: {
     fontSize: 15,
   },
-
   topView2: {
-    //5
     height: "7%",
     width: "85%",
-    top: "8%",
+    backgroundColor: "#DD8138",
     opacity: 0.8,
     borderRadius: 10,
-    backgroundColor: "#DD8138",
-    textAlign: "center",
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -170,17 +188,14 @@ const styles = StyleSheet.create({
   },
 
   bottomView: {
-    //45
-    top: "8%",
-    height: "32%",
+    height: "37%",
     width: "85%",
+    marginBottom: "5%",
     padding: "5%",
     backgroundColor: "white",
     opacity: 0.8,
     borderRadius: 10,
-    borderColor: "white",
-    alignItems: "center",
-
+    //alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -191,8 +206,12 @@ const styles = StyleSheet.create({
     elevation: 11,
   },
   bottomText: { fontSize: 15 },
+  audio: {
+    paddingTop: 10,
+    display: "flex",
+    flexDirection: "row",
+  },
   SpeakerButton: {
     color: "#DD8138",
-    top: "150%",
   },
 });

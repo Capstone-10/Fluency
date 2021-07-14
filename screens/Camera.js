@@ -180,6 +180,7 @@ export default function App({ navigation }) {
           textContent={'SUBMITTED! One sec...'}
           color="#439654"
           animation="slide"
+          overlayColor="white"
         />
             <TouchableOpacity
               style={styles.cameraType}

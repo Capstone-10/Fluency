@@ -108,7 +108,5 @@ export default styles = StyleSheet.create({
     height: 50,
     width: 200,
     top: "-9.5%",
-  },
-
-  
+  }
 });

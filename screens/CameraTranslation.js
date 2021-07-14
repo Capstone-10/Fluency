@@ -41,7 +41,7 @@ export default function CameraTranslation(prop) {
 
       <View style={styles.middleView}>
         <Text multiline style={styles.middleText}>
-          {originalText.replace(/&quot;|&#39;/g, "'")}
+          {originalText}
         </Text>
       </View>
 
@@ -54,7 +54,7 @@ export default function CameraTranslation(prop) {
 
       <View style={styles.bottomView}>
         <Text style={styles.bottomText}>
-          {translatedVersion.replace(/&quot;|&#39;/g, "'")}
+          {translatedVersion}
         </Text>
       </View>
       <View>

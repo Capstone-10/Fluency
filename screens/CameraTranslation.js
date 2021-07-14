@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Text, StyleSheet, View, ImageBackground } from "react-native";
+import { Text, StyleSheet, View, ImageBackground, TextInput } from "react-native";
 import { Mic, Volume2, PlayCircle } from "react-native-feather";
 import * as Speech from "expo-speech";
 
 //import styles from "./styles";
 import Languages from "../languages";
 
+
+
 export default function CameraTranslation(prop) {
+  
+  // const [input, setInput] = useState("")
+  // const [height, setHeight] = useState(0)
+
   let originalText = prop.route.params.output;
   let translatedVersion = prop.route.params.translatedText;
   let detected = prop.route.params.detectedSourceLang;
@@ -40,22 +46,37 @@ export default function CameraTranslation(prop) {
       </View>
 
       <View style={styles.middleView}>
-        <Text multiline style={styles.middleText}>
+        <TextInput 
+        multiline 
+        numberOfLines={100}
+        editable={false}
+        // onChange={(event) => {
+        //   setInput(event.nativeEvent.input)
+        //   setHeight(event.nativeEvent.contentSize.height)
+        // }}
+        style={styles.middleText}>
           {originalText}
-        </Text>
+        </TextInput>
       </View>
 
       <View style={styles.topView2}>
         <Text
-          multiline
+          // onChange={(event) => {
+          //   setInput(event.nativeEvent.input)
+          //   setHeight(event.nativeEvent.contentSize.height)
+          // }}
           style={styles.topViewText}
         >{`${Languages[selectedLang]}`}</Text>
       </View>
 
       <View style={styles.bottomView}>
-        <Text style={styles.bottomText}>
+        <TextInput 
+        multiline
+        numberOfLines={100}
+        editable={false}
+        style={styles.bottomText}>
           {translatedVersion}
-        </Text>
+        </TextInput>
       </View>
       <View>
         <PlayCircle
@@ -113,7 +134,7 @@ const styles = StyleSheet.create({
     opacity: 0.8,
     borderRadius: 10,
     alignItems: "center",
-    textAlign: "center",
+    // textAlign: "center",
     fontSize: 15,
     shadowColor: "#000",
     shadowOffset: {

@@ -118,14 +118,19 @@ export default function VoiceAndTextTranslate() {
         <TextInput
           style={styles.middleView}
           multiline
+        numberOfLines={100}
           onChangeText={onChangeText}
           defaultValue={text}
           placeholder="Type here to translate!"
         />
         <View style={styles.bottomView}>
-          <Text multiline style={styles.bottomText}>
+          <TextInput 
+          multiline 
+        numberOfLines={100}
+        editable={false}
+          style={styles.bottomText}>
             {translated}
-          </Text>
+          </TextInput>
         </View>
         <View>
           <PlayCircle

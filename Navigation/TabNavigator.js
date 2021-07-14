@@ -51,7 +51,7 @@ const TabNavigator = () => {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="☆"
         component={SettingsStackNavigator}
         options={{
@@ -62,7 +62,7 @@ const TabNavigator = () => {
             </View>
           ),
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 };

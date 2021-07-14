@@ -11,6 +11,7 @@ import { Camera } from "expo-camera";
 import { Picker } from "@react-native-picker/picker";
 import Languages from "../languages";
 import styles from "./styles";
+import Spinner from "react-native-loading-spinner-overlay"
 import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
 
 var photo;
@@ -23,8 +24,8 @@ export default function App({ navigation }) {
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
-  // const [detectedSourceLang, setDetectedSourceLang] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState("af");
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     (async () => {
@@ -32,6 +33,15 @@ export default function App({ navigation }) {
       setHasPermission(status === "granted");
     })();
   }, []);
+
+  useEffect(() => {
+    const startLoading = () => {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 15000)
+    }
+  }, [loading])
 
   if (hasPermission === null) {
     return <View />;
@@ -44,7 +54,10 @@ export default function App({ navigation }) {
     Alert.alert("Hey! Below, is this the text you want translated?", output, [
       {
         text: "No! Re-take",
-        onPress: () => setPreviewVisible(false),
+        onPress: () => {
+          setPreviewVisible(false)
+          setLoading(false)
+        },
         style: "cancel",
       },
       {
@@ -55,6 +68,7 @@ export default function App({ navigation }) {
             handleTranslatePress(output, translatedText);
           }
           setPreviewVisible(false);
+          setLoading(false)
         },
       },
     ]);
@@ -131,10 +145,7 @@ export default function App({ navigation }) {
       const text = await response.json();
       // console.log("JSON before parsing -->", text)
       const textParsed = await JSON.parse(JSON.stringify(text));
-      // console.log("parsed response -->", responseParsed)
-      // translatedText = await responseParsed.data.translations[0].translatedText;
-      translatedText = textParsed.data.translations[0].translatedText;
-      // replace(/&quot;|&#39;/g,"'")
+      translatedText = textParsed.data.translations[0].translatedText.replace(/&quot;|&#39;/g, "'");
     } catch (error) {
       console.error(error);
     }
@@ -142,8 +153,6 @@ export default function App({ navigation }) {
 
   const handleTranslatePress = (output, translatedText) => {
     submitToGoogleTranslate(output);
-    // console.log("detected source!!!-->", detectedSourceLang)
-    // console.log("selected lang in handleTranslatePress!!!-->", selectedLanguage)
     let prop = { output, translatedText, detectedSourceLang, selectedLanguage };
     navigation.navigate("Camera Translation", prop);
   };
@@ -164,6 +173,14 @@ export default function App({ navigation }) {
           }}
         >
           <View style={styles.cameraView}>
+          <Spinner
+          //visibility of Overlay Loading Spinner
+          visible={loading}
+          //Text with the Spinner
+          textContent={'SUBMITTED! One sec...'}
+          color="#439654"
+          animation="slide"
+        />
             <TouchableOpacity
               style={styles.cameraType}
               onPress={() => {
@@ -200,7 +217,12 @@ export default function App({ navigation }) {
             <View style={styles.generalView}>
               <View style={styles.alignmentView}>
                 <TouchableOpacity
-                  onPress={takePicture}
+                  onPress={ () => {
+                    {takePicture()}
+                    {setLoading(true)}
+                  }
+                    
+                  }
                   style={styles.takePicture}
                 />
               </View>

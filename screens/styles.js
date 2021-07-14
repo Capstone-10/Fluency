@@ -2,11 +2,12 @@ import { StyleSheet } from "react-native";
 
 export default styles = StyleSheet.create({
   mainView: {
-    flex: 1
+    flex: 1,
   },
   capturedImage: {
-    flex: 1
+    flex: 1,
   },
+
   cameraView: {
     flex: 1,
     backgroundColor: "transparent",
@@ -58,12 +59,13 @@ export default styles = StyleSheet.create({
   languagePicker: {
     height: "100%",
     flex: 1,
-    alignItems: "center",
+    alignItems: "center"
   },
   chooseLanguage: {
     color: "white",
     fontSize: 23,
     top: "5%"
+    //fontWeight: "bold",
   },
   pickerHolder: {
     height: 42,

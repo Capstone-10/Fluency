@@ -4,7 +4,8 @@ import {
   View,
   TouchableOpacity,
   ImageBackground,
-  Alert
+  Alert,
+  StyleSheet,
 } from "react-native";
 import { Camera } from "expo-camera";
 import { Picker } from "@react-native-picker/picker";
@@ -49,7 +50,7 @@ export default function App({ navigation }) {
   }
 
   const createTwoButtonAlert = (output) =>
-    Alert.alert("Did I capture the text correctly?", output, [
+    Alert.alert("Did I capture this text correctly?", output, [
       {
         text: "Re-take",
         onPress: () => {
@@ -184,7 +185,7 @@ export default function App({ navigation }) {
               <View style={styles.pickerHolder}></View>
               <Picker
                 selectedValue={selectedLanguage}
-                style={styles.camerajsPicker}
+                style={styles.cameraPicker}
                 onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
               >
                 {Object.keys(Languages).map((key) => {
@@ -205,7 +206,9 @@ export default function App({ navigation }) {
                   onPress={ () => {
                     {takePicture()}
                     {setLoading(true)}
-                  }}
+                  }
+                    
+                  }
                   style={styles.takePicture}
                 />
               </View>

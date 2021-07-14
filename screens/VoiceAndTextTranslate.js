@@ -235,5 +235,6 @@ const styles = StyleSheet.create({
   },
   SpeakerButton: {
     color: "#439654",
+    opacity: 0.9,
   },
 });

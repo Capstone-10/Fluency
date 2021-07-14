@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import Languages from "../languages";
-import { Mic, Volume2, PlayCircle } from "react-native-feather";
+import { Mic, Volume2, PlayCircle, StopCircle } from "react-native-feather";
 import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
 import * as Speech from "expo-speech";
 
@@ -39,6 +39,9 @@ export default function VoiceAndTextTranslate() {
       pitch: 1,
       rate: 1,
     });
+  };
+  const stopSpeech = () => {
+    Speech.stop();
   };
 
   const onChangeText = async (text) => {
@@ -118,24 +121,31 @@ export default function VoiceAndTextTranslate() {
         <TextInput
           style={styles.middleView}
           multiline
-        numberOfLines={100}
+          numberOfLines={100}
           onChangeText={onChangeText}
           defaultValue={text}
           placeholder="Type here to translate!"
         />
         <View style={styles.bottomView}>
-          <TextInput 
-          multiline 
-        numberOfLines={100}
-        editable={false}
-          style={styles.bottomText}>
+          <TextInput
+            multiline
+            numberOfLines={100}
+            editable={false}
+            style={styles.bottomText}
+          >
             {translated}
           </TextInput>
         </View>
-        <View>
+        <View style={styles.audio}>
           <PlayCircle
             style={styles.SpeakerButton}
             onPress={speechToText}
+            width={50}
+            height={50}
+          />
+          <StopCircle
+            style={styles.SpeakerButton}
+            onPress={stopSpeech}
             width={50}
             height={50}
           />
@@ -153,13 +163,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   topView: {
-    //5
+    marginTop: "7%",
     height: "7%",
     width: "85%",
-    top: "4%",
+    backgroundColor: "#439654",
     opacity: 0.8,
     borderRadius: 10,
-    backgroundColor: "#439654",
+
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -172,24 +182,19 @@ const styles = StyleSheet.create({
   },
   picker: {
     position: "relative",
-    bottom: 82,
+    bottom: 84,
     maxHeight: 100,
     width: 200,
-    //opacity: 1,
   },
-
   middleView: {
-    //40
-    top: "10%",
-    height: "30%",
+    marginTop: "4%",
+    height: "26%",
     width: "85%",
+    backgroundColor: "white",
     paddingTop: "5%",
     padding: "5%",
-    backgroundColor: "white",
     opacity: 0.8,
     borderRadius: 10,
-    //alignItems: "center",
-    //textAlign: "center",
     fontSize: 15,
     shadowColor: "#000",
     shadowOffset: {
@@ -200,18 +205,15 @@ const styles = StyleSheet.create({
     shadowRadius: 20,
     elevation: 11,
   },
-
   bottomView: {
-    //45
-    top: "14%",
-    height: "38%",
+    marginTop: "4%",
+    height: "40%",
     width: "85%",
-    padding: "5%",
     backgroundColor: "white",
+    padding: "5%",
     opacity: 0.8,
     borderRadius: 10,
     borderColor: "white",
-    //alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -224,8 +226,14 @@ const styles = StyleSheet.create({
   bottomText: {
     fontSize: 15,
   },
+  audio: {
+    paddingTop: 25,
+    margin: "3%",
+    height: "1%",
+    display: "flex",
+    flexDirection: "row",
+  },
   SpeakerButton: {
     color: "#439654",
-    top: "230%",
   },
 });

@@ -1,43 +1,21 @@
 import { StyleSheet } from "react-native";
 
 export default styles = StyleSheet.create({
-  //what styles are thses?
   mainView: {
     flex: 1,
   },
   capturedImage: {
     flex: 1,
   },
-  nestedView: {
-    flex: 1,
-    flexDirection: "column",
-    padding: 15,
-    justifyContent: "flex-end",
-  },
-  view: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  textRetake: {
-    color: "#fff",
-    fontSize: 20,
-  },
-  cameraView: {
-    flex: 1,
-    backgroundColor: "transparent",
-    flexDirection: "row",
-  },
   submitToGoogleVision: {
     width: 130,
     height: 40,
-
     alignItems: "center",
     borderRadius: 4,
   },
   previewVisible: {
     width: 130,
     height: 40,
-
     alignItems: "center",
     borderRadius: 4,
   },
@@ -45,17 +23,6 @@ export default styles = StyleSheet.create({
     color: "#fff",
     fontSize: 20,
   },
-  cameraType: {
-    position: "absolute",
-    top: "5%",
-    left: "5%",
-  },
-  textFlip: {
-    fontSize: 20,
-    marginBottom: 10,
-    color: "white",
-  },
-
   generalView: {
     position: "absolute",
     bottom: 0,
@@ -83,8 +50,6 @@ export default styles = StyleSheet.create({
     fontSize: 20,
     alignItems: "center",
   },
-
-  // camera.js styles
   languagePicker: {
     height: "100%",
     flex: 1,
@@ -94,7 +59,12 @@ export default styles = StyleSheet.create({
     color: "white",
     fontSize: 23,
     top: "5%",
-    //fontWeight: "bold",
+  },
+
+  cameraView: {
+    flex: 1,
+    backgroundColor: "transparent",
+    flexDirection: "column",
   },
   pickerHolder: {
     height: 42,
@@ -102,11 +72,10 @@ export default styles = StyleSheet.create({
     backgroundColor: "#439654",
     opacity: 0.7,
     borderRadius: 10,
-    top: "8.3%",
+    marginTop: "23%",
+    flexDirection: "column",
   },
-  camerajsPicker: {
-    height: 50,
-    width: 200,
-    top: "-9.5%",
-  }
+  cameraPicker: {
+    bottom: "200%",
+  },
 });

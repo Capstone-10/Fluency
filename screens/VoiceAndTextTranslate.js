@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import Languages from "../languages";
-import { Mic, Volume2, PlayCircle, StopCircle } from "react-native-feather";
+import { PlayCircle, StopCircle, PauseCircle } from "react-native-feather";
 import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
 import * as Speech from "expo-speech";
 
@@ -25,7 +25,7 @@ const DismissKeyboard = ({ children }) => (
 export default function VoiceAndTextTranslate() {
   const [text, setText] = useState("");
   const [translated, setTranslated] = useState("");
-  const [selectedLanguage, setSelectedLanguage] = useState("af");
+  const [selectedLanguage, setSelectedLanguage] = useState("en");
 
   useEffect(() => {
     submitToGoogleTranslate(text);

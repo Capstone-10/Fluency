@@ -12,6 +12,7 @@ import Languages from "../languages";
 import styles from "./styles";
 import Spinner from "react-native-loading-spinner-overlay";
 import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
+import {useRoute} from '@react-navigation/native';
 import { ActivityIndicator, Colors } from "react-native-paper";
 
 var photo;
@@ -23,8 +24,9 @@ export default function App({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
-  const [selectedLanguage, setSelectedLanguage] = useState("af");
+  const [selectedLanguage, setSelectedLanguage] = useState("en");
   const [loading, setLoading] = useState(false);
+  // const [mounted, setMounted] = useState(true)
 
   useEffect(() => {
     (async () => {
@@ -42,29 +44,33 @@ export default function App({ navigation }) {
     };
   }, [loading]);
 
+  // useEffect(() => {
+  //   createTwoButtonAlert.remove()  
+  // }, [navigation])
+
   // if (loading) {
   //   return (
-  //     <View
-  //       style={{
-  //         flex: 1,
-  //         justifyContent: "center",
-  //         alignContent: "center",
-  //         alignItems: "center",
-  //         backgroundColor: "transparent",
-  //         opacity: 0.6,
-  //       }}
-  //     >
-  //       <Text style={{ fontSize: 30 }}>One sec...</Text>
-  //       <ActivityIndicator
-  //         size={"large"}
-  //         color={Colors.black}
-  //         style={{
-  //           alignContent: "center",
-  //           justifyContent: "center",
-  //         }}
-  //       />
-  //     </View>
-  //   );
+  //     // <View
+  //     //   style={{
+  //     //     flex: 1,
+  //     //     justifyContent: "center",
+  //     //     alignContent: "center",
+  //     //     alignItems: "center",
+  //     //     backgroundColor: "transparent",
+  //     //     opacity: 0.6,
+  //     //   }}
+  //     // >
+  //       // <Text style={{ fontSize: 30 }}>One sec...</Text>
+  //       // <ActivityIndicator
+  //       //   size={"large"}
+  //       //   color={Colors.black}
+  //       //   style={{
+  //       //     alignContent: "center",
+  //       //     justifyContent: "center",
+  //       //   }}
+  //       // />
+  //     // </View>
+  //   // );
   // }
 
   if (hasPermission === null) {
@@ -74,7 +80,20 @@ export default function App({ navigation }) {
     return <Text>No access to camera</Text>;
   }
 
+  // const route = useRoute()
+  
+
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener('focus', () => {
+  //     createTwoButtonAlert()
+  //   });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+  //   return unsubscribe;
+  // }, [navigation]);
+
   const createTwoButtonAlert = (output) => {
+    
     Alert.alert("Did I capture this text correctly?", output, [
       {
         text: "Re-take",
@@ -103,6 +122,9 @@ export default function App({ navigation }) {
       // style: "cancel"}
     ]);
   }
+  
+
+  
 
   const takePicture = async () => {
     if (!camera) return;
@@ -149,6 +171,7 @@ export default function App({ navigation }) {
         capturedTextParsed.responses[0].textAnnotations[0].locale;
       console.log("detected source language: ", detectedSourceLang);
       createTwoButtonAlert(output);
+      
     } catch (error) {
       Alert.alert(
         "Oh, no!",

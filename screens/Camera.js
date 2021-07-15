@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   ImageBackground,
   Alert,
-  StyleSheet,
 } from "react-native";
 import { Camera } from "expo-camera";
 import { Picker } from "@react-native-picker/picker";
@@ -75,7 +74,7 @@ export default function App({ navigation }) {
     return <Text>No access to camera</Text>;
   }
 
-  const createTwoButtonAlert = (output) =>
+  const createTwoButtonAlert = (output) => {
     Alert.alert("Did I capture this text correctly?", output, [
       {
         text: "Re-take",
@@ -96,7 +95,14 @@ export default function App({ navigation }) {
           setLoading(false);
         },
       },
+      // {text: "Cancel", 
+      // onPress: () => {
+      //   setPreviewVisible(false);
+      //   setLoading(false);
+      // }, 
+      // style: "cancel"}
     ]);
+  }
 
   const takePicture = async () => {
     if (!camera) return;
@@ -144,6 +150,12 @@ export default function App({ navigation }) {
       console.log("detected source language: ", detectedSourceLang);
       createTwoButtonAlert(output);
     } catch (error) {
+      Alert.alert(
+        "Oh, no!",
+        "Are you sure there was text there? If so, was it blury? Try again!"
+      );
+      setPreviewVisible(false);
+      setLoading(false);
       console.log(error);
     }
   };
@@ -202,9 +214,8 @@ export default function App({ navigation }) {
         >
           <View style={styles.cameraView}>
             <Spinner
-              //visibility of Overlay Loading Spinner
+              //Spinner visible only if loading is truthy
               visible={loading}
-              //Text with the Spinner
               textContent={"Thank you! One Sec..."}
               color="#439654"
               animation="slide"

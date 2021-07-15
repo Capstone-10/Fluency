@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import Languages from "../languages";
-import { Mic, Volume2, PlayCircle } from "react-native-feather";
+import { Pause, PlayCircle, StopCircle } from "react-native-feather";
 import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
 import * as Speech from "expo-speech";
 
@@ -26,19 +26,34 @@ export default function VoiceAndTextTranslate() {
   const [text, setText] = useState("");
   const [translated, setTranslated] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("af");
+  const [speechState, setSpeechState] = useState(true);
 
   useEffect(() => {
     submitToGoogleTranslate(text);
+    // pauseSpeech();
   }, [selectedLanguage]);
 
-  const speechToText = async () => {
-    console.log(translated);
-    console.log(selectedLanguage);
-    Speech.speak(translated, {
-      language: selectedLanguage,
-      pitch: 1,
-      rate: 1,
-    });
+  const playSpeech = () => {
+    if (speechState === false) {
+      Speech.resume();
+      setSpeechState(true);
+    } else {
+      Speech.speak(translated, {
+        language: selectedLanguage,
+        pitch: 1,
+        rate: 1,
+        onStart: setSpeechState(false),
+      });
+    }
+  };
+
+  const pauseSpeech = () => {
+    Speech.pause();
+    setSpeechState(false);
+  };
+
+  const stopSpeech = () => {
+    Speech.stop();
   };
 
   const onChangeText = async (text) => {
@@ -127,10 +142,22 @@ export default function VoiceAndTextTranslate() {
             {translated}
           </Text>
         </View>
-        <View>
+        <View styles={styles.buttonsView}>
           <PlayCircle
-            style={styles.SpeakerButton}
-            onPress={speechToText}
+            style={styles.PlayButton}
+            onPress={playSpeech}
+            width={50}
+            height={50}
+          />
+          <Pause
+            style={styles.PauseButton}
+            onPress={pauseSpeech}
+            width={50}
+            height={50}
+          />
+          <StopCircle
+            style={styles.StopButton}
+            onPress={stopSpeech}
             width={50}
             height={50}
           />
@@ -148,7 +175,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   topView: {
-    //5
     height: "7%",
     width: "85%",
     top: "4%",
@@ -219,8 +245,22 @@ const styles = StyleSheet.create({
   bottomText: {
     fontSize: 15,
   },
-  SpeakerButton: {
+  PlayButton: {
     color: "#439654",
-    top: "230%",
+    top: "10%",
+  },
+  StopButton: {
+    color: "#439654",
+    top: "25%",
+  },
+  PauseButton: {
+    color: "#439654",
+    top: "10%",
+  },
+  buttonsView: {
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    height: "40%",
   },
 });

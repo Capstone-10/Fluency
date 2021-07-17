@@ -27,6 +27,7 @@ export default function VoiceAndTextTranslate() {
   const [translated, setTranslated] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("en");
 
+
   useEffect(() => {
     submitToGoogleTranslate(text);
   }, [selectedLanguage]);

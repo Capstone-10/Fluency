@@ -8,9 +8,10 @@ import {
 } from "react-native";
 import { PlayCircle, StopCircle, ArrowRight } from "react-native-feather";
 import * as Speech from "expo-speech";
-
 //import styles from "./styles";
 import Languages from "../languages";
+
+
 
 export default function CameraTranslation(props) {
   // const [input, setInput] = useState("")
@@ -135,25 +136,20 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: "#F5EFE8",
     alignItems: "center",
-    //textAlign: "center",
   },
 languageBox: {
   //30
   marginTop: "7%",
   marginBottom: "3%",
   height: "10%",
-  width: "85%",
-  // backgroundColor: "#d8dcf0",
   opacity: 0.8,
   borderRadius: 10,
-
   alignItems: "center",
   justifyContent: "center",
   flexDirection: "row",
-  
 },
 detectedLanduageView: {
-  width: 128,
+  width: 145,
   height: 50,
   backgroundColor: "#DD8138",
   marginRight: 20,
@@ -170,7 +166,7 @@ detectedLanduageView: {
   elevation: 11,
 },
 selectedLanguageView: {
-  width: 128,
+  width: 145,
   height: 50,
   backgroundColor: "#DD8138",
   marginLeft: 20,
@@ -209,7 +205,6 @@ selectedLanguageView: {
     padding: "5%",
     opacity: 0.8,
     borderRadius: 10,
-    //alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -230,7 +225,6 @@ selectedLanguageView: {
     backgroundColor: "white",
     opacity: 0.8,
     borderRadius: 10,
-    //alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

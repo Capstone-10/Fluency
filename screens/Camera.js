@@ -9,11 +9,10 @@ import {
 import { Camera } from "expo-camera";
 import { Picker } from "@react-native-picker/picker";
 import Languages from "../languages";
-import styles from "./styles";
+import styles from "../styles";
 import Spinner from "react-native-loading-spinner-overlay";
 import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
-import {useRoute} from '@react-navigation/native';
-import { ActivityIndicator, Colors } from "react-native-paper";
+// import { ActivityIndicator, Colors } from "react-native-paper";
 
 var photo;
 var output;
@@ -80,7 +79,7 @@ export default function App({ navigation }) {
     return <Text>No access to camera</Text>;
   }
 
-  // const route = useRoute()
+  
   
 
   // useEffect(() => {
@@ -122,8 +121,6 @@ export default function App({ navigation }) {
       // style: "cancel"}
     ]);
   }
-  
-
   
 
   const takePicture = async () => {
@@ -169,7 +166,7 @@ export default function App({ navigation }) {
       );
       detectedSourceLang =
         capturedTextParsed.responses[0].textAnnotations[0].locale;
-      console.log("detected source language: ", detectedSourceLang);
+      // console.log("detected source language: ", detectedSourceLang);
       createTwoButtonAlert(output);
       
     } catch (error) {
@@ -184,7 +181,7 @@ export default function App({ navigation }) {
   };
 
   const submitToGoogleTranslate = async () => {
-    console.log("Selected language", selectedLanguage);
+    // console.log("Selected language", selectedLanguage);
     try {
       let body = JSON.stringify({
         target: selectedLanguage,
@@ -230,12 +227,12 @@ export default function App({ navigation }) {
         ></ImageBackground>
       ) : (
         <Camera
-          style={{ flex: 1 }}
+          style={styles.cameraView}
           ref={(ref) => {
             camera = ref;
           }}
         >
-          <View style={styles.cameraView}>
+          <View style={styles.cameraNestedView}>
             <Spinner
               //Spinner visible only if loading is truthy
               visible={loading}

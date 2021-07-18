@@ -123,9 +123,6 @@ export default function App({ navigation }) {
     ]);
   }
   
-
-  
-
   const takePicture = async () => {
     if (!camera) return;
     const options = {
@@ -169,7 +166,7 @@ export default function App({ navigation }) {
       );
       detectedSourceLang =
         capturedTextParsed.responses[0].textAnnotations[0].locale;
-      console.log("detected source language: ", detectedSourceLang);
+      // console.log("detected source language: ", detectedSourceLang);
       createTwoButtonAlert(output);
       
     } catch (error) {
@@ -184,7 +181,7 @@ export default function App({ navigation }) {
   };
 
   const submitToGoogleTranslate = async () => {
-    console.log("Selected language", selectedLanguage);
+    // console.log("Selected language", selectedLanguage);
     try {
       let body = JSON.stringify({
         target: selectedLanguage,

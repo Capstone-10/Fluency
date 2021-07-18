@@ -33,8 +33,8 @@ export default function CameraTranslation(props) {
   // );
 
   const playSpeech = async () => {
-    console.log(translatedVersion);
-    console.log(selectedLang);
+    // console.log(translatedVersion);
+    // console.log(selectedLang);
     Speech.speak(translatedVersion, {
       language: selectedLang,
       pitch: 1,
@@ -186,58 +186,20 @@ selectedLanguageView: {
   shadowRadius: 20,
   elevation: 11,
 },
-  // cameraTranslation_topView: {
-  //   marginTop: "7%",
-  //   height: "7%",
-  //   width: "85%",
-  //   backgroundColor: "#DD8138",
-  //   opacity: 0.8,
-  //   borderRadius: 10,
-  //   textAlign: "center",
-  //   alignItems: "center",
-  //   shadowColor: "#000",
-  //   shadowOffset: {
-  //     width: 0,
-  //     height: 5,
-  //   },
-  //   shadowOpacity: 0.25,
-  //   shadowRadius: 20,
-  //   elevation: 11,
-  // },
-
-    // topView2: {
-  //   height: "7%",
-  //   width: "85%",
-  //   backgroundColor: "#DD8138",
-  //   opacity: 0.8,
-  //   borderRadius: 10,
-  //   alignItems: "center",
-  //   shadowColor: "#000",
-  //   shadowOffset: {
-  //     width: 0,
-  //     height: 5,
-  //   },
-  //   shadowOpacity: 0.25,
-  //   shadowRadius: 20,
-  //   elevation: 11,
-  // },
   selectedLanguageText: {
     fontSize: 20,
     top: "4%",
     color: "white"
   },
-  
   topViewText: {
     fontSize: 20,
     top: "4%",
     color: "white",
   },
-
   arrowRight: {
     color: "#DD8138",
     opacity: 0.9,
   },
-
   middleView: {
     marginBottom: "1%",
     height: "30%",
@@ -257,11 +219,9 @@ selectedLanguageView: {
     shadowRadius: 20,
     elevation: 11,
   },
-
   middleText: {
     fontSize: 15,
   },
-
   bottomView: {
     height: "37%",
     width: "85%",
@@ -280,11 +240,9 @@ selectedLanguageView: {
     shadowRadius: 20,
     elevation: 11,
   },
-
   bottomText: { 
     fontSize: 15 
   },
-
   audio: {
     paddingTop: 10,
     display: "flex",

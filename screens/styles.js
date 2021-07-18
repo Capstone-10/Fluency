@@ -69,7 +69,7 @@ export default styles = StyleSheet.create({
   pickerHolder: {
     height: 42,
     width: 182,
-    backgroundColor: "#439654",
+    backgroundColor: "#DD8138",
     opacity: 0.7,
     borderRadius: 10,
     marginTop: "23%",

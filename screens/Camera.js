@@ -123,9 +123,6 @@ export default function App({ navigation }) {
     ]);
   }
   
-
-  
-
   const takePicture = async () => {
     if (!camera) return;
     const options = {
@@ -169,7 +166,7 @@ export default function App({ navigation }) {
       );
       detectedSourceLang =
         capturedTextParsed.responses[0].textAnnotations[0].locale;
-      console.log("detected source language: ", detectedSourceLang);
+      // console.log("detected source language: ", detectedSourceLang);
       createTwoButtonAlert(output);
       
     } catch (error) {
@@ -184,7 +181,7 @@ export default function App({ navigation }) {
   };
 
   const submitToGoogleTranslate = async () => {
-    console.log("Selected language", selectedLanguage);
+    // console.log("Selected language", selectedLanguage);
     try {
       let body = JSON.stringify({
         target: selectedLanguage,
@@ -217,8 +214,8 @@ export default function App({ navigation }) {
   const handleTranslatePress = (output, translatedText) => {
     submitToGoogleTranslate(output);
     setLoading(false);
-    let prop = { output, translatedText, detectedSourceLang, selectedLanguage };
-    navigation.navigate("Camera Translation", prop);
+    let props = { output, translatedText, detectedSourceLang, selectedLanguage };
+    navigation.navigate("Camera Translation", props);
   };
 
   return (
@@ -239,8 +236,8 @@ export default function App({ navigation }) {
             <Spinner
               //Spinner visible only if loading is truthy
               visible={loading}
-              textContent={"Thank you! One Sec..."}
-              color="#439654"
+              textContent={"Thank you! Just a moment"}
+              color="#DD8138"
               animation="slide"
               overlayColor="white"
             />

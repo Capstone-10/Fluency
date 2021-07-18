@@ -33,7 +33,7 @@ const MainStackNavigator = () => {
       <Stack.Screen
         name="Camera Translation"
         component={CameraTranslation}
-        prop
+        props
       />
       <Stack.Screen name="Translate" component={Translate} />
     </Stack.Navigator>

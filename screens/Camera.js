@@ -214,8 +214,8 @@ export default function App({ navigation }) {
   const handleTranslatePress = (output, translatedText) => {
     submitToGoogleTranslate(output);
     setLoading(false);
-    let prop = { output, translatedText, detectedSourceLang, selectedLanguage };
-    navigation.navigate("Camera Translation", prop);
+    let props = { output, translatedText, detectedSourceLang, selectedLanguage };
+    navigation.navigate("Camera Translation", props);
   };
 
   return (

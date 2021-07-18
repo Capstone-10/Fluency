@@ -236,8 +236,8 @@ export default function App({ navigation }) {
             <Spinner
               //Spinner visible only if loading is truthy
               visible={loading}
-              textContent={"Thank you! One Sec..."}
-              color="#439654"
+              textContent={"Thank you! Just a moment"}
+              color="#DD8138"
               animation="slide"
               overlayColor="white"
             />

@@ -10,11 +10,11 @@ import * as Speech from "expo-speech";
 import styles from "../styles";
 import Languages from "../languages";
 
-export default function CameraTranslation(prop) {
-  let originalText = prop.route.params.output;
-  let translatedVersion = prop.route.params.translatedText;
-  let detected = prop.route.params.detectedSourceLang;
-  let selectedLang = prop.route.params.selectedLanguage;
+export default function CameraTranslation(props) {
+  let originalText = props.route.params.output;
+  let translatedVersion = props.route.params.translatedText;
+  let detected = props.route.params.detectedSourceLang;
+  let selectedLang = props.route.params.selectedLanguage;
 
 
   const playSpeech = async () => {
@@ -27,10 +27,10 @@ export default function CameraTranslation(prop) {
     });
   };
 
-  //where are we using this?
-  const pauseSpeech = () => {
-    Speech.pause();
-  };
+  // //where are we using this?
+  // const pauseSpeech = () => {
+  //   Speech.pause();
+  // };
   const stopSpeech = () => {
     Speech.stop();
   };

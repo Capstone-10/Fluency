@@ -23,10 +23,7 @@ const TabNavigator = () => {
         component={MainStackNavigator}
         options={{
           tabBarIcon: () => (
-            //where is the tabView style coming from?
-            <View style={styles.tabView}>
               <Home style={styles.homeImage} />
-            </View>
           ),
         }}
       />

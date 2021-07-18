@@ -4,7 +4,7 @@ export default styles = StyleSheet.create({
   //TabNavigator
   homeImage: {
     color: "black",
-    top: "38%",
+    top: "15%",
   },
 
   //Camera
@@ -174,14 +174,12 @@ background: {
 },
 
 topView: {
-  //10
   height: "10%",
   paddingTop: "5%",
   paddingRight: "5%",
   alignSelf: "flex-end",
 },
 homeMiddleView: {
-  //50
   height: "50%",
   top: 15,
 },

@@ -1,11 +1,6 @@
 import React from "react";
-import {
-  Text,
-  View,
-  ImageBackground,
-  TextInput,
-} from "react-native";
-import { PlayCircle, StopCircle } from "react-native-feather";
+import { Text, View, ImageBackground, TextInput } from "react-native";
+import { PlayCircle, StopCircle, ArrowRight } from "react-native-feather";
 import * as Speech from "expo-speech";
 import styles from "../styles";
 import Languages from "../languages";
@@ -16,10 +11,7 @@ export default function CameraTranslation(props) {
   let detected = props.route.params.detectedSourceLang;
   let selectedLang = props.route.params.selectedLanguage;
 
-
   const playSpeech = async () => {
-    // console.log(translatedVersion);
-    // console.log(selectedLang);
     Speech.speak(translatedVersion, {
       language: selectedLang,
       pitch: 1,
@@ -27,20 +19,23 @@ export default function CameraTranslation(props) {
     });
   };
 
-  // //where are we using this?
-  // const pauseSpeech = () => {
-  //   Speech.pause();
-  // };
   const stopSpeech = () => {
     Speech.stop();
   };
 
   return (
-    <ImageBackground style={styles.cameraTranslationBackground}>
-      <View style={styles.cameraTranslationTopView}>
-        <Text style={styles.topViewText}>{Languages[detected]}</Text>
+    <ImageBackground style={styles.cameraTranslation_background}>
+      <View style={styles.languageBox}>
+        <View style={styles.detectedLanduageView}>
+          <Text style={styles.topViewText}>{Languages[detected]}</Text>
+        </View>
+        <ArrowRight style={styles.arrowRight} strokeWidth="3px"></ArrowRight>
+        <View style={styles.selectedLanguageView}>
+          <Text style={styles.selectedLanguageText}>
+            {`${Languages[selectedLang]}`}
+          </Text>
+        </View>
       </View>
-
       <View style={styles.middleView}>
         <TextInput
           multiline
@@ -51,13 +46,9 @@ export default function CameraTranslation(props) {
           {originalText}
         </TextInput>
       </View>
-
       <View style={styles.topView2}>
-        <Text
-          style={styles.topViewText}
-        >{`${Languages[selectedLang]}`}</Text>
+        <Text style={styles.topViewText}></Text>
       </View>
-
       <View style={styles.bottomView}>
         <TextInput
           multiline
@@ -70,13 +61,13 @@ export default function CameraTranslation(props) {
       </View>
       <View style={styles.audio}>
         <PlayCircle
-          style={styles.SpeakerButton}
+          style={styles.cameraSpeakerButton}
           onPress={playSpeech}
           width={50}
           height={50}
         />
         <StopCircle
-          style={styles.SpeakerButton}
+          style={styles.cameraSpeakerButton}
           onPress={stopSpeech}
           width={50}
           height={50}

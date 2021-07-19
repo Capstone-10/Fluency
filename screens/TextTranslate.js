@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  StyleSheet,
   TextInput,
   View,
   TouchableWithoutFeedback,
@@ -30,8 +29,6 @@ export default function VoiceAndTextTranslate() {
   }, [selectedLanguage]);
 
   const speechToText = async () => {
-    // console.log(translated);
-    // console.log(selectedLanguage);
     Speech.speak(translated, {
       language: selectedLanguage,
       pitch: 1,
@@ -51,10 +48,6 @@ export default function VoiceAndTextTranslate() {
   };
 
   const submitToGoogleTranslate = async (text) => {
-    // console.log(
-    //   "selected language in submitToGoogleTranslate-->",
-    //   selectedLanguage
-    // );
     try {
       let body = JSON.stringify({
         target: selectedLanguage,
@@ -74,7 +67,6 @@ export default function VoiceAndTextTranslate() {
       );
       const initialText = await response.json();
       const initialTextParsed = await JSON.parse(JSON.stringify(initialText));
-      //console.log("responseParsed-->", responseParsed);
       let result =
         await initialTextParsed.data.translations[0].translatedText.replace(
           /&quot;|&#39;/g,
@@ -94,11 +86,6 @@ export default function VoiceAndTextTranslate() {
             style={styles.translatePicker}
             onValueChange={(itemValue) => {
               setSelectedLanguage(itemValue);
-              // console.log("Item value in onValueChange??", itemValue);
-              // console.log(
-              //   "Selected language in onValueChange?",
-              //   selectedLanguage
-              // );
               submitToGoogleTranslate(text);
             }}
             selectedValue={selectedLanguage}

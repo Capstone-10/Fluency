@@ -12,7 +12,7 @@ import Languages from "../languages";
 import styles from "../styles";
 import Spinner from "react-native-loading-spinner-overlay";
 import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
-// import { ActivityIndicator, Colors } from "react-native-paper";
+
 
 var photo;
 var output;
@@ -25,7 +25,7 @@ export default function App({ navigation }) {
   const [capturedImage, setCapturedImage] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState("en");
   const [loading, setLoading] = useState(false);
-  // const [mounted, setMounted] = useState(true)
+
 
   useEffect(() => {
     (async () => {
@@ -43,34 +43,7 @@ export default function App({ navigation }) {
     };
   }, [loading]);
 
-  // useEffect(() => {
-  //   createTwoButtonAlert.remove()  
-  // }, [navigation])
 
-  // if (loading) {
-  //   return (
-  //     // <View
-  //     //   style={{
-  //     //     flex: 1,
-  //     //     justifyContent: "center",
-  //     //     alignContent: "center",
-  //     //     alignItems: "center",
-  //     //     backgroundColor: "transparent",
-  //     //     opacity: 0.6,
-  //     //   }}
-  //     // >
-  //       // <Text style={{ fontSize: 30 }}>One sec...</Text>
-  //       // <ActivityIndicator
-  //       //   size={"large"}
-  //       //   color={Colors.black}
-  //       //   style={{
-  //       //     alignContent: "center",
-  //       //     justifyContent: "center",
-  //       //   }}
-  //       // />
-  //     // </View>
-  //   // );
-  // }
 
   if (hasPermission === null) {
     return <View />;
@@ -78,18 +51,6 @@ export default function App({ navigation }) {
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
-
-  
-  
-
-  // useEffect(() => {
-  //   const unsubscribe = navigation.addListener('focus', () => {
-  //     createTwoButtonAlert()
-  //   });
-
-    // Return the function to unsubscribe from the event so it gets removed on unmount
-  //   return unsubscribe;
-  // }, [navigation]);
 
   const createTwoButtonAlert = (output) => {
     
@@ -113,12 +74,6 @@ export default function App({ navigation }) {
           setLoading(false);
         },
       },
-      // {text: "Cancel", 
-      // onPress: () => {
-      //   setPreviewVisible(false);
-      //   setLoading(false);
-      // }, 
-      // style: "cancel"}
     ]);
   }
   
@@ -166,7 +121,6 @@ export default function App({ navigation }) {
       );
       detectedSourceLang =
         capturedTextParsed.responses[0].textAnnotations[0].locale;
-      // console.log("detected source language: ", detectedSourceLang);
       createTwoButtonAlert(output);
       
     } catch (error) {
@@ -181,7 +135,6 @@ export default function App({ navigation }) {
   };
 
   const submitToGoogleTranslate = async () => {
-    // console.log("Selected language", selectedLanguage);
     try {
       let body = JSON.stringify({
         target: selectedLanguage,
@@ -200,7 +153,6 @@ export default function App({ navigation }) {
         }
       );
       const text = await response.json();
-      // console.log("JSON before parsing -->", text)
       const textParsed = await JSON.parse(JSON.stringify(text));
       translatedText = textParsed.data.translations[0].translatedText.replace(
         /&quot;|&#39;/g,
@@ -236,8 +188,8 @@ export default function App({ navigation }) {
             <Spinner
               //Spinner visible only if loading is truthy
               visible={loading}
-              textContent={"Thank you! One Sec..."}
-              color="#439654"
+              textContent={"Thank you! Just a moment"}
+              color="#DD8138"
               animation="slide"
               overlayColor="white"
             />

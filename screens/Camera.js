@@ -77,7 +77,6 @@ export default function App({ navigation }) {
     ]);
   }
   
-
   const takePicture = async () => {
     if (!camera) return;
     const options = {

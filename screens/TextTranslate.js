@@ -19,10 +19,12 @@ const DismissKeyboard = ({ children }) => (
   </TouchableWithoutFeedback>
 );
 
-export default function VoiceAndTextTranslate() {
+export default function VoiceAndTextTranslate(props) {
   const [text, setText] = useState("");
   const [translated, setTranslated] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("en");
+
+  
 
   useEffect(() => {
     submitToGoogleTranslate(text);
@@ -72,6 +74,7 @@ export default function VoiceAndTextTranslate() {
           /&quot;|&#39;/g,
           "'"
         );
+        console.log("INITIAL TEXT -->", initialTextParsed)
       setTranslated(result);
     } catch (error) {
       console.error(error);

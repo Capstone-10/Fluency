@@ -59,7 +59,7 @@ export default function CameraTranslation(props) {
           {translatedVersion}
         </TextInput>
       </View>
-      <View style={styles.audio}>
+      <View style={styles.cameraAudio}>
         <PlayCircle
           style={styles.cameraSpeakerButton}
           onPress={playSpeech}

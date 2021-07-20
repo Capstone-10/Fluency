@@ -173,7 +173,7 @@ export default styles = StyleSheet.create({
   bottomText: {
     fontSize: 15,
   },
-  audio: {
+  cameraAudio: {
     paddingTop: 10,
     display: "flex",
     flexDirection: "row",

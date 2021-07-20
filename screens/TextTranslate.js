@@ -74,7 +74,6 @@ export default function VoiceAndTextTranslate(props) {
           /&quot;|&#39;/g,
           "'"
         );
-        console.log("INITIAL TEXT -->", initialTextParsed)
       setTranslated(result);
     } catch (error) {
       console.error(error);

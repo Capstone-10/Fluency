@@ -13,7 +13,7 @@ import styles from "../styles";
 import Spinner from "react-native-loading-spinner-overlay";
 import GOOGLE_CLOUD_VISION_API_KEY from "../config/environment";
 
-
+//These variables are used as such because our state refused to change at times, and within our API calls. Ideally, these would be included in our Hooks below.
 var photo;
 var output;
 var translatedText;

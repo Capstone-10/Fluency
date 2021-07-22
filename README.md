@@ -2,7 +2,7 @@
 
 *Mobile translation app for daily use.*
 
-Created by a team of four developers during the Software Engineering program at [Fullstack Academy](https://www.fullstackacademy.com), Fluency is a React Native app that allows users to capture image text or manually type text, and translate it into a language of choice. You can also copy and paste or type text into the app, and have that translated to a chosen language. The application can further read aloud your translated text.
+Created by a team of four developers during the Software Engineering program at [Fullstack Academy](https://www.fullstackacademy.com), Fluency is a React Native app that allows users to capture image text or manually type text, and translate it into a language of choice. The application can further read aloud your translated text.
 
 It was exciting to build a native iOS application, and learn the syntax to fetch the Google APIs. We learned a lot about the complexities of rendering a functional and user-friendly phone application without a database. We enjoyed this learning process, and are happy to have you try out the application. 
 
@@ -25,7 +25,7 @@ It was exciting to build a native iOS application, and learn the syntax to fetch
 
 [ ] `npm install`
 
-[ ] `npm install --global expo-cli` install your local Expo CLI 
+[ ] `npm install --global expo-cli` to install your local Expo CLI 
 
 [ ] establish a [Google Cloud project](https://developers.google.com/workspace/guides/create-project) and enable the Google Vision and Google Cloud APIs saving your credentials into a config/environment.js (be sure to gitignore this config folder)
 

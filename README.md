@@ -8,13 +8,13 @@ It was exciting to build a native iOS application, and learn the syntax to fetch
 
 # Tech Stack
 
-[React Native](https://reactnative.dev) - a framework for building native mobile apps using React.
-[React Hooks](https://reactjs.org/docs/hooks-intro.html) - state-management React upgrade for functional components. 
-[Expo](https://docs.expo.io) - a framework and platform for universal React applications. 
-[Node.js](https://nodejs.org/en/) - a JS runtime environment
-[Google Cloud Vision API](https://cloud.google.com/vision) - a service that allows text extraction from an image
-[Google Cloud Translation API](https://cloud.google.com/translate) - a multilingual service delivering real-time text translation
-[Expo Speech](https://docs.expo.io/versions/latest/sdk/speech/) - a service that allows text-to-speech implementation. 
+- [React Native](https://reactnative.dev) - a framework for building native mobile apps using React.
+- [React Hooks](https://reactjs.org/docs/hooks-intro.html) - state-management React upgrade for functional components. 
+- [Expo](https://docs.expo.io) - a framework and platform for universal React applications. 
+- [Node.js](https://nodejs.org/en/) - a JS runtime environment
+- [Google Cloud Vision API](https://cloud.google.com/vision) - a service that allows text extraction from an image
+- [Google Cloud Translation API](https://cloud.google.com/translate) - a multilingual service delivering real-time text translation
+- [Expo Speech](https://docs.expo.io/versions/latest/sdk/speech/) - a service that allows text-to-speech implementation. 
 
 # Short video walkthrough
 

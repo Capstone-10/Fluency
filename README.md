@@ -18,25 +18,26 @@ It was exciting to build a native iOS application, and learn the syntax to fetch
 
 # Short video walkthrough
 
+You can watch it [here](https://youtu.be/tQVQWqea_Uk)
 
 # Installation 
 
-[ ] Fork and clone this repo
+- Fork and clone this repo
 
-[ ] `npm install`
+- `npm install`
 
-[ ] `npm install --global expo-cli` to install your local Expo CLI 
+- `npm install --global expo-cli` to install your local Expo CLI 
 
-[ ] establish a [Google Cloud project](https://developers.google.com/workspace/guides/create-project) and enable the Google Vision and Google Cloud APIs saving your credentials into a config/environment.js (be sure to gitignore this config folder)
+- establish a [Google Cloud project](https://developers.google.com/workspace/guides/create-project) and enable the Google Vision and Google Cloud APIs saving your credentials into a config/environment.js (be sure to gitignore this config folder)
 
-[ ] `npm start` to launch the app
+- `npm start` to launch the app
 
-[ ] click “Run on iOS simulator” or scan the QR code on your iOS device to use the app
+- click “Run on iOS simulator” or scan the QR code on your iOS device to use the app
 
 # Developers
 
-[Rasheeda Salaam](https://github.com/RSalaam)
-[Hannah G Kim](https://github.com/hannah-gkim)
-[Margarita Danshina](https://github.com/margaritadanshina)
-[Peter Park](https://github.com/peterparkk25)
+- [Rasheeda Salaam](https://github.com/RSalaam)
+- [Hannah G Kim](https://github.com/hannah-gkim)
+- [Margarita Danshina](https://github.com/margaritadanshina)
+- [Peter Park](https://github.com/peterparkk25)
 

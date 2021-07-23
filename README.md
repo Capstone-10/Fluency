@@ -22,6 +22,8 @@ You can watch it [here](https://youtu.be/tQVQWqea_Uk)
 
 # Installation 
 
+- You may need to install [Xcode](https://developer.apple.com/xcode/resources/) for running a simulator
+
 - Fork and clone this repo
 
 - `npm install`

@@ -19,8 +19,8 @@ It was exciting to build a native iOS application, and learn the syntax to fetch
 # Short video walkthrough
 
 You can watch it [here](https://youtu.be/tQVQWqea_Uk)
+[![Capstone | Fluency](https://img.youtube.com/vi/tQVQWqea_Uk/0.jpg)](https://youtu.be/tQVQWqea_Uk)
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/tQVQWqea_Uk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 # Installation
 

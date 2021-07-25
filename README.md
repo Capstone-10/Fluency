@@ -17,8 +17,6 @@ It was exciting to build a native iOS application, and learn the syntax to fetch
 - [Expo Speech](https://docs.expo.io/versions/latest/sdk/speech/) - a service that allows text-to-speech implementation.
 
 # Short video walkthrough
-
-You can watch it [here](https://youtu.be/tQVQWqea_Uk)
 [![Capstone | Fluency](https://img.youtube.com/vi/tQVQWqea_Uk/0.jpg)](https://youtu.be/tQVQWqea_Uk)
 
 

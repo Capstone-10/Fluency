@@ -10,10 +10,7 @@ const Stack = createStackNavigator();
 const MainStackNavigator = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="Home"
-        component={HomeScreen}
-      />
+      <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Camera" component={Camera} />
       <Stack.Screen
         name="Camera Translation"
@@ -26,3 +23,4 @@ const MainStackNavigator = () => {
 };
 
 export { MainStackNavigator };
+
